@@ -17,13 +17,8 @@ dependencies:
 
 ## Usage
 
-```dart
-main() async {
-  final projectId = 123;
-  final gitLab = new GitLab('secret-api-token');
-  // If you have a GitLab on a different host, you can provide the hostname and scheme as well
-  final gitLabProject = await gitLab.project(projectId);
-  var issues = await gitLabProject.issues.list();
-  print(issues.first.title);
-}
-```
+For the full documentation, and usage, please [refer to the documentation](http://exitlive.gitlab.io/gitlab-dart/exitlive.gitlab-library.html).
+
+## License
+
+MIT

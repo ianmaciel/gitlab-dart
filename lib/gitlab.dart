@@ -1,3 +1,18 @@
+/// This library allows you to communicate with the GitLab api.
+/// It supports the default `gitlab.com` but also any other GitLab deployment you might have.
+///
+/// Usage:
+///
+///     // Setup your gitLab or gitLabProject once
+///     final gitLab  = new GitLab(secretToken);
+///     final gitLabProject = await gitLab.project('exit-live');
+///
+///     // Then use it whenever you need in your app
+///     final allMergeRequests = await gitLabProject.mergeRequests.list();
+///     final allIssues = await gitLabProject.issues.list(page: 3, perPage: 30);
+///     final issue = await gitLabProject.issues.get(allIssues.first.id);
+///
+/// For more information, please refer to the [official GitLab API documentation at gitlab.com](https://docs.gitlab.com/ee/api/README.html).
 library exitlive.gitlab;
 
 import 'dart:async';
@@ -18,12 +33,9 @@ part 'src/utils.dart';
 
 final _log = new Logger('GitLab');
 
-/// Library for GitLab. Use like this:
+/// The main class and entry point to use this library.
 ///
-///     final gitLab  = new GitLab(secretToken);
-///     gitLab.project('exit-live').mergeRequests.list();
-///
-/// The official GitLab API documentation is here: https://docs.gitlab.com/ee/api/README.html
+/// See the library documentation for information on how to use it.
 class GitLab {
   final String token;
 
@@ -62,6 +74,7 @@ class GitLab {
     return asJson ? JSON.decode(response.body) : response.body;
   }
 
+  /// This function is used internally to build the URIs for API calls.
   Uri _buildUri(Iterable<String> pathSegments, {Map<String, dynamic> queryParameters, int page, int perPage}) {
     dynamic _addQueryParameter(String key, dynamic value) =>
         (queryParameters ??= new Map<String, dynamic>())[key] = '$value';
