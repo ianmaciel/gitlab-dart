@@ -18,9 +18,10 @@ library exitlive.gitlab;
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:http/http.dart' as http;
+import 'package:gitlab/src/http_client.dart';
 import 'package:intl/intl.dart';
 import 'package:logging/logging.dart';
+import 'package:meta/meta.dart';
 
 part 'src/build.dart';
 part 'src/commit.dart';
@@ -33,6 +34,8 @@ part 'src/utils.dart';
 
 final _log = new Logger('GitLab');
 
+enum HttpMethod { get, post, put }
+
 /// The main class and entry point to use this library.
 ///
 /// See the library documentation for information on how to use it.
@@ -42,9 +45,14 @@ class GitLab {
   final String host;
   final String scheme;
 
+  final GitLabHttpClient _httpClient;
+
   static const String apiVersion = 'v3';
 
-  GitLab(this.token, {this.host: 'gitlab.com', this.scheme: 'https'});
+  GitLab(this.token, {this.host: 'gitlab.com', this.scheme: 'https'}) : _httpClient = new GitLabHttpClient();
+
+  GitLab._test(GitLabHttpClient httpClient, this.token, {this.host: 'gitlab.com', this.scheme: 'https'})
+      : _httpClient = httpClient;
 
   /// Get the [ProjectsApi] for this [id].
   ///
@@ -53,23 +61,15 @@ class GitLab {
   ProjectsApi project(int id) => new ProjectsApi(this, id);
 
   /// Returns the decoded JSON
-  Future<dynamic> _request(Uri uri, {String httpMethod: 'GET', String body, bool asJson: true}) async {
+  @visibleForTesting
+  Future<dynamic> request(Uri uri, {HttpMethod method: HttpMethod.get, String body, bool asJson: true}) async {
     final headers = <String, String>{
       'PRIVATE-TOKEN': token,
     };
 
-    _log.fine('Making GitLab $httpMethod request to $uri.');
+    _log.fine('Making GitLab $method request to $uri.');
 
-    http.Response response;
-    if (httpMethod == 'GET') {
-      response = await http.get(uri, headers: headers);
-    } else if (httpMethod == 'PUT') {
-      response = await http.put(uri, headers: headers);
-    } else if (httpMethod == 'POST') {
-      response = await http.post(uri, headers: headers);
-    } else {
-      throw new ArgumentError('Invalid http method: $httpMethod');
-    }
+    final response = await _httpClient.request(uri, headers, method);
 
     if (!(response.statusCode >= 200 && response.statusCode < 300)) {
       throw new GitLabException(response.statusCode, response.body);
@@ -79,7 +79,8 @@ class GitLab {
   }
 
   /// This function is used internally to build the URIs for API calls.
-  Uri _buildUri(Iterable<String> pathSegments, {Map<String, dynamic> queryParameters, int page, int perPage}) {
+  @visibleForTesting
+  Uri buildUri(Iterable<String> pathSegments, {Map<String, dynamic> queryParameters, int page, int perPage}) {
     dynamic _addQueryParameter(String key, dynamic value) =>
         (queryParameters ??= new Map<String, dynamic>())[key] = '$value';
 
@@ -102,3 +103,7 @@ class GitLabException implements Exception {
   @override
   String toString() => 'GitLabException ($statusCode): $message';
 }
+
+/// A helper function to get a [GitLab] instance with a [GitLabHttpClient] that can be mocked.
+@visibleForTesting
+GitLab getTestable(GitLabHttpClient httpClient, [String token = 'secret-token']) => new GitLab._test(httpClient, token);

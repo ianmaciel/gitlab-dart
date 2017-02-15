@@ -9,7 +9,7 @@ class CommitsApi {
   Future<Commit> get(String sha) async {
     final uri = _project._buildUri(['repository', 'commits', '$sha']);
 
-    final Map json = await _gitLab._request(uri);
+    final Map json = await _gitLab.request(uri);
 
     return new Commit.fromJson(json);
   }
@@ -24,7 +24,7 @@ class CommitsApi {
     final uri =
         _project._buildUri(['repository', 'commits'], queryParameters: queryParameters, page: page, perPage: perPage);
 
-    final List<Map> jsonList = await _gitLab._request(uri);
+    final List<Map> jsonList = await _gitLab.request(uri);
 
     return jsonList.map((json) => new Commit.fromJson(json)).toList();
   }

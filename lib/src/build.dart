@@ -10,7 +10,7 @@ class BuildsApi {
   Future<Build> get(int id) async {
     final uri = _project._buildUri(['builds', '$id']);
 
-    final Map json = await _gitLab._request(uri);
+    final Map json = await _gitLab.request(uri);
 
     return new Build.fromJson(json);
   }
@@ -18,7 +18,7 @@ class BuildsApi {
   Future<Build> cancel(int id) async {
     final uri = _project._buildUri(['builds', '$id', 'cancel']);
 
-    final Map json = await _gitLab._request(uri, httpMethod: 'POST');
+    final Map json = await _gitLab.request(uri, method: HttpMethod.post);
 
     return new Build.fromJson(json);
   }
@@ -38,7 +38,7 @@ class BuildsApi {
 
     final uri = _project._buildUri(['builds'], queryParameters: queryParameters, page: page, perPage: perPage);
 
-    final List<Map> jsonList = await _gitLab._request(uri);
+    final List<Map> jsonList = await _gitLab.request(uri);
 
     return jsonList.map((json) => new Build.fromJson(json)).toList();
   }

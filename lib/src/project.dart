@@ -26,6 +26,6 @@ class ProjectsApi {
   PipelinesApi get pipelines => _pipelinesApi ??= new PipelinesApi(_gitLab, this);
 
   Uri _buildUri(Iterable<String> pathSegments, {Map<String, dynamic> queryParameters, int page, int perPage}) =>
-      _gitLab._buildUri(['projects', '$id']..addAll(pathSegments),
+      _gitLab.buildUri(['projects', '$id']..addAll(pathSegments),
           queryParameters: queryParameters, page: page, perPage: perPage);
 }

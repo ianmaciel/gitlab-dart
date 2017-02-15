@@ -10,20 +10,20 @@ class SnippetsApi {
   Future<Snippet> get(int id) async {
     final uri = _project._buildUri(['snippets', '$id']);
 
-    final Map json = await _gitLab._request(uri);
+    final Map json = await _gitLab.request(uri);
 
     return new Snippet.fromJson(json);
   }
 
   Future<String> content(int id) async {
     final uri = _project._buildUri(['snippets', '$id', 'raw']);
-    return await _gitLab._request(uri, asJson: false);
+    return await _gitLab.request(uri, asJson: false);
   }
 
   Future<List<Snippet>> list({int page, int perPage}) async {
     final uri = _project._buildUri(['snippets'], page: page, perPage: perPage);
 
-    final List<Map> jsonList = await _gitLab._request(uri);
+    final List<Map> jsonList = await _gitLab.request(uri);
 
     return jsonList.map((json) => new Snippet.fromJson(json)).toList();
   }
@@ -38,7 +38,7 @@ class SnippetsApi {
 
     final uri = _project._buildUri(['snippets', '$id'], queryParameters: queryParameters);
 
-    final Map json = await _gitLab._request(uri, httpMethod: 'PUT');
+    final Map json = await _gitLab.request(uri, method: HttpMethod.put);
 
     return new Snippet.fromJson(json);
   }

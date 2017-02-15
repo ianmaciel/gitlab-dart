@@ -9,7 +9,7 @@ class IssuesApi {
   Future<Issue> get(int id) async {
     final uri = _project._buildUri(['issues', '$id']);
 
-    final Map json = await _gitLab._request(uri);
+    final Map json = await _gitLab.request(uri);
 
     return new Issue.fromJson(json);
   }
@@ -18,7 +18,7 @@ class IssuesApi {
     final uri =
         _project._buildUri(['merge_requests', '$mergeRequestId', 'closes_issues'], page: page, perPage: perPage);
 
-    final List<Map> jsonList = await _gitLab._request(uri);
+    final List<Map> jsonList = await _gitLab.request(uri);
 
     return jsonList.map((json) => new Issue.fromJson(json)).toList();
   }
@@ -41,7 +41,7 @@ class IssuesApi {
 
     final uri = _project._buildUri(['issues'], queryParameters: queryParameters, page: page, perPage: perPage);
 
-    final List<Map> jsonList = await _gitLab._request(uri);
+    final List<Map> jsonList = await _gitLab.request(uri);
 
     return jsonList.map((json) => new Issue.fromJson(json)).toList();
   }
