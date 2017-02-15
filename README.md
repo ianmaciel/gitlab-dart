@@ -4,7 +4,7 @@
 
 This is a dart library to communicate with the [GitLab API v3](https://docs.gitlab.com/ee/api/README.html).
 
-**This is still work in progress.** We are happy about Merge Requets!
+**This is still work in progress.** We are happy about Merge Requests!
 
 This library is already in production use, but it is missing a lot of calls and properties.
 
