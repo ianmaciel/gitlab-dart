@@ -22,7 +22,7 @@ pages:
   - master
 
 publish:
-  stage: publish
+  stage: deploy
   script:
   - ci/publish.sh
   only:
