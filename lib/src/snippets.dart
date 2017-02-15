@@ -8,7 +8,7 @@ class SnippetsApi {
 
   /// If you want to get the content, use [content]
   Future<Snippet> get(int id) async {
-    final uri = _project._buildUri(['snippets', '$id']);
+    final uri = _project.buildUri(['snippets', '$id']);
 
     final Map json = await _gitLab.request(uri);
 
@@ -16,12 +16,12 @@ class SnippetsApi {
   }
 
   Future<String> content(int id) async {
-    final uri = _project._buildUri(['snippets', '$id', 'raw']);
+    final uri = _project.buildUri(['snippets', '$id', 'raw']);
     return await _gitLab.request(uri, asJson: false);
   }
 
   Future<List<Snippet>> list({int page, int perPage}) async {
-    final uri = _project._buildUri(['snippets'], page: page, perPage: perPage);
+    final uri = _project.buildUri(['snippets'], page: page, perPage: perPage);
 
     final List<Map> jsonList = await _gitLab.request(uri);
 
@@ -36,7 +36,7 @@ class SnippetsApi {
     if (code != null) queryParameters['code'] = code;
     if (visibilityLevel != null) queryParameters['visibility_level'] = '$visibilityLevel';
 
-    final uri = _project._buildUri(['snippets', '$id'], queryParameters: queryParameters);
+    final uri = _project.buildUri(['snippets', '$id'], queryParameters: queryParameters);
 
     final Map json = await _gitLab.request(uri, method: HttpMethod.put);
 

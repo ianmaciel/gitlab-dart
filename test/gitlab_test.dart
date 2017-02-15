@@ -60,5 +60,9 @@ void main() {
         expect(uri.toString(), 'http://gitlab.my-host.com/api/v3/foo');
       });
     });
+    test('.project() returns a configured instance of the ProjectsApi', () {
+      final project = gitLab.project(123);
+      expect(project.id, 123);
+    });
   });
 }

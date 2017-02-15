@@ -7,7 +7,7 @@ class IssuesApi {
   IssuesApi(this._gitLab, this._project);
 
   Future<Issue> get(int id) async {
-    final uri = _project._buildUri(['issues', '$id']);
+    final uri = _project.buildUri(['issues', '$id']);
 
     final Map json = await _gitLab.request(uri);
 
@@ -15,8 +15,7 @@ class IssuesApi {
   }
 
   Future<List<Issue>> closedByMergeRequest(int mergeRequestId, {int page, int perPage}) async {
-    final uri =
-        _project._buildUri(['merge_requests', '$mergeRequestId', 'closes_issues'], page: page, perPage: perPage);
+    final uri = _project.buildUri(['merge_requests', '$mergeRequestId', 'closes_issues'], page: page, perPage: perPage);
 
     final List<Map> jsonList = await _gitLab.request(uri);
 
@@ -39,7 +38,7 @@ class IssuesApi {
     if (milestone != null) queryParameters['milestone'] = milestone;
     if (labels != null) queryParameters['labels'] = labels.join(',');
 
-    final uri = _project._buildUri(['issues'], queryParameters: queryParameters, page: page, perPage: perPage);
+    final uri = _project.buildUri(['issues'], queryParameters: queryParameters, page: page, perPage: perPage);
 
     final List<Map> jsonList = await _gitLab.request(uri);
 

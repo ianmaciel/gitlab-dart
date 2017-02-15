@@ -7,7 +7,7 @@ class MergeRequestsApi {
   MergeRequestsApi(this._gitLab, this._project);
 
   Future<MergeRequest> get(int id) async {
-    final uri = _project._buildUri(['merge_requests', '$id']);
+    final uri = _project.buildUri(['merge_requests', '$id']);
 
     final Map json = await _gitLab.request(uri);
 
@@ -30,7 +30,7 @@ class MergeRequestsApi {
       queryParameters['iid[]'] = iids.map((iid) => iid.toString());
     }
 
-    final uri = _project._buildUri(['merge_requests'], queryParameters: queryParameters, page: page, perPage: perPage);
+    final uri = _project.buildUri(['merge_requests'], queryParameters: queryParameters, page: page, perPage: perPage);
 
     final List<Map> jsonList = await _gitLab.request(uri);
 

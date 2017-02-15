@@ -7,7 +7,7 @@ class CommitsApi {
   CommitsApi(this._gitLab, this._project);
 
   Future<Commit> get(String sha) async {
-    final uri = _project._buildUri(['repository', 'commits', '$sha']);
+    final uri = _project.buildUri(['repository', 'commits', '$sha']);
 
     final Map json = await _gitLab.request(uri);
 
@@ -22,7 +22,7 @@ class CommitsApi {
     if (until != null) queryParameters['until'] = _formatDate(until);
 
     final uri =
-        _project._buildUri(['repository', 'commits'], queryParameters: queryParameters, page: page, perPage: perPage);
+        _project.buildUri(['repository', 'commits'], queryParameters: queryParameters, page: page, perPage: perPage);
 
     final List<Map> jsonList = await _gitLab.request(uri);
 

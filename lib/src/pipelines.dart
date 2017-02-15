@@ -8,7 +8,7 @@ class PipelinesApi {
   PipelinesApi(this._gitLab, this._project);
 
   Future<Pipeline> get(int id) async {
-    final uri = _project._buildUri(['pipelines', '$id']);
+    final uri = _project.buildUri(['pipelines', '$id']);
 
     final Map json = await _gitLab.request(uri);
 
@@ -16,7 +16,7 @@ class PipelinesApi {
   }
 
   Future<List<Pipeline>> list({int page, int perPage}) async {
-    final uri = _project._buildUri(['builds'], page: page, perPage: perPage);
+    final uri = _project.buildUri(['builds'], page: page, perPage: perPage);
 
     final List<Map> jsonList = await _gitLab.request(uri);
 
