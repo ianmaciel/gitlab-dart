@@ -17,7 +17,8 @@ dependencies:
 
 ## Usage
 
-For the full documentation, and usage, please [refer to the documentation](http://exitlive.gitlab.io/gitlab-dart/exitlive.gitlab-library.html).
+For the full documentation, and usage, please
+[refer to the documentation](http://exitlive.gitlab.io/gitlab-dart/exitlive.gitlab/exitlive.gitlab-library.html).
 
 ## License
 
