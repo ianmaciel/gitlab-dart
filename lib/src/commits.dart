@@ -40,6 +40,7 @@ class Commit {
   String get title => originalJson['title'];
   String get message => originalJson['message'];
   String get status => originalJson['status'];
+  DateTime get createdAt => DateTime.parse(originalJson['created_at']);
   DateTime get committedDate => DateTime.parse(originalJson['committed_date']);
 
   @override
