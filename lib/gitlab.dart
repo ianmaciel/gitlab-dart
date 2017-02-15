@@ -23,13 +23,13 @@ import 'package:intl/intl.dart';
 import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
 
-part 'src/build.dart';
-part 'src/commit.dart';
-part 'src/issue.dart';
-part 'src/merge_request.dart';
-part 'src/pipeline.dart';
-part 'src/project.dart';
-part 'src/snippet.dart';
+part 'src/builds.dart';
+part 'src/commits.dart';
+part 'src/issues.dart';
+part 'src/merge_requests.dart';
+part 'src/pipelines.dart';
+part 'src/projects.dart';
+part 'src/snippets.dart';
 part 'src/utils.dart';
 
 final _log = new Logger('GitLab');
