@@ -1,5 +1,6 @@
-GitLab API
-==========
+# GitLab API
+
+[![build status](https://gitlab.com/exitlive/gitlab-dart/badges/master/build.svg)](https://gitlab.com/exitlive/gitlab-dart/commits/master)
 
 This is a dart library to communicate with the [GitLab API v3](https://docs.gitlab.com/ee/api/README.html).
 
