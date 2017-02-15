@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# Check if we should publish
+dart ci/should_publish.dart || { echo "Not publishing."; exit 0; }
+
 mkdir -p .pub-cache
 
 echo "Writing the credentials file..."
