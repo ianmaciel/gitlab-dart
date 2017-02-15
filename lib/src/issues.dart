@@ -55,13 +55,26 @@ class Issue {
 
   Issue.fromJson(this.originalJson);
 
+  int get projectId => originalJson['project_id'];
   int get id => originalJson['id'];
   int get iid => originalJson['iid'];
-  int get projectId => originalJson['project_id'];
+
   String get title => originalJson['title'];
   String get description => originalJson['description'];
+
+  String get state => originalJson['state'];
   List<String> get labels => originalJson['labels'];
   String get webUrl => originalJson['web_url'];
+
+  DateTime get createdAt => DateTime.parse(originalJson['created_at']);
+  DateTime get updatedAt => DateTime.parse(originalJson['updated_at']);
+
+  bool get subscribed => originalJson['subscribed'];
+  int get userNotesCount => originalJson['user_notes_count'];
+  DateTime get dueDate => originalJson['due_date'] == null ? null : DateTime.parse(originalJson['due_date']);
+
+  bool get confidential => originalJson['confidential'];
+  int get weight => originalJson['weight'];
 
   @override
   String toString() => 'Issue id#$id iid#$iid ($title)';

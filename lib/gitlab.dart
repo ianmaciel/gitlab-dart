@@ -63,9 +63,7 @@ class GitLab {
   /// Returns the decoded JSON
   @visibleForTesting
   Future<dynamic> request(Uri uri, {HttpMethod method: HttpMethod.get, String body, bool asJson: true}) async {
-    final headers = <String, String>{
-      'PRIVATE-TOKEN': token,
-    };
+    final headers = <String, String>{'PRIVATE-TOKEN': token};
 
     _log.fine('Making GitLab $method request to $uri.');
 

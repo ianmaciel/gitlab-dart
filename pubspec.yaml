@@ -1,8 +1,11 @@
 name: gitlab
 version: 0.1.0
 description: A library to communicate with the GitHub API
+homepage: https://gitlab.com/exitlive/gitlab-dart
+documentation: http://exitlive.gitlab.io/gitlab-dart/
+author: Matias Meno <m@tias.me>
 environment:
-  sdk: ^1.21.0
+  sdk: ">=1.21.0 <1.23.0"
 dependencies:
   http: ^0.11.2
   logging: ^0.11.0
