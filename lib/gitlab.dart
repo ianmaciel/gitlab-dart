@@ -5,7 +5,7 @@
 ///
 ///     // Setup your gitLab or gitLabProject once
 ///     final gitLab  = new GitLab(secretToken);
-///     final gitLabProject = await gitLab.project('exit-live');
+///     final gitLabProject = gitLab.project('exit-live');
 ///
 ///     // Then use it whenever you need in your app
 ///     final allMergeRequests = await gitLabProject.mergeRequests.list();
@@ -46,6 +46,10 @@ class GitLab {
 
   GitLab(this.token, {this.host: 'gitlab.com', this.scheme: 'https'});
 
+  /// Get the [ProjectsApi] for this [id].
+  ///
+  /// This call doesn't do anything by itself, other than return the configured object.
+  /// You can safely store the returned object and reuse it.
   ProjectsApi project(int id) => new ProjectsApi(this, id);
 
   /// Returns the decoded JSON

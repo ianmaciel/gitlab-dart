@@ -13,8 +13,11 @@ void main(List<String> args) {
 }
 
 @Task('Runs all tests required to pass')
-@Depends(analyze, checkFormat)
+@Depends(analyze, unitTest, checkFormat)
 bool test() => true;
+
+@Task('Runs the unit tests for this library')
+Future unitTest() => new TestRunner().testAsync(concurrency: 4);
 
 @Task('Runs dartanalyzer and makes sure there are no warnings or lint proplems')
 Future<Null> analyze() async {
