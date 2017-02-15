@@ -1,7 +1,10 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:grinder/grinder.dart';
 import 'package:logging/logging.dart';
+
+const _lineLength = 120;
 
 void main(List<String> args) {
   Logger.root.level = Level.ALL;
@@ -10,12 +13,23 @@ void main(List<String> args) {
 }
 
 @Task('Runs all tests required to pass')
-@Depends(analyze)
+@Depends(analyze, checkFormat)
 bool test() => true;
 
 @Task('Runs dartanalyzer and makes sure there are no warnings or lint proplems')
 Future<Null> analyze() async {
   await runAsync('dartanalyzer', arguments: ['.', '--fatal-hints', '--fatal-warnings', '--fatal-lints']);
+}
+
+@Task()
+void checkFormat() {
+  if (DartFmt.dryRun(new Directory('.'), lineLength: _lineLength))
+    fail('Code is not properly formatted. Run `grind format`');
+}
+
+@Task()
+void format() {
+  DartFmt.format(new Directory('.'), lineLength: _lineLength);
 }
 
 @Task('Builds the documentation')
