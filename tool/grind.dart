@@ -23,3 +23,17 @@ Future<Null> analyze() async {
     fail('The dartanalyzer found some problems.');
   }
 }
+
+@Task('Builds the documentation')
+Future<Null> doc() async {
+  final result = Process.runSync('dartdoc', [
+    '--output',
+    'public',
+    '--use-categories',
+    '--hosted-url',
+    'http://exit-live.gitlab.io/gitlab-dart/',
+  ]);
+  log(result.stdout);
+  log(result.stderr);
+  if (result.exitCode != 0) fail('Unable to build the docs');
+}

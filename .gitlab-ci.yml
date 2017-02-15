@@ -2,10 +2,21 @@ image: google/dart
 
 before_script:
   - export PATH="$PATH":"~/.pub-cache/bin"
+  - pub global activate grinder
 
 test:
   stage: test
   script:
   - pub get
-  - pub global activate grinder
   - grind test
+
+pages:
+  stage: deploy
+  script:
+  - pub get
+  - grind doc
+  artifacts:
+    paths:
+    - public
+  only:
+  - master
