@@ -20,3 +20,10 @@ pages:
     - public
   only:
   - master
+
+publish:
+  stage: publish
+  script:
+  - ci/publish.sh
+  only:
+  - master

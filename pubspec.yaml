@@ -1,5 +1,5 @@
 name: gitlab
-version: 0.1.0
+version: 0.1.1
 description: A library to communicate with the GitHub API
 homepage: https://gitlab.com/exitlive/gitlab-dart
 documentation: http://exitlive.gitlab.io/gitlab-dart/
