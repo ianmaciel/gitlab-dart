@@ -1,0 +1,7 @@
+image: google/dart
+
+test:
+  stage: test
+  script:
+  - pub get
+  - grind test
