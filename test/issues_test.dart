@@ -30,32 +30,32 @@ void main() {
 
     test('Issue class properly maps the JSON', () async {
       final issue = new Issue.fromJson(issueMap);
-      await expect(issue.projectId, issueMap['project_id']);
-      await expect(issue.id, issueMap['id']);
-      await expect(issue.iid, issueMap['iid']);
+      expect(issue.projectId, issueMap['project_id']);
+      expect(issue.id, issueMap['id']);
+      expect(issue.iid, issueMap['iid']);
 
-      await expect(issue.title, issueMap['title']);
-      await expect(issue.description, issueMap['description']);
+      expect(issue.title, issueMap['title']);
+      expect(issue.description, issueMap['description']);
 
-      await expect(issue.state, issueMap['state']);
-      await expect(issue.labels, ["Feature", "Bug"]);
-      await expect(issue.labels, issueMap['labels']);
+      expect(issue.state, issueMap['state']);
+      expect(issue.labels, ["Feature", "Bug"]);
+      expect(issue.labels, issueMap['labels']);
 
-      await expect(issue.webUrl, issueMap['web_url']);
+      expect(issue.webUrl, issueMap['web_url']);
 
-      await expect(issue.createdAt, DateTime.parse(issueMap['created_at']));
-      await expect(issue.updatedAt, DateTime.parse(issueMap['updated_at']));
+      expect(issue.createdAt, DateTime.parse(issueMap['created_at']));
+      expect(issue.updatedAt, DateTime.parse(issueMap['updated_at']));
 
-      await expect(issue.subscribed, issueMap['subscribed']);
+      expect(issue.subscribed, issueMap['subscribed']);
 
-      await expect(issue.userNotesCount, issueMap['user_notes_count']);
+      expect(issue.userNotesCount, issueMap['user_notes_count']);
 
-      await expect(issue.dueDate, isNull);
+      expect(issue.dueDate, isNull);
       issue.originalJson['due_date'] = '2016-01-04T15:31:46.176Z';
-      await expect(issue.dueDate, DateTime.parse(issue.originalJson['due_date']));
+      expect(issue.dueDate, DateTime.parse(issue.originalJson['due_date']));
 
-      await expect(issue.confidential, issueMap['confidential']);
-      await expect(issue.weight, issueMap['weight']);
+      expect(issue.confidential, issueMap['confidential']);
+      expect(issue.weight, issueMap['weight']);
     });
 
     test('.get()', () async {
@@ -65,7 +65,7 @@ void main() {
       when(mockResponse.body).thenReturn(issueJson);
       final issue = await project.issues.get(issueId);
       verify(mockHttpClient.request(uri, headers, HttpMethod.get)).called(1);
-      await expect(issue.id, issueId);
+      expect(issue.id, issueId);
     });
   });
 }

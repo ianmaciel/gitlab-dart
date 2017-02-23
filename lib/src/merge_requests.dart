@@ -54,6 +54,7 @@ class MergeRequest {
   int get projectId => originalJson['project_id'];
   String get title => originalJson['title'];
   String get state => originalJson['state'];
+  List<String> get labels => originalJson['labels'];
   int get upvotes => originalJson['upvotes'];
   int get downvotes => originalJson['downvotes'];
   String get description => originalJson['description'];

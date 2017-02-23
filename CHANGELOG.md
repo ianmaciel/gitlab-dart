@@ -1,3 +1,8 @@
+## 0.1.3
+
+- Add labels to the merge requests
+- Add tests for merge requests
+
 ## 0.1.2
 
 -  Introduce `commit.createdAt`
