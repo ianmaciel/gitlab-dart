@@ -12,7 +12,7 @@ dependencies:
   intl: ^0.14.0
   meta: ^1.0.0
 dev_dependencies:
-  test: ^0.12.6
+  test: ^0.12.20
   mockito: ^1.0.1
   grinder: ^0.8.0
   pub_client: ^1.0.0

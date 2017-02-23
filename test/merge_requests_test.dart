@@ -30,25 +30,25 @@ void main() {
 
     test('MergeRequest class properly maps the JSON', () async {
       final mergeRequest = new MergeRequest.fromJson(mergeRequestsMap);
-      await expect(mergeRequest.id, mergeRequestsMap['id']);
-      await expect(mergeRequest.iid, mergeRequestsMap['iid']);
+      expect(mergeRequest.id, mergeRequestsMap['id']);
+      expect(mergeRequest.iid, mergeRequestsMap['iid']);
 
-      await expect(mergeRequest.targetBranch, mergeRequestsMap['target_branch']);
-      await expect(mergeRequest.sourceBranch, mergeRequestsMap['source_branch']);
+      expect(mergeRequest.targetBranch, mergeRequestsMap['target_branch']);
+      expect(mergeRequest.sourceBranch, mergeRequestsMap['source_branch']);
 
-      await expect(mergeRequest.projectId, mergeRequestsMap['project_id']);
+      expect(mergeRequest.projectId, mergeRequestsMap['project_id']);
 
-      await expect(mergeRequest.title, mergeRequestsMap['title']);
-      await expect(mergeRequest.state, mergeRequestsMap['state']);
+      expect(mergeRequest.title, mergeRequestsMap['title']);
+      expect(mergeRequest.state, mergeRequestsMap['state']);
 
-      await expect(mergeRequest.labels, mergeRequestsMap['labels']);
-      await expect(mergeRequest.labels, ["No Promotion"]);
+      expect(mergeRequest.labels, mergeRequestsMap['labels']);
+      expect(mergeRequest.labels, ["No Promotion"]);
 
-      await expect(mergeRequest.upvotes, mergeRequestsMap['upvotes']);
-      await expect(mergeRequest.downvotes, mergeRequestsMap['downvotes']);
+      expect(mergeRequest.upvotes, mergeRequestsMap['upvotes']);
+      expect(mergeRequest.downvotes, mergeRequestsMap['downvotes']);
 
-      await expect(mergeRequest.description, mergeRequestsMap['description']);
-      await expect(mergeRequest.webUrl, mergeRequestsMap['web_url']);
+      expect(mergeRequest.description, mergeRequestsMap['description']);
+      expect(mergeRequest.webUrl, mergeRequestsMap['web_url']);
     });
 
     test('.get()', () async {
@@ -58,7 +58,7 @@ void main() {
       when(mockResponse.body).thenReturn(mergeRequestsJson);
       final mergeRequest = await project.mergeRequests.get(mergeRequestId);
       verify(mockHttpClient.request(uri, headers, HttpMethod.get)).called(1);
-      await expect(mergeRequest.id, mergeRequestId);
+      expect(mergeRequest.id, mergeRequestId);
     });
   });
 }
