@@ -23,18 +23,18 @@ Future<Null> ciPublish() async {
 
   var credentials = _credentialsTemplate;
 
-  // Now replace all placeholders in the template with the actual values in the ENV vars
+  // Replace all placeholders in the template with the actual values in the ENV vars.
   const ['ACCESS_TOKEN', 'REFRESH_TOKEN', 'TOKEN_ENDPOINT', 'SCOPES', 'EXPIRATION'].forEach((String envVar) {
     credentials = credentials.replaceFirst('{{$envVar}}', Platform.environment[envVar]);
   });
 
-  // Create the pub-cache directory for the key
+  // Create the pub-cache directory for the key.
   await pubCacheDir.create(recursive: true);
 
-  // Write the credentials file
+  // Write the credentials file.
   await new File(path.join(pubCacheDir.path, 'credentials.json')).writeAsString(credentials);
 
-  // Now publish the package
+  // Publish the package.
   run('pub', arguments: ['publish', '-f']);
 }
 

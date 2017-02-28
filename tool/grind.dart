@@ -6,9 +6,9 @@ import 'dart:io';
 import 'package:grinder/grinder.dart';
 import 'package:logging/logging.dart';
 import 'package:path/path.dart' as path;
-import "package:pub_client/pub_client.dart";
+import 'package:pub_client/pub_client.dart';
 
-part "src/ci.dart";
+part 'src/ci.dart';
 
 const _lineLength = 120;
 
