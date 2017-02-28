@@ -3,17 +3,16 @@ image: google/dart
 before_script:
   - export PATH="$PATH":"~/.pub-cache/bin"
   - pub global activate grinder
+  - pub get
 
 test:
   stage: test
   script:
-  - pub get
   - grind test
 
 pages:
   stage: deploy
   script:
-  - pub get
   - grind doc
   artifacts:
     paths:
@@ -24,6 +23,6 @@ pages:
 publish:
   stage: deploy
   script:
-  - ci/publish.sh
+  - grind ci-publish
   only:
   - master

@@ -3,16 +3,17 @@
 ///
 /// Usage:
 ///
-///     // Setup your gitLab or gitLabProject once
+///     // Setup your gitLab or gitLabProject once.
 ///     final gitLab  = new GitLab(secretToken);
 ///     final gitLabProject = gitLab.project('exit-live');
 ///
-///     // Then use it whenever you need in your app
+///     // Then use it whenever you need in your app.
 ///     final allMergeRequests = await gitLabProject.mergeRequests.list();
 ///     final allIssues = await gitLabProject.issues.list(page: 3, perPage: 30);
 ///     final issue = await gitLabProject.issues.get(allIssues.first.id);
 ///
-/// For more information, please refer to the [official GitLab API documentation at gitlab.com](https://docs.gitlab.com/ee/api/README.html).
+/// For more information, please refer to the
+/// [official GitLab API documentation at gitlab.com](https://docs.gitlab.com/ee/api/README.html).
 library exitlive.gitlab;
 
 import 'dart:async';
@@ -60,7 +61,7 @@ class GitLab {
   /// You can safely store the returned object and reuse it.
   ProjectsApi project(int id) => new ProjectsApi(this, id);
 
-  /// Returns the decoded JSON
+  /// Returns the decoded JSON.
   @visibleForTesting
   Future<dynamic> request(Uri uri, {HttpMethod method: HttpMethod.get, String body, bool asJson: true}) async {
     final headers = <String, String>{'PRIVATE-TOKEN': token};

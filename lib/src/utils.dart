@@ -1,6 +1,7 @@
 part of exitlive.gitlab;
 
 /// If you have an enum like `enum Foo { foo, bar }` calling this function will return the name of the value.
+///
 /// Eg.:
 ///     _enumToString(Foo.bar); // => 'bar'
 String _enumToString(dynamic enumValue) {

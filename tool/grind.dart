@@ -1,13 +1,18 @@
+library gitlab.grind;
+
 import 'dart:async';
 import 'dart:io';
 
 import 'package:grinder/grinder.dart';
 import 'package:logging/logging.dart';
+import 'package:path/path.dart' as path;
+import 'package:pub_client/pub_client.dart';
+
+part 'src/ci.dart';
 
 const _lineLength = 120;
 
 void main(List<String> args) {
-  Logger.root.level = Level.ALL;
   Logger.root.onRecord.listen((record) => log(record.message));
   grind(args);
 }
