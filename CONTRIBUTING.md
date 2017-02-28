@@ -27,3 +27,19 @@ Merge Request will be rejected.
 1. there are any warnings, hints or lint warnings in the code
 2. the code is not properly formatted (run `grind format` for that)
 3. the unit tests don't pass
+
+## Code style
+
+In general, make sure that you format your code with `dartfmt` and it should be fine.
+If your code is not formatted properly, then the CI tests will fail, and your merge
+request will **not** be accepted.
+
+Please write your comments as sentences, ending with a period:
+
+```dart
+/// This function does foo.
+goodComment() {}
+
+/// function does foo
+badComment() {}
+```
