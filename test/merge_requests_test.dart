@@ -52,7 +52,7 @@ void main() {
     });
 
     test('.get()', () async {
-      final uri = Uri.parse('https://gitlab.com/api/v3/projects/$projectId/merge_requests/$mergeRequestId');
+      final uri = Uri.parse('https://gitlab.com/api/v4/projects/$projectId/merge_requests/$mergeRequestId');
       when(mockHttpClient.request(uri, headers, HttpMethod.get)).thenReturn(mockResponse);
       when(mockResponse.statusCode).thenReturn(200);
       when(mockResponse.body).thenReturn(mergeRequestsJson);

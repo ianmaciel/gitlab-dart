@@ -48,7 +48,7 @@ class GitLab {
 
   final GitLabHttpClient _httpClient;
 
-  static const String apiVersion = 'v3';
+  static const String apiVersion = 'v4';
 
   GitLab(this.token, {this.host: 'gitlab.com', this.scheme: 'https'}) : _httpClient = new GitLabHttpClient();
 
