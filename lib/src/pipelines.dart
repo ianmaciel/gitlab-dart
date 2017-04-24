@@ -1,6 +1,6 @@
 part of exitlive.gitlab;
 
-/// The documentation for this API is here: https://docs.gitlab.com/ee/api/builds.html
+/// The documentation for this API is here: https://docs.gitlab.com/ee/api/jobs.html
 class PipelinesApi {
   final GitLab _gitLab;
   final ProjectsApi _project;
@@ -16,7 +16,7 @@ class PipelinesApi {
   }
 
   Future<List<Pipeline>> list({int page, int perPage}) async {
-    final uri = _project.buildUri(['builds'], page: page, perPage: perPage);
+    final uri = _project.buildUri(['pipelines'], page: page, perPage: perPage);
 
     final List<Map> jsonList = await _gitLab.request(uri);
 

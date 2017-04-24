@@ -24,9 +24,9 @@ import 'package:intl/intl.dart';
 import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
 
-part 'src/builds.dart';
 part 'src/commits.dart';
 part 'src/issues.dart';
+part 'src/jobs.dart';
 part 'src/merge_requests.dart';
 part 'src/pipelines.dart';
 part 'src/projects.dart';

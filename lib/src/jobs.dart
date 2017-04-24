@@ -1,14 +1,14 @@
 part of exitlive.gitlab;
 
-/// The documentation for this API is here: https://docs.gitlab.com/ee/api/builds.html
-class BuildsApi {
+/// The documentation for this API is here: https://docs.gitlab.com/ee/api/jobs.html
+class JobsApi {
   final GitLab _gitLab;
   final ProjectsApi _project;
 
-  BuildsApi(this._gitLab, this._project);
+  JobsApi(this._gitLab, this._project);
 
   Future<Build> get(int id) async {
-    final uri = _project.buildUri(['builds', '$id']);
+    final uri = _project.buildUri(['jobs', '$id']);
 
     final Map json = await _gitLab.request(uri);
 
@@ -16,7 +16,7 @@ class BuildsApi {
   }
 
   Future<Build> cancel(int id) async {
-    final uri = _project.buildUri(['builds', '$id', 'cancel']);
+    final uri = _project.buildUri(['jobs', '$id', 'cancel']);
 
     final Map json = await _gitLab.request(uri, method: HttpMethod.post);
 
@@ -36,7 +36,7 @@ class BuildsApi {
       }
     }
 
-    final uri = _project.buildUri(['builds'], queryParameters: queryParameters, page: page, perPage: perPage);
+    final uri = _project.buildUri(['jobs'], queryParameters: queryParameters, page: page, perPage: perPage);
 
     final List<Map> jsonList = await _gitLab.request(uri);
 
