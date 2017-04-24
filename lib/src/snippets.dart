@@ -28,13 +28,13 @@ class SnippetsApi {
     return jsonList.map((json) => new Snippet.fromJson(json)).toList();
   }
 
-  Future update(int id, {String title, String fileName, String code, int visibilityLevel}) async {
+  Future update(int id, {String title, String fileName, String code, String visibility}) async {
     final queryParameters = <String, dynamic>{};
 
     if (title != null) queryParameters['title'] = title;
     if (fileName != null) queryParameters['file_name'] = fileName;
     if (code != null) queryParameters['code'] = code;
-    if (visibilityLevel != null) queryParameters['visibility_level'] = '$visibilityLevel';
+    if (visibility != null) queryParameters['visibility'] = '$visibility';
 
     final uri = _project.buildUri(['snippets', '$id'], queryParameters: queryParameters);
 
