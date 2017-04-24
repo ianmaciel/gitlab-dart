@@ -33,14 +33,6 @@ class Pipeline {
   String get status => originalJson['status'];
   String get ref => originalJson['ref'];
   String get sha => originalJson['sha'];
-  String get beforeSha => originalJson['before_sha'];
-  String get tag => originalJson['tag'];
-  Commit get commit => new Commit.fromJson(originalJson['commit']);
-  DateTime get createdAt => DateTime.parse(originalJson['created_at']);
-  DateTime get updatedAt => DateTime.parse(originalJson['updated_at']);
-  DateTime get startedAt => DateTime.parse(originalJson['started_at']);
-  DateTime get finishedAt => DateTime.parse(originalJson['finished_at']);
-  DateTime get commitedAt => DateTime.parse(originalJson['committed_at']);
 
   @override
   String toString() => 'Pipeline id#$id (Ref: $ref)';
