@@ -19,8 +19,8 @@ class ProjectsApi {
   CommitsApi _commitsApi;
   CommitsApi get commits => _commitsApi ??= new CommitsApi(_gitLab, this);
 
-  BuildsApi _buildsApi;
-  BuildsApi get builds => _buildsApi ??= new BuildsApi(_gitLab, this);
+  JobsApi _jobsApi;
+  JobsApi get jobs => _jobsApi ??= new JobsApi(_gitLab, this);
 
   PipelinesApi _pipelinesApi;
   PipelinesApi get pipelines => _pipelinesApi ??= new PipelinesApi(_gitLab, this);

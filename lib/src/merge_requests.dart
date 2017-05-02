@@ -27,7 +27,7 @@ class MergeRequestsApi {
     if (orderBy != null) queryParameters['order_by'] = _enumToString(orderBy);
     if (sort != null) queryParameters['sort'] = _enumToString(sort);
     if (iids != null && iids.isNotEmpty) {
-      queryParameters['iid[]'] = iids.map((iid) => iid.toString());
+      queryParameters['iids[]'] = iids.map((iid) => iid.toString());
     }
 
     final uri = _project.buildUri(['merge_requests'], queryParameters: queryParameters, page: page, perPage: perPage);

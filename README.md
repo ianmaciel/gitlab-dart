@@ -2,7 +2,7 @@
 
 [![build status](https://gitlab.com/exitlive/gitlab-dart/badges/master/build.svg)](https://gitlab.com/exitlive/gitlab-dart/commits/master)
 
-This is a dart library to communicate with the [GitLab API v3](https://docs.gitlab.com/ee/api/README.html).
+This is a dart library to communicate with the [GitLab API v4](https://docs.gitlab.com/ee/api/README.html).
 
 **This is still work in progress.** We are happy about Merge Requests!
 

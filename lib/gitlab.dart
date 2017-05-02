@@ -24,9 +24,9 @@ import 'package:intl/intl.dart';
 import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
 
-part 'src/builds.dart';
 part 'src/commits.dart';
 part 'src/issues.dart';
+part 'src/jobs.dart';
 part 'src/merge_requests.dart';
 part 'src/pipelines.dart';
 part 'src/projects.dart';
@@ -48,7 +48,7 @@ class GitLab {
 
   final GitLabHttpClient _httpClient;
 
-  static const String apiVersion = 'v3';
+  static const String apiVersion = 'v4';
 
   GitLab(this.token, {this.host: 'gitlab.com', this.scheme: 'https'}) : _httpClient = new GitLabHttpClient();
 
