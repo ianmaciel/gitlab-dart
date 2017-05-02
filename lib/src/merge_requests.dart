@@ -6,8 +6,8 @@ class MergeRequestsApi {
 
   MergeRequestsApi(this._gitLab, this._project);
 
-  Future<MergeRequest> get(int id) async {
-    final uri = _project.buildUri(['merge_requests', '$id']);
+  Future<MergeRequest> get(int iid) async {
+    final uri = _project.buildUri(['merge_requests', '$iid']);
 
     final Map json = await _gitLab.request(uri);
 

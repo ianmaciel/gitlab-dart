@@ -1,3 +1,11 @@
+## 0.2.1
+
+- Rename merge request get parameter to iid (was id before)
+
+## 0.2.0
+
+- Switch to API version v4
+
 ## 0.1.3
 
 - Add labels to the merge requests
