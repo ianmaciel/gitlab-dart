@@ -1,6 +1,6 @@
 name: gitlab
 version: 0.2.2
-description: A library to communicate with the GitHub API
+description: A library to communicate with the GitLab API
 homepage: https://gitlab.com/exitlive/gitlab-dart
 documentation: http://exitlive.gitlab.io/gitlab-dart/
 author: Matias Meno <m@tias.me>
