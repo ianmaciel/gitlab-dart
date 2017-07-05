@@ -1,3 +1,11 @@
+## 0.2.3
+
+- Broaden the `intl` dependency to include `0.15.x`
+
+## 0.2.2
+
+- Broaden the sdk restriction to include everything up to `2.0.0`.
+
 ## 0.2.1
 
 - Rename merge request get parameter to iid (was id before)
