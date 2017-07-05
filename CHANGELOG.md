@@ -4,7 +4,7 @@
 
 ## 0.2.2
 
-- Broaden the sdk restriction to include everything up to `2.0.0`.
+- Broaden the SDK restriction to include everything up to `2.0.0`.
 
 ## 0.2.1
 
