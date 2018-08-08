@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -17,9 +18,10 @@ void main() {
     final projectId = 1337;
     final headers = {'PRIVATE-TOKEN': 'secret-token'};
 
-    final issueJson = new File('test/assets/issues.get.json').readAsStringSync();
-    final issueMap = JSON.decode(issueJson);
-    final issueId = issueMap['id'];
+    final issueJson =
+        new File('test/assets/issues.get.json').readAsStringSync();
+    final Map issueMap = jsonDecode(issueJson);
+    final int issueId = issueMap['id'];
 
     setUp(() {
       mockResponse = new MockResponse();
@@ -43,8 +45,8 @@ void main() {
 
       expect(issue.webUrl, issueMap['web_url']);
 
-      expect(issue.createdAt, DateTime.parse(issueMap['created_at']));
-      expect(issue.updatedAt, DateTime.parse(issueMap['updated_at']));
+      expect(issue.createdAt, DateTime.parse(issueMap['created_at'] as String));
+      expect(issue.updatedAt, DateTime.parse(issueMap['updated_at'] as String));
 
       expect(issue.subscribed, issueMap['subscribed']);
 
@@ -52,15 +54,18 @@ void main() {
 
       expect(issue.dueDate, isNull);
       issue.originalJson['due_date'] = '2016-01-04T15:31:46.176Z';
-      expect(issue.dueDate, DateTime.parse(issue.originalJson['due_date']));
+      expect(issue.dueDate,
+          DateTime.parse(issue.originalJson['due_date'] as String));
 
       expect(issue.confidential, issueMap['confidential']);
       expect(issue.weight, issueMap['weight']);
     });
 
     test('.get()', () async {
-      final uri = Uri.parse('https://gitlab.com/api/v4/projects/$projectId/issues/$issueId');
-      when(mockHttpClient.request(uri, headers, HttpMethod.get)).thenReturn(mockResponse);
+      final uri = Uri.parse(
+          'https://gitlab.com/api/v4/projects/$projectId/issues/$issueId');
+      when(mockHttpClient.request(uri, headers, HttpMethod.get))
+          .thenAnswer((_) => new Future.value(mockResponse));
       when(mockResponse.statusCode).thenReturn(200);
       when(mockResponse.body).thenReturn(issueJson);
       final issue = await project.issues.get(issueId);

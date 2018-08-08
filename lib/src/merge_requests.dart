@@ -30,7 +30,8 @@ class MergeRequestsApi {
       queryParameters['iids[]'] = iids.map((iid) => iid.toString());
     }
 
-    final uri = _project.buildUri(['merge_requests'], queryParameters: queryParameters, page: page, perPage: perPage);
+    final uri = _project.buildUri(['merge_requests'],
+        queryParameters: queryParameters, page: page, perPage: perPage);
 
     final List<Map> jsonList = await _gitLab.request(uri);
 
@@ -47,18 +48,18 @@ class MergeRequest {
 
   MergeRequest.fromJson(this.originalJson);
 
-  int get id => originalJson['id'];
-  int get iid => originalJson['iid'];
-  String get targetBranch => originalJson['target_branch'];
-  String get sourceBranch => originalJson['source_branch'];
-  int get projectId => originalJson['project_id'];
-  String get title => originalJson['title'];
-  String get state => originalJson['state'];
-  List<String> get labels => originalJson['labels'];
-  int get upvotes => originalJson['upvotes'];
-  int get downvotes => originalJson['downvotes'];
-  String get description => originalJson['description'];
-  String get webUrl => originalJson['web_url'];
+  int get id => originalJson['id'] as int;
+  int get iid => originalJson['iid'] as int;
+  String get targetBranch => originalJson['target_branch'] as String;
+  String get sourceBranch => originalJson['source_branch'] as String;
+  int get projectId => originalJson['project_id'] as int;
+  String get title => originalJson['title'] as String;
+  String get state => originalJson['state'] as String;
+  List<String> get labels => (originalJson['labels'] as List).cast<String>();
+  int get upvotes => originalJson['upvotes'] as int;
+  int get downvotes => originalJson['downvotes'] as int;
+  String get description => originalJson['description'] as String;
+  String get webUrl => originalJson['web_url'] as String;
 
   @override
   String toString() => 'MergeRequest id#$id iid#$iid ($title)';

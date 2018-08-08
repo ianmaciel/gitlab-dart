@@ -50,9 +50,11 @@ class GitLab {
 
   static const String apiVersion = 'v4';
 
-  GitLab(this.token, {this.host: 'gitlab.com', this.scheme: 'https'}) : _httpClient = new GitLabHttpClient();
+  GitLab(this.token, {this.host: 'gitlab.com', this.scheme: 'https'})
+      : _httpClient = new GitLabHttpClient();
 
-  GitLab._test(GitLabHttpClient httpClient, this.token, {this.host: 'gitlab.com', this.scheme: 'https'})
+  GitLab._test(GitLabHttpClient httpClient, this.token,
+      {this.host: 'gitlab.com', this.scheme: 'https'})
       : _httpClient = httpClient;
 
   /// Get the [ProjectsApi] for this [id].
@@ -63,7 +65,10 @@ class GitLab {
 
   /// Returns the decoded JSON.
   @visibleForTesting
-  Future<dynamic> request(Uri uri, {HttpMethod method: HttpMethod.get, String body, bool asJson: true}) async {
+  Future<dynamic> request(Uri uri,
+      {HttpMethod method: HttpMethod.get,
+      String body,
+      bool asJson: true}) async {
     final headers = <String, String>{'PRIVATE-TOKEN': token};
 
     _log.fine('Making GitLab $method request to $uri.');
@@ -74,12 +79,13 @@ class GitLab {
       throw new GitLabException(response.statusCode, response.body);
     }
 
-    return asJson ? JSON.decode(response.body) : response.body;
+    return asJson ? jsonDecode(response.body) : response.body;
   }
 
   /// This function is used internally to build the URIs for API calls.
   @visibleForTesting
-  Uri buildUri(Iterable<String> pathSegments, {Map<String, dynamic> queryParameters, int page, int perPage}) {
+  Uri buildUri(Iterable<String> pathSegments,
+      {Map<String, dynamic> queryParameters, int page, int perPage}) {
     dynamic _addQueryParameter(String key, dynamic value) =>
         (queryParameters ??= new Map<String, dynamic>())[key] = '$value';
 
@@ -105,4 +111,6 @@ class GitLabException implements Exception {
 
 /// A helper function to get a [GitLab] instance with a [GitLabHttpClient] that can be mocked.
 @visibleForTesting
-GitLab getTestable(GitLabHttpClient httpClient, [String token = 'secret-token']) => new GitLab._test(httpClient, token);
+GitLab getTestable(GitLabHttpClient httpClient,
+        [String token = 'secret-token']) =>
+    new GitLab._test(httpClient, token);

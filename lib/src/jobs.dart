@@ -1,6 +1,7 @@
 part of exitlive.gitlab;
 
-/// The documentation for this API is here: https://docs.gitlab.com/ee/api/jobs.html
+/// The documentation for this API is here:
+/// https://docs.gitlab.com/ee/api/jobs.html
 class JobsApi {
   final GitLab _gitLab;
   final ProjectsApi _project;
@@ -23,7 +24,8 @@ class JobsApi {
     return new Build.fromJson(json);
   }
 
-  Future<List<Build>> list({List<BuildScope> scopes, int page, int perPage}) async {
+  Future<List<Build>> list(
+      {List<BuildScope> scopes, int page, int perPage}) async {
     final queryParameters = <String, dynamic>{};
 
     if (scopes != null && scopes.isNotEmpty) {
@@ -36,7 +38,8 @@ class JobsApi {
       }
     }
 
-    final uri = _project.buildUri(['jobs'], queryParameters: queryParameters, page: page, perPage: perPage);
+    final uri = _project.buildUri(['jobs'],
+        queryParameters: queryParameters, page: page, perPage: perPage);
 
     final List<Map> jsonList = await _gitLab.request(uri);
 
@@ -44,22 +47,33 @@ class JobsApi {
   }
 }
 
-enum BuildScope { created, pending, running, failed, success, canceled, skipped }
+enum BuildScope {
+  created,
+  pending,
+  running,
+  failed,
+  success,
+  canceled,
+  skipped
+}
 
 class Build {
   final Map originalJson;
 
   Build.fromJson(this.originalJson);
 
-  int get id => originalJson['id'];
-  String get name => originalJson['name'];
-  String get ref => originalJson['ref'];
-  String get stage => originalJson['stage'];
-  String get status => originalJson['status'];
-  DateTime get startedAt => DateTime.parse(originalJson['started_at']);
-  DateTime get createdAt => DateTime.parse(originalJson['created_at']);
-  DateTime get finishedAt => DateTime.parse(originalJson['finished_at']);
-  Commit get commit => new Commit.fromJson(originalJson['commit']);
+  int get id => originalJson['id'] as int;
+  String get name => originalJson['name'] as String;
+  String get ref => originalJson['ref'] as String;
+  String get stage => originalJson['stage'] as String;
+  String get status => originalJson['status'] as String;
+  DateTime get startedAt =>
+      DateTime.parse(originalJson['started_at'] as String);
+  DateTime get createdAt =>
+      DateTime.parse(originalJson['created_at'] as String);
+  DateTime get finishedAt =>
+      DateTime.parse(originalJson['finished_at'] as String);
+  Commit get commit => new Commit.fromJson(originalJson['commit'] as Map);
 
   @override
   String toString() => 'Build id#$id ($name)';

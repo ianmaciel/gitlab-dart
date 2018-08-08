@@ -1,6 +1,7 @@
 part of exitlive.gitlab;
 
-/// The documentation for this API is here: https://docs.gitlab.com/ee/api/jobs.html
+/// The documentation for this API is here:
+/// https://docs.gitlab.com/ee/api/jobs.html
 class PipelinesApi {
   final GitLab _gitLab;
   final ProjectsApi _project;
@@ -29,10 +30,10 @@ class Pipeline {
 
   Pipeline.fromJson(this.originalJson);
 
-  int get id => originalJson['id'];
-  String get status => originalJson['status'];
-  String get ref => originalJson['ref'];
-  String get sha => originalJson['sha'];
+  int get id => originalJson['id'] as int;
+  String get status => originalJson['status'] as String;
+  String get ref => originalJson['ref'] as String;
+  String get sha => originalJson['sha'] as String;
 
   @override
   String toString() => 'Pipeline id#$id (Ref: $ref)';
