@@ -11,7 +11,7 @@ import 'src/pub_client.dart';
 
 part 'src/ci.dart';
 
-const _lineLength = 120;
+const _lineLength = 80;
 
 void main(List<String> args) {
   Logger.root.onRecord.listen((record) => log(record.message));
