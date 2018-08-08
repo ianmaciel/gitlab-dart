@@ -1,3 +1,7 @@
+## 0.3.0
+
+- Make changes for dart 2.0.0 release.
+
 ## 0.2.3
 
 - Broaden the `intl` dependency to include `0.15.x`

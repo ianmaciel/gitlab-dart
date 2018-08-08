@@ -6,9 +6,14 @@ import 'package:http/http.dart' as http;
 ///
 /// **Never use this class directly in the library.**
 /// Use `GitLab.request()` instead.
-/// An instance of this class is created in the `GitLab` class, and will be used only by it.
+/// An instance of this class is created in the `GitLab` class, and will be used
+/// only by it.
 class GitLabHttpClient {
-  Future<http.Response> request(Uri uri, Map<String, String> headers, HttpMethod method) async {
+  Future<http.Response> request(
+    Uri uri,
+    Map<String, String> headers,
+    HttpMethod method,
+  ) async {
     http.Response response;
     if (method == HttpMethod.get) {
       response = await http.get(uri, headers: headers);

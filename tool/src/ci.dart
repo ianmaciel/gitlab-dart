@@ -1,4 +1,4 @@
-part of gitlab.grind;
+part of '../grind.dart';
 
 const _credentialsTemplate = '''
 {
@@ -40,8 +40,7 @@ Future<Null> ciPublish() async {
 
 Future<bool> _shouldPublish() async {
   log('Comparing versions with pub now, to see if we should publish...');
-  final client = new PubClient();
-  final package = await client.getPackage('gitlab');
+  final package = await PubClient().getPackage('gitlab');
   final pubspec = await new File('pubspec.yaml').readAsString();
   final version = new RegExp(r'^version:\s*(.*)$', multiLine: true, caseSensitive: false).firstMatch(pubspec).group(1);
   if (version != package.latest.version) {

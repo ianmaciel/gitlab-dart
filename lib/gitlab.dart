@@ -74,7 +74,7 @@ class GitLab {
       throw new GitLabException(response.statusCode, response.body);
     }
 
-    return asJson ? JSON.decode(response.body) : response.body;
+    return asJson ? jsonDecode(response.body) : response.body;
   }
 
   /// This function is used internally to build the URIs for API calls.

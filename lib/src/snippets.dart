@@ -17,7 +17,7 @@ class SnippetsApi {
 
   Future<String> content(int id) async {
     final uri = _project.buildUri(['snippets', '$id', 'raw']);
-    return await _gitLab.request(uri, asJson: false);
+    return await _gitLab.request(uri, asJson: false) as String;
   }
 
   Future<List<Snippet>> list({int page, int perPage}) async {
@@ -28,7 +28,8 @@ class SnippetsApi {
     return jsonList.map((json) => new Snippet.fromJson(json)).toList();
   }
 
-  Future update(int id, {String title, String fileName, String code, String visibility}) async {
+  Future update(int id,
+      {String title, String fileName, String code, String visibility}) async {
     final queryParameters = <String, dynamic>{};
 
     if (title != null) queryParameters['title'] = title;
@@ -36,7 +37,8 @@ class SnippetsApi {
     if (code != null) queryParameters['code'] = code;
     if (visibility != null) queryParameters['visibility'] = '$visibility';
 
-    final uri = _project.buildUri(['snippets', '$id'], queryParameters: queryParameters);
+    final uri = _project
+        .buildUri(['snippets', '$id'], queryParameters: queryParameters);
 
     final Map json = await _gitLab.request(uri, method: HttpMethod.put);
 
@@ -49,10 +51,10 @@ class Snippet {
 
   Snippet.fromJson(this.originalJson);
 
-  int get id => originalJson['id'];
-  String get title => originalJson['title'];
-  String get fileName => originalJson['file_name'];
-  String get webUrl => originalJson['web_url'];
+  int get id => originalJson['id'] as int;
+  String get title => originalJson['title'] as String;
+  String get fileName => originalJson['file_name'] as String;
+  String get webUrl => originalJson['web_url'] as String;
 
   @override
   String toString() => 'Snippet id#$id ($title)';

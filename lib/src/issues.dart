@@ -14,8 +14,13 @@ class IssuesApi {
     return new Issue.fromJson(json);
   }
 
-  Future<List<Issue>> closedByMergeRequest(int mergeRequestId, {int page, int perPage}) async {
-    final uri = _project.buildUri(['merge_requests', '$mergeRequestId', 'closes_issues'], page: page, perPage: perPage);
+  Future<List<Issue>> closedByMergeRequest(int mergeRequestId,
+      {int page, int perPage}) async {
+    final uri = _project.buildUri(
+      ['merge_requests', '$mergeRequestId', 'closes_issues'],
+      page: page,
+      perPage: perPage,
+    );
 
     final List<Map> jsonList = await _gitLab.request(uri);
 
@@ -38,7 +43,8 @@ class IssuesApi {
     if (milestone != null) queryParameters['milestone'] = milestone;
     if (labels != null) queryParameters['labels'] = labels.join(',');
 
-    final uri = _project.buildUri(['issues'], queryParameters: queryParameters, page: page, perPage: perPage);
+    final uri = _project.buildUri(['issues'],
+        queryParameters: queryParameters, page: page, perPage: perPage);
 
     final List<Map> jsonList = await _gitLab.request(uri);
 
@@ -55,26 +61,30 @@ class Issue {
 
   Issue.fromJson(this.originalJson);
 
-  int get projectId => originalJson['project_id'];
-  int get id => originalJson['id'];
-  int get iid => originalJson['iid'];
+  int get projectId => originalJson['project_id'] as int;
+  int get id => originalJson['id'] as int;
+  int get iid => originalJson['iid'] as int;
 
-  String get title => originalJson['title'];
-  String get description => originalJson['description'];
+  String get title => originalJson['title'] as String;
+  String get description => originalJson['description'] as String;
 
-  String get state => originalJson['state'];
-  List<String> get labels => originalJson['labels'];
-  String get webUrl => originalJson['web_url'];
+  String get state => originalJson['state'] as String;
+  List<String> get labels => (originalJson['labels'] as List).cast<String>();
+  String get webUrl => originalJson['web_url'] as String;
 
-  DateTime get createdAt => DateTime.parse(originalJson['created_at']);
-  DateTime get updatedAt => DateTime.parse(originalJson['updated_at']);
+  DateTime get createdAt =>
+      DateTime.parse(originalJson['created_at'] as String);
+  DateTime get updatedAt =>
+      DateTime.parse(originalJson['updated_at'] as String);
 
-  bool get subscribed => originalJson['subscribed'];
-  int get userNotesCount => originalJson['user_notes_count'];
-  DateTime get dueDate => originalJson['due_date'] == null ? null : DateTime.parse(originalJson['due_date']);
+  bool get subscribed => originalJson['subscribed'] as bool;
+  int get userNotesCount => originalJson['user_notes_count'] as int;
+  DateTime get dueDate => originalJson['due_date'] == null
+      ? null
+      : DateTime.parse(originalJson['due_date'] as String);
 
-  bool get confidential => originalJson['confidential'];
-  int get weight => originalJson['weight'];
+  bool get confidential => originalJson['confidential'] as bool;
+  int get weight => originalJson['weight'] as int;
 
   @override
   String toString() => 'Issue id#$id iid#$iid ($title)';

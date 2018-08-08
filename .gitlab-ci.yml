@@ -10,19 +10,9 @@ test:
   script:
   - grind test
 
-pages:
-  stage: deploy
-  script:
-  - grind doc
-  artifacts:
-    paths:
-    - public
-  only:
-  - master
-
 publish:
   stage: deploy
   script:
   - grind ci-publish
   only:
-  - master
+  - master@exitlive/gitlab-dart
