@@ -1,6 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
-import 'dart:io';
 
 import 'package:gitlab/gitlab.dart';
 import 'package:mockito/mockito.dart';

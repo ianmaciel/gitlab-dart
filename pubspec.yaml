@@ -18,5 +18,4 @@ dev_dependencies:
   path: ^1.6.0
   mockito: ^3.0.0
   grinder: ^0.8.1
-  # Disabled until https://github.com/jimsimon/pub_client/issues/1
-  # pub_client: ^1.0.0
+  grind_publish: ^0.0.3

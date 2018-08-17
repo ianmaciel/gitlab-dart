@@ -3,13 +3,7 @@ import 'dart:io';
 
 import 'package:grinder/grinder.dart';
 import 'package:logging/logging.dart';
-import 'package:path/path.dart' as path;
-
-/// Unfortunately not ported to dart 2.0 yet
-/// import 'package:pub_client/pub_client.dart';
-import 'src/pub_client.dart';
-
-part 'src/ci.dart';
+import 'package:grind_publish/grind_publish.dart' as grind_publish;
 
 const _lineLength = 80;
 
@@ -38,6 +32,8 @@ void checkFormat() {
 }
 
 @Task()
-void format() {
-  DartFmt.format(new Directory('.'), lineLength: _lineLength);
-}
+void format() => DartFmt.format(new Directory('.'), lineLength: _lineLength);
+
+@Task()
+Future autoPublish() => grind_publish.autoPublish(
+    'gitlab', grind_publish.Credentials.fromEnvironment());
