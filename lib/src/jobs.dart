@@ -8,24 +8,23 @@ class JobsApi {
 
   JobsApi(this._gitLab, this._project);
 
-  Future<Build> get(int id) async {
+  Future<Job> get(int id) async {
     final uri = _project.buildUri(['jobs', '$id']);
 
     final Map json = await _gitLab.request(uri);
 
-    return new Build.fromJson(json);
+    return new Job.fromJson(json);
   }
 
-  Future<Build> cancel(int id) async {
+  Future<Job> cancel(int id) async {
     final uri = _project.buildUri(['jobs', '$id', 'cancel']);
 
     final Map json = await _gitLab.request(uri, method: HttpMethod.post);
 
-    return new Build.fromJson(json);
+    return new Job.fromJson(json);
   }
 
-  Future<List<Build>> list(
-      {List<BuildScope> scopes, int page, int perPage}) async {
+  Future<List<Job>> list({List<JobScope> scopes, int page, int perPage}) async {
     final queryParameters = <String, dynamic>{};
 
     if (scopes != null && scopes.isNotEmpty) {
@@ -40,27 +39,18 @@ class JobsApi {
 
     final uri = _project.buildUri(['jobs'],
         queryParameters: queryParameters, page: page, perPage: perPage);
+    final jsonList = _responseToList(await _gitLab.request(uri));
 
-    final List<Map> jsonList = await _gitLab.request(uri);
-
-    return jsonList.map((json) => new Build.fromJson(json)).toList();
+    return jsonList.map((json) => new Job.fromJson(json)).toList();
   }
 }
 
-enum BuildScope {
-  created,
-  pending,
-  running,
-  failed,
-  success,
-  canceled,
-  skipped
-}
+enum JobScope { created, pending, running, failed, success, canceled, skipped }
 
-class Build {
+class Job {
   final Map originalJson;
 
-  Build.fromJson(this.originalJson);
+  Job.fromJson(this.originalJson);
 
   int get id => originalJson['id'] as int;
   String get name => originalJson['name'] as String;

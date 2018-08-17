@@ -23,7 +23,7 @@ class SnippetsApi {
   Future<List<Snippet>> list({int page, int perPage}) async {
     final uri = _project.buildUri(['snippets'], page: page, perPage: perPage);
 
-    final List<Map> jsonList = await _gitLab.request(uri);
+    final jsonList = _responseToList(await _gitLab.request(uri));
 
     return jsonList.map((json) => new Snippet.fromJson(json)).toList();
   }

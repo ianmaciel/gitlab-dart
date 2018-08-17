@@ -1,11 +1,10 @@
 import 'dart:async';
-import 'dart:convert';
-import 'dart:io';
 
 import 'package:gitlab/gitlab.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 
+import 'assets/json_data.dart' as data;
 import 'src/mocks.dart';
 
 void main() {
@@ -18,9 +17,7 @@ void main() {
     final projectId = 1337;
     final headers = {'PRIVATE-TOKEN': 'secret-token'};
 
-    final issueJson =
-        new File('test/assets/issues.get.json').readAsStringSync();
-    final Map issueMap = jsonDecode(issueJson);
+    final Map issueMap = data.decodeMap(data.issue);
     final int issueId = issueMap['id'];
 
     setUp(() {
@@ -67,10 +64,22 @@ void main() {
       when(mockHttpClient.request(uri, headers, HttpMethod.get))
           .thenAnswer((_) => new Future.value(mockResponse));
       when(mockResponse.statusCode).thenReturn(200);
-      when(mockResponse.body).thenReturn(issueJson);
+      when(mockResponse.body).thenReturn(data.issue);
       final issue = await project.issues.get(issueId);
       verify(mockHttpClient.request(uri, headers, HttpMethod.get)).called(1);
       expect(issue.id, issueId);
+    });
+    test('.list()', () async {
+      final uri =
+          Uri.parse('https://gitlab.com/api/v4/projects/$projectId/issues?');
+      when(mockHttpClient.request(uri, headers, HttpMethod.get))
+          .thenAnswer((_) => new Future.value(mockResponse));
+      when(mockResponse.statusCode).thenReturn(200);
+      when(mockResponse.body).thenReturn(data.issues);
+      final issues = await project.issues.list();
+      verify(mockHttpClient.request(uri, headers, HttpMethod.get)).called(1);
+      expect(issues, hasLength(1));
+      expect(issues.first.id, 76);
     });
   });
 }

@@ -19,7 +19,7 @@ class PipelinesApi {
   Future<List<Pipeline>> list({int page, int perPage}) async {
     final uri = _project.buildUri(['pipelines'], page: page, perPage: perPage);
 
-    final List<Map> jsonList = await _gitLab.request(uri);
+    final jsonList = _responseToList(await _gitLab.request(uri));
 
     return jsonList.map((json) => new Pipeline.fromJson(json)).toList();
   }

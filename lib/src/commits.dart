@@ -29,7 +29,7 @@ class CommitsApi {
     final uri = _project.buildUri(['repository', 'commits'],
         queryParameters: queryParameters, page: page, perPage: perPage);
 
-    final List<Map> jsonList = await _gitLab.request(uri);
+    final jsonList = _responseToList(await _gitLab.request(uri));
 
     return jsonList.map((json) => new Commit.fromJson(json)).toList();
   }

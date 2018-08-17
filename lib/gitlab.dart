@@ -109,7 +109,8 @@ class GitLabException implements Exception {
   String toString() => 'GitLabException ($statusCode): $message';
 }
 
-/// A helper function to get a [GitLab] instance with a [GitLabHttpClient] that can be mocked.
+/// A helper function to get a [GitLab] instance with a [GitLabHttpClient] that
+/// can be mocked.
 @visibleForTesting
 GitLab getTestable(GitLabHttpClient httpClient,
         [String token = 'secret-token']) =>

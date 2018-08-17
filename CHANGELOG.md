@@ -1,3 +1,8 @@
+## 0.4.0
+
+- Rename the `Build` class to `Job` in alignment with the GitLab API.
+- Add tests for .list() requests due to regression bug.
+
 ## 0.3.0
 
 - Make changes for dart 2.0.0 release.

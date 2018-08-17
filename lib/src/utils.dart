@@ -13,3 +13,5 @@ String _enumToString(dynamic enumValue) {
 
 final _formatter = new DateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
 String _formatDate(DateTime date) => _formatter.format(date);
+
+List<Map> _responseToList(dynamic response) => (response as List).cast<Map>();

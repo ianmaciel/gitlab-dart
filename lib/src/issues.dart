@@ -46,7 +46,7 @@ class IssuesApi {
     final uri = _project.buildUri(['issues'],
         queryParameters: queryParameters, page: page, perPage: perPage);
 
-    final List<Map> jsonList = await _gitLab.request(uri);
+    final jsonList = _responseToList(await _gitLab.request(uri));
 
     return jsonList.map((json) => new Issue.fromJson(json)).toList();
   }
