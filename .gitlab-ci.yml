@@ -3,7 +3,7 @@ image: google/dart
 before_script:
   - export PATH="$PATH":"~/.pub-cache/bin"
   - pub global activate grinder
-  - pub get
+  - pub get --no-precompile
 
 test:
   stage: test
