@@ -13,6 +13,6 @@ test:
 publish:
   stage: deploy
   script:
-  - grind ci-publish
+  - grind auto-publish
   only:
   - master@exitlive/gitlab-dart
