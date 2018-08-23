@@ -1,3 +1,7 @@
+## 0.4.1
+
+- Fix type casting issue in issues.closedByMergeRequest()
+
 ## 0.4.0
 
 - Rename the `Build` class to `Job` in alignment with the GitLab API.

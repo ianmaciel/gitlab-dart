@@ -81,5 +81,19 @@ void main() {
       expect(issues, hasLength(1));
       expect(issues.first.id, 76);
     });
+    test('.closedByMergeRequest()', () async {
+      final mergeRequestIid = 123;
+      final uri = Uri.parse('https://gitlab.com/api/v4/projects/$projectId/'
+          'merge_requests/$mergeRequestIid/closes_issues');
+      when(mockHttpClient.request(uri, headers, HttpMethod.get))
+          .thenAnswer((_) => new Future.value(mockResponse));
+      when(mockResponse.statusCode).thenReturn(200);
+      when(mockResponse.body).thenReturn(data.issuesClosedByMR);
+
+      final issues = await project.issues.closedByMergeRequest(mergeRequestIid);
+      verify(mockHttpClient.request(uri, headers, HttpMethod.get)).called(1);
+      expect(issues, hasLength(1));
+      expect(issues.first.id, 1);
+    });
   });
 }

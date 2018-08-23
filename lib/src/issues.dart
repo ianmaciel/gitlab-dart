@@ -14,15 +14,15 @@ class IssuesApi {
     return new Issue.fromJson(json);
   }
 
-  Future<List<Issue>> closedByMergeRequest(int mergeRequestId,
+  Future<List<Issue>> closedByMergeRequest(int mergeRequestIid,
       {int page, int perPage}) async {
     final uri = _project.buildUri(
-      ['merge_requests', '$mergeRequestId', 'closes_issues'],
+      ['merge_requests', '$mergeRequestIid', 'closes_issues'],
       page: page,
       perPage: perPage,
     );
 
-    final List<Map> jsonList = await _gitLab.request(uri);
+    final jsonList = (await _gitLab.request(uri) as List).cast<Map>();
 
     return jsonList.map((json) => new Issue.fromJson(json)).toList();
   }
