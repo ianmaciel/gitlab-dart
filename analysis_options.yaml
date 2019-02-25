@@ -49,8 +49,8 @@ linter:
     - prefer_is_not_empty
     # - public_member_api_docs # Generates too many hints right now. We need to add those in batches
     - slash_for_doc_comments
-    - sort_constructors_first
-    - sort_unnamed_constructors_first
+    # - sort_constructors_first
+    # - sort_unnamed_constructors_first
     - super_goes_last
     # - type_annotate_public_apis
     - type_init_formals
