@@ -18,7 +18,7 @@ void main() {
     final headers = {'PRIVATE-TOKEN': 'secret-token'};
 
     final Map issueMap = data.decodeMap(data.issue);
-    final int issueId = issueMap['id'];
+    final issueId = issueMap['id'] as int;
 
     setUp(() {
       mockResponse = new MockResponse();

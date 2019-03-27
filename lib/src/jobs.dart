@@ -11,7 +11,7 @@ class JobsApi {
   Future<Job> get(int id) async {
     final uri = _project.buildUri(['jobs', '$id']);
 
-    final Map json = await _gitLab.request(uri);
+    final json = await _gitLab.request(uri) as Map;
 
     return new Job.fromJson(json);
   }
@@ -19,7 +19,7 @@ class JobsApi {
   Future<Job> cancel(int id) async {
     final uri = _project.buildUri(['jobs', '$id', 'cancel']);
 
-    final Map json = await _gitLab.request(uri, method: HttpMethod.post);
+    final json = await _gitLab.request(uri, method: HttpMethod.post) as Map;
 
     return new Job.fromJson(json);
   }

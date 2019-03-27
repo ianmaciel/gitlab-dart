@@ -9,7 +9,7 @@ class IssuesApi {
   Future<Issue> get(int id) async {
     final uri = _project.buildUri(['issues', '$id']);
 
-    final Map json = await _gitLab.request(uri);
+    final json = await _gitLab.request(uri) as Map;
 
     return new Issue.fromJson(json);
   }

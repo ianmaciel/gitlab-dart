@@ -4,7 +4,6 @@ name: gitlab
 version: 0.4.2
 description: A library to communicate with the GitLab API
 homepage: https://gitlab.com/exitlive/gitlab-dart
-documentation: https://pub.dartlang.org/documentation/gitlab/latest/
 author: Matias Meno <m@tias.me>
 environment:
   sdk: ">=1.21.0 <3.0.0"
