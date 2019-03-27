@@ -9,7 +9,7 @@ class CommitsApi {
   Future<Commit> get(String sha) async {
     final uri = _project.buildUri(['repository', 'commits', '$sha']);
 
-    final Map json = await _gitLab.request(uri);
+    final json = await _gitLab.request(uri) as Map;
 
     return new Commit.fromJson(json);
   }

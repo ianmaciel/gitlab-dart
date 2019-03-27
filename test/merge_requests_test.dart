@@ -18,8 +18,8 @@ void main() {
     final headers = {'PRIVATE-TOKEN': 'secret-token'};
 
     final mergeRequestsMap = data.decodeMap(data.mergeRequest);
-    final int mergeRequestId = mergeRequestsMap['id'];
-    final int mergeRequestIid = mergeRequestsMap['iid'];
+    final mergeRequestId = mergeRequestsMap['id'] as int;
+    final mergeRequestIid = mergeRequestsMap['iid'] as int;
 
     setUp(() {
       mockResponse = new MockResponse();

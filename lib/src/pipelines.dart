@@ -11,7 +11,7 @@ class PipelinesApi {
   Future<Pipeline> get(int id) async {
     final uri = _project.buildUri(['pipelines', '$id']);
 
-    final Map json = await _gitLab.request(uri);
+    final json = await _gitLab.request(uri) as Map;
 
     return new Pipeline.fromJson(json);
   }

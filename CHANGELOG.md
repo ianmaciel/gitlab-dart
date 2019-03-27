@@ -1,3 +1,7 @@
+## 0.4.2
+
+- Upgrade dependencies
+
 ## 0.4.1
 
 - Fix type casting issue in issues.closedByMergeRequest()

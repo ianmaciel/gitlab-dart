@@ -10,7 +10,7 @@ class SnippetsApi {
   Future<Snippet> get(int id) async {
     final uri = _project.buildUri(['snippets', '$id']);
 
-    final Map json = await _gitLab.request(uri);
+    final json = await _gitLab.request(uri) as Map;
 
     return new Snippet.fromJson(json);
   }
@@ -40,7 +40,7 @@ class SnippetsApi {
     final uri = _project
         .buildUri(['snippets', '$id'], queryParameters: queryParameters);
 
-    final Map json = await _gitLab.request(uri, method: HttpMethod.put);
+    final json = await _gitLab.request(uri, method: HttpMethod.put) as Map;
 
     return new Snippet.fromJson(json);
   }

@@ -14,7 +14,7 @@ void main() {
     final headers = {'PRIVATE-TOKEN': 'secret-token'};
 
     final jobMap = data.decodeMap(data.job);
-    final int jobId = jobMap['id'];
+    final jobId = jobMap['id'] as int;
 
     // Mocks
     final mockHttpClient = MockGitLabHttpClient();

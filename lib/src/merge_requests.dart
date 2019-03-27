@@ -9,7 +9,7 @@ class MergeRequestsApi {
   Future<MergeRequest> get(int iid) async {
     final uri = _project.buildUri(['merge_requests', '$iid']);
 
-    final Map json = await _gitLab.request(uri);
+    final json = await _gitLab.request(uri) as Map;
 
     return new MergeRequest.fromJson(json);
   }
