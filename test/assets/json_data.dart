@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+export 'json_issue_discussion_data.dart';
+
 Map decodeMap(String json) => jsonDecode(json) as Map;
 List decodeList(String json) => jsonDecode(json) as List;
 
