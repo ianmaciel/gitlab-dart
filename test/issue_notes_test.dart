@@ -1,5 +1,4 @@
 import 'package:gitlab/gitlab.dart';
-import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 
 import 'assets/json_data.dart' as data;
@@ -8,18 +7,15 @@ import 'src/mocks.dart';
 void main() {
   group('NotesApi for Issues', () {
     MockGitLabHttpClient mockHttpClient;
-    MockResponse mockResponse;
     GitLab gitLab;
     ProjectsApi project;
 
     final projectId = 1337;
     final issue = Issue.fromJson(data.decodeMap(data.issue));
-    final headers = {'PRIVATE-TOKEN': 'secret-token'};
 
     final notesJson = data.decodeList(data.issueNotes);
 
     setUp(() {
-      mockResponse = new MockResponse();
       mockHttpClient = new MockGitLabHttpClient();
       gitLab = getTestable(mockHttpClient);
       project = gitLab.project(projectId);
@@ -55,15 +51,14 @@ void main() {
     });
 
     test('.list()', () async {
-      final uri = Uri.parse(
-          'https://gitlab.com/api/v4/projects/$projectId/issues/${issue.iid}/notes?');
-      when(mockHttpClient.request(uri, headers, HttpMethod.get))
-          .thenAnswer((_) async => mockResponse);
-      when(mockResponse.statusCode).thenReturn(200);
-      when(mockResponse.body).thenReturn(data.issueNotes);
+      final call = mockHttpClient.replyWith(
+        path: '/projects/$projectId/issues/${issue.iid}/notes?',
+        body: data.issueNotes,
+      );
 
       final notes = await project.notes.listForIssue(issue);
-      verify(mockHttpClient.request(uri, headers, HttpMethod.get)).called(1);
+
+      call.verifyCalled(1);
       expect(notes, hasLength(2));
       expect(notes.first.id, 302);
     });
