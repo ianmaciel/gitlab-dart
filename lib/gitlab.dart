@@ -80,6 +80,13 @@ class GitLab {
     if (!(response.statusCode >= 200 && response.statusCode < 300)) {
       throw new GitLabException(response.statusCode, response.body);
     }
+    /*
+    it's either our custom installation or maybe gitlab itself is missing the
+    used charset, but all calls are parsed as latin1, which is wrong, since
+    the encoding used by gitlab is utf8. Therefore we inject the charset into
+    the response.
+    */
+    response.headers['content-type'] = "application/json; charset=utf-8";
 
     return asJson ? jsonDecode(response.body) : response.body;
   }
