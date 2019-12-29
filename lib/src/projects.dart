@@ -14,6 +14,9 @@ class ProjectsApi {
   IssuesApi _issuesApi;
   IssuesApi get issues => _issuesApi ??= new IssuesApi(_gitLab, this);
 
+  NotesApi _notesApi;
+  NotesApi get notes => _notesApi ??= new NotesApi(_gitLab, this);
+
   SnippetsApi _snippetsApi;
   SnippetsApi get snippets => _snippetsApi ??= new SnippetsApi(_gitLab, this);
 

@@ -1,4 +1,29 @@
-import 'json_map.ext.dart';
+part of exitlive.gitlab;
+
+class NotesApi {
+  final GitLab _gitLab;
+  final ProjectsApi _project;
+
+  NotesApi(this._gitLab, this._project);
+
+  Future<List<Note>> listForIssue(Issue issue,
+      {NoteOrderBy orderBy, NoteSort sort, int page, int perPage}) async {
+    final queryParameters = <String, dynamic>{};
+
+    if (orderBy != null) queryParameters['order_by'] = _enumToString(orderBy);
+    if (sort != null) queryParameters['sort'] = _enumToString(sort);
+
+    final uri = _project.buildUri(['issues', issue.iid.toString(), 'notes'],
+        queryParameters: queryParameters, page: page, perPage: perPage);
+
+    final jsonList = _responseToList(await _gitLab.request(uri));
+
+    return Note.fromJsonList(jsonList);
+  }
+}
+
+enum NoteOrderBy { createdAt, updatedAt }
+enum NoteSort { asc, desc }
 
 class Note {
   Note.fromJson(Map<String, dynamic> note)

@@ -20,6 +20,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:gitlab/src/http_client.dart';
+import 'package:gitlab/src/json_map.ext.dart';
 import 'package:intl/intl.dart';
 import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
@@ -28,6 +29,7 @@ part 'src/commits.dart';
 part 'src/issues.dart';
 part 'src/jobs.dart';
 part 'src/merge_requests.dart';
+part 'src/notes.dart';
 part 'src/pipelines.dart';
 part 'src/projects.dart';
 part 'src/snippets.dart';
