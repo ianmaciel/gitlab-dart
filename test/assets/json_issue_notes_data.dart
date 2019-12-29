@@ -52,3 +52,26 @@ const issueNotes = '''
   $note305
 ]
 ''';
+
+const newNote = '''
+{
+  "id": 42,
+  "body": "Hello",
+  "attachment": null,
+  "author": {
+    "id": 1,
+    "username": "pipin",
+    "email": "admin@example.com",
+    "name": "Pip",
+    "state": "active",
+    "created_at": "2013-09-30T13:46:01Z"
+  },
+  "created_at": "2013-10-02T09:56:03Z",
+  "updated_at": "2013-10-02T09:56:03Z",
+  "system": true,
+  "noteable_id": 121,
+  "noteable_type": "Issue",
+  "noteable_iid": 121,
+  "resolvable": false
+}
+''';

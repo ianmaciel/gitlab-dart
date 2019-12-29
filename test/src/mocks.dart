@@ -12,7 +12,7 @@ class Call {
   Call(this.client, this.uri, this.method, this.headers);
 
   void verifyCalled(dynamic matcher) {
-    verify(client.request(uri, headers, HttpMethod.get)).called(matcher);
+    verify(client.request(uri, headers, method)).called(matcher);
   }
 }
 

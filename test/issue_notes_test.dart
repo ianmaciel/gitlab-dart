@@ -73,5 +73,17 @@ void main() {
       expect(notes, hasLength(2));
       expect(notes.first.id, 302);
     });
+    test('.add()', () async {
+      final call = mockHttpClient.replyWith(
+        path: '/projects/$projectId/issues/${issue.iid}/notes?body=Hello',
+        method: HttpMethod.post,
+        body: data.newNote,
+      );
+
+      final note = await project.notes.addForIssue(issue, "Hello");
+
+      call.verifyCalled(1);
+      expect(note.body, "Hello");
+    });
   });
 }
