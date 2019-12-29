@@ -50,6 +50,17 @@ void main() {
       }
     });
 
+    test('.get()', () async {
+      final call = mockHttpClient.replyWith(
+        path: '/projects/$projectId/issues/${issue.iid}/notes/302',
+        body: data.note302,
+      );
+
+      final note = await project.notes.getForIssue(issue, 302);
+
+      call.verifyCalled(1);
+      expect(note.id, 302);
+    });
     test('.list()', () async {
       final call = mockHttpClient.replyWith(
         path: '/projects/$projectId/issues/${issue.iid}/notes?',
