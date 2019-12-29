@@ -1,33 +1,26 @@
-import 'package:gitlab/src/discussions.dart';
+import 'package:gitlab/src/notes.dart';
 import 'package:test/test.dart';
 
 import 'assets/json_data.dart' as data;
 
 void main() {
-  group('DiscussionApi for Issues', () {
-    final discussions = data.decodeList(data.issueDiscussions);
-    final simpleMap = discussions[1] as Map<String, dynamic>;
+  group('NotesApi for Issues', () {
+    final notes = data.decodeList(data.issueNotes);
 
     setUp(() {});
 
-    test('Discussion class properly maps the JSON', () async {
-      final notes = (simpleMap['notes'] as List);
+    test('Note class properly maps the JSON', () async {
       final noteMap = notes[0] as Map<String, dynamic>;
       final authorMap = notes[0]["author"] as Map<String, dynamic>;
 
-      final simple = Discussion.fromJson(simpleMap);
-      final Note note = simple.notes.first;
+      final Note note = Note.fromJsonList(notes).first;
       final Author author = note.author;
-
-      expect(simple.id, simpleMap['id']);
-      expect(simple.isIndividualNote, simpleMap['individual_note']);
-      expect(simple.notes.length, notes.length);
 
       expect(note.id, noteMap['id']);
       expect(note.type, noteMap['type']);
       expect(note.body, noteMap['body']);
-      expect(note.createdAt.toIso8601String(), noteMap['created_at']);
-      expect(note.updatedAt.toIso8601String(), noteMap['updated_at']);
+      expect(note.createdAt, DateTime.parse(noteMap['created_at'].toString()));
+      expect(note.updatedAt, DateTime.parse(noteMap['updated_at'].toString()));
       expect(note.isSystemNote, noteMap['system']);
 
       expect(note.noteableId, noteMap['noteable_id']);

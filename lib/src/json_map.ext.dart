@@ -4,17 +4,6 @@ extension JsonMap on Map<String, dynamic> {
           ? this[key] as Map<String, dynamic>
           : <String, dynamic>{};
 
-  List<T> mapJsonList<T>(String key, T Function(Map<String, dynamic>) map) {
-    if (this[key] is List) {
-      return (this[key] as List)
-          .map((x) => x is Map<String, dynamic> ? map(x) : null)
-          .where((x) => x != null)
-          .toList();
-    } else {
-      return <T>[];
-    }
-  }
-
   int getIntOrNull(String key) => getIntOr(key, null);
   int getIntOr(String key, int defaultValue) =>
       this[key] is int ? this[key] as int : defaultValue;

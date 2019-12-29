@@ -1,16 +1,5 @@
 import 'json_map.ext.dart';
 
-class Discussion {
-  Discussion.fromJson(Map<String, dynamic> discussion)
-      : id = discussion.getStringOrNull("id"),
-        isIndividualNote = discussion.getBoolOrNull("individual_note"),
-        notes = discussion.mapJsonList("notes", (json) => Note.fromJson(json));
-
-  final String id;
-  bool isIndividualNote;
-  List<Note> notes;
-}
-
 class Note {
   Note.fromJson(Map<String, dynamic> note)
       : id = note.getIntOrNull("id"),
@@ -23,6 +12,11 @@ class Note {
         noteableId = note.getIntOrNull("noteable_id"),
         noteableType = note.getStringOrNull("noteable_type"),
         noteableIid = note.getIntOrNull("noteable_iid");
+
+  static List<Note> fromJsonList(List notes) => notes
+      .map((n) => n is Map<String, dynamic> ? Note.fromJson(n) : null)
+      .where((note) => note != null)
+      .toList();
 
   final int id;
   String type;
