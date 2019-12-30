@@ -50,6 +50,18 @@ class IssueNotesApi {
 
     return Note.fromJson(json);
   }
+
+  Future<Note> update(int noteId, String body) async {
+    final uri = _project.buildUri(
+      ['issues', _iid, 'notes', noteId.toString()],
+      queryParameters: {"body": body},
+    );
+
+    final json = await _gitLab.request(uri, method: HttpMethod.put)
+        as Map<String, dynamic>;
+
+    return Note.fromJson(json);
+  }
 }
 
 enum NoteOrderBy { createdAt, updatedAt }

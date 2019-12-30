@@ -8,7 +8,7 @@ void main() {
   group('NotesApi for Issues', () {
     MockGitLabHttpClient mockHttpClient;
     GitLab gitLab;
-    ProjectsApi project;
+    IssueNotesApi issueNotes;
 
     final projectId = 1337;
     final issue = Issue.fromJson(data.decodeMap(data.issue));
@@ -18,7 +18,7 @@ void main() {
     setUp(() {
       mockHttpClient = MockGitLabHttpClient();
       gitLab = getTestable(mockHttpClient);
-      project = gitLab.project(projectId);
+      issueNotes = gitLab.project(projectId).issueNotes(issue);
     });
 
     test('Note class properly maps the JSON', () async {
@@ -56,7 +56,7 @@ void main() {
         responseBody: data.note302,
       );
 
-      final note = await project.notes.getForIssue(issue, 302);
+      final note = await issueNotes.get(302);
 
       call.verifyCalled(1);
       expect(note.id, 302);
@@ -67,7 +67,7 @@ void main() {
         responseBody: data.issueNotes,
       );
 
-      final notes = await project.notes.listForIssue(issue);
+      final notes = await issueNotes.list();
 
       call.verifyCalled(1);
       expect(notes, hasLength(2));
@@ -80,10 +80,22 @@ void main() {
         responseBody: data.newNote,
       );
 
-      final note = await project.notes.addForIssue(issue, "Hello");
+      final note = await issueNotes.add("Hello");
 
       call.verifyCalled(1);
       expect(note.body, "Hello");
+    });
+    test('.update()', () async {
+      final call = mockHttpClient.configureCall(
+        path: '/projects/$projectId/issues/${issue.iid}/notes/42?body=World',
+        method: HttpMethod.put,
+        responseBody: data.modifiedNote,
+      );
+
+      final note = await issueNotes.update(42, "World");
+
+      call.verifyCalled(1);
+      expect(note.body, "World");
     });
   });
 }
