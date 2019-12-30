@@ -48,15 +48,43 @@ class GitLab {
   final String host;
   final String scheme;
 
+  /*
+    it's either our custom installation or maybe gitlab itself is missing the
+    used charset, but all calls are parsed as latin1, which is wrong, since
+    the encoding used by gitlab is utf8. Therefore we inject the charset into
+    the response.
+    */
+
+  /// Assume utf8 within in response bodies.
+  ///
+  /// The response of current gitlab instances (checked with 12.7.0-pre)
+  /// respond without specifying the encoding of the response within the
+  /// content-type (the server respond with content-type: application/json).
+  ///
+  /// The default implementation of http Response does assume latin1 in such
+  /// cases. Therefore any special characters are broken.
+  ///
+  /// In order to avoid this behavior, the utf8 charset, which actually is used
+  /// by gitlab, will be appended to the content-type, thus the resulting header
+  /// is content-type: application/json; charset=utf-8 and will be parsed
+  /// correctly.
+  ///
+  /// This behavior is enabled by default, but one can disable it, because this
+  /// field is introduced later (v 0.5.0) and might interfere with existing
+  /// implementations.
+  ///
+  final bool assumeUtf8;
+
   final GitLabHttpClient _httpClient;
 
   static const String apiVersion = 'v4';
 
-  GitLab(this.token, {this.host: 'gitlab.com', this.scheme: 'https'})
+  GitLab(this.token,
+      {this.host = 'gitlab.com', this.scheme = 'https', this.assumeUtf8 = true})
       : _httpClient = new GitLabHttpClient();
 
   GitLab._test(GitLabHttpClient httpClient, this.token,
-      {this.host: 'gitlab.com', this.scheme: 'https'})
+      {this.host: 'gitlab.com', this.scheme: 'https', this.assumeUtf8 = true})
       : _httpClient = httpClient;
 
   /// Get the [ProjectsApi] for this [id].
@@ -80,13 +108,13 @@ class GitLab {
     if (!(response.statusCode >= 200 && response.statusCode < 300)) {
       throw new GitLabException(response.statusCode, response.body);
     }
-    /*
-    it's either our custom installation or maybe gitlab itself is missing the
-    used charset, but all calls are parsed as latin1, which is wrong, since
-    the encoding used by gitlab is utf8. Therefore we inject the charset into
-    the response.
-    */
-    response.headers['content-type'] = "application/json; charset=utf-8";
+
+    final contentType = response.headers["content-type"];
+    final hasContentType = contentType != null;
+    final hasCharset = contentType?.contains("charset") ?? false;
+    if (assumeUtf8 && hasContentType && !hasCharset) {
+      response.headers["content-type"] = "$contentType; charset=utf-8";
+    }
 
     return asJson ? jsonDecode(response.body) : response.body;
   }
