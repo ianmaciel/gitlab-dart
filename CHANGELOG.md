@@ -1,3 +1,7 @@
+## 0.5.0
+
+- Introduced Notes API for Issues
+
 ## 0.4.2
 
 - Upgrade dependencies
