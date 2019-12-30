@@ -48,18 +48,11 @@ class GitLab {
   final String host;
   final String scheme;
 
-  /*
-    it's either our custom installation or maybe gitlab itself is missing the
-    used charset, but all calls are parsed as latin1, which is wrong, since
-    the encoding used by gitlab is utf8. Therefore we inject the charset into
-    the response.
-    */
-
   /// Assume utf8 within in response bodies.
   ///
   /// The response of current gitlab instances (checked with 12.7.0-pre)
   /// respond without specifying the encoding of the response within the
-  /// content-type (the server respond with content-type: application/json).
+  /// content-type (the server responds with content-type: application/json).
   ///
   /// The default implementation of http Response does assume latin1 in such
   /// cases. Therefore any special characters are broken.
@@ -70,8 +63,8 @@ class GitLab {
   /// correctly.
   ///
   /// This behavior is enabled by default, but one can disable it, because this
-  /// field is introduced later (v 0.5.0) and might interfere with existing
-  /// implementations.
+  /// field is introduced in a later version (v0.5.0) and might interfere with
+  /// existing implementations.
   ///
   final bool assumeUtf8;
 
