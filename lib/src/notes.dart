@@ -1,28 +1,14 @@
 part of exitlive.gitlab;
 
-class NotesApi {
+class IssueNotesApi {
   final GitLab _gitLab;
   final ProjectsApi _project;
+  final String _iid;
 
-  NotesApi(this._gitLab, this._project);
+  IssueNotesApi(this._gitLab, this._project, int issueIid)
+      : _iid = issueIid.toString();
 
-  Future<List<Note>> listForIssue(
-    Issue issue, {
-    NoteOrderBy orderBy,
-    NoteSort sort,
-    int page,
-    int perPage,
-  }) =>
-      listForIssueIid(
-        issue.iid,
-        orderBy: orderBy,
-        sort: sort,
-        page: page,
-        perPage: perPage,
-      );
-
-  Future<List<Note>> listForIssueIid(
-    int issueIid, {
+  Future<List<Note>> list({
     NoteOrderBy orderBy,
     NoteSort sort,
     int page,
@@ -34,7 +20,7 @@ class NotesApi {
     if (sort != null) queryParameters['sort'] = _enumToString(sort);
 
     final uri = _project.buildUri(
-      ['issues', issueIid.toString(), 'notes'],
+      ['issues', _iid, 'notes'],
       queryParameters: queryParameters,
       page: page,
       perPage: perPage,
@@ -45,24 +31,17 @@ class NotesApi {
     return Note.fromJsonList(jsonList);
   }
 
-  Future<Note> getForIssue(Issue issue, int noteId) =>
-      getForIssueIid(issue.iid, noteId);
-
-  Future<Note> getForIssueIid(int issueIid, int noteId) async {
-    final uri = _project
-        .buildUri(['issues', issueIid.toString(), 'notes', noteId.toString()]);
+  Future<Note> get(int noteId) async {
+    final uri = _project.buildUri(['issues', _iid, 'notes', noteId.toString()]);
 
     final json = await _gitLab.request(uri) as Map<String, dynamic>;
 
     return Note.fromJson(json);
   }
 
-  Future<Note> addForIssue(Issue issue, String body) =>
-      addForIssueIid(issue.iid, body);
-
-  Future<Note> addForIssueIid(int issueIid, String body) async {
+  Future<Note> add(String body) async {
     final uri = _project.buildUri(
-      ['issues', issueIid.toString(), 'notes'],
+      ['issues', _iid, 'notes'],
       queryParameters: {"body": body},
     );
 
