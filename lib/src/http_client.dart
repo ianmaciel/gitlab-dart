@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:gitlab/gitlab.dart';
 import 'package:http/http.dart' as http;
 
@@ -21,6 +22,8 @@ class GitLabHttpClient {
       response = await http.put(uri, headers: headers);
     } else if (method == HttpMethod.post) {
       response = await http.post(uri, headers: headers);
+    } else if (method == HttpMethod.delete) {
+      response = await http.delete(uri, headers: headers);
     } else {
       throw new ArgumentError('Invalid http method: $method');
     }

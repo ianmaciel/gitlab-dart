@@ -37,7 +37,7 @@ part 'src/utils.dart';
 
 final _log = new Logger('GitLab');
 
-enum HttpMethod { get, post, put }
+enum HttpMethod { get, post, put, delete }
 
 /// The main class and entry point to use this library.
 ///

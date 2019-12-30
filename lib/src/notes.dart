@@ -62,6 +62,14 @@ class IssueNotesApi {
 
     return Note.fromJson(json);
   }
+
+  Future<void> delete(int noteId) async {
+    final uri = _project.buildUri(
+      ['issues', _iid, 'notes', noteId.toString()],
+    );
+
+    await _gitLab.request(uri, method: HttpMethod.delete, asJson: false);
+  }
 }
 
 enum NoteOrderBy { createdAt, updatedAt }

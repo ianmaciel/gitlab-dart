@@ -97,5 +97,15 @@ void main() {
       call.verifyCalled(1);
       expect(note.body, "World");
     });
+    test('.delete()', () async {
+      final call = mockHttpClient.configureCall(
+          path: '/projects/$projectId/issues/${issue.iid}/notes/42',
+          method: HttpMethod.delete,
+          responseStatusCode: 204);
+
+      await issueNotes.delete(42);
+
+      call.verifyCalled(1);
+    });
   });
 }
