@@ -1,5 +1,7 @@
 part of exitlive.gitlab;
 
+/// The documentation for this API is here:
+/// https://docs.gitlab.com/ee/api/notes.html
 class IssueNotesApi {
   final GitLab _gitLab;
   final ProjectsApi _project;
@@ -8,6 +10,9 @@ class IssueNotesApi {
   IssueNotesApi(this._gitLab, this._project, int issueIid)
       : _iid = issueIid.toString();
 
+  /// Retrieves the list of notes of an issue.
+  ///
+  /// See https://docs.gitlab.com/ee/api/notes.html#list-project-issue-notes
   Future<List<Note>> list({
     NoteOrderBy orderBy,
     NoteSort sort,
@@ -31,6 +36,9 @@ class IssueNotesApi {
     return Note.fromJsonList(jsonList);
   }
 
+  /// Retrieves a single note.
+  ///
+  /// See https://docs.gitlab.com/ee/api/notes.html#get-single-issue-note
   Future<Note> get(int noteId) async {
     final uri = _project.buildUri(['issues', _iid, 'notes', noteId.toString()]);
 
@@ -39,6 +47,9 @@ class IssueNotesApi {
     return Note.fromJson(json);
   }
 
+  /// Adds a note to an issue.
+  ///
+  /// See https://docs.gitlab.com/ee/api/notes.html#create-new-issue-note
   Future<Note> add(String body) async {
     final uri = _project.buildUri(
       ['issues', _iid, 'notes'],
@@ -51,6 +62,9 @@ class IssueNotesApi {
     return Note.fromJson(json);
   }
 
+  /// Updates the body of an existing note.
+  ///
+  /// See https://docs.gitlab.com/ee/api/notes.html#modify-existing-issue-note
   Future<Note> update(int noteId, String body) async {
     final uri = _project.buildUri(
       ['issues', _iid, 'notes', noteId.toString()],
@@ -63,6 +77,9 @@ class IssueNotesApi {
     return Note.fromJson(json);
   }
 
+  /// Deletes an existing note.
+  ///
+  /// See https://docs.gitlab.com/ee/api/notes.html#delete-an-issue-note
   Future<void> delete(int noteId) async {
     final uri = _project.buildUri(
       ['issues', _iid, 'notes', noteId.toString()],
