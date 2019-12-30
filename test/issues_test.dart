@@ -1,7 +1,4 @@
-import 'dart:async';
-
 import 'package:gitlab/gitlab.dart';
-import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 
 import 'assets/json_data.dart' as data;
@@ -10,19 +7,16 @@ import 'src/mocks.dart';
 void main() {
   group('IssuesApi', () {
     MockGitLabHttpClient mockHttpClient;
-    MockResponse mockResponse;
     GitLab gitLab;
     ProjectsApi project;
 
     final projectId = 1337;
-    final headers = {'PRIVATE-TOKEN': 'secret-token'};
 
     final Map issueMap = data.decodeMap(data.issue);
     final issueId = issueMap['id'] as int;
 
     setUp(() {
-      mockResponse = new MockResponse();
-      mockHttpClient = new MockGitLabHttpClient();
+      mockHttpClient = MockGitLabHttpClient();
       gitLab = getTestable(mockHttpClient);
       project = gitLab.project(projectId);
     });
@@ -59,39 +53,40 @@ void main() {
     });
 
     test('.get()', () async {
-      final uri = Uri.parse(
-          'https://gitlab.com/api/v4/projects/$projectId/issues/$issueId');
-      when(mockHttpClient.request(uri, headers, HttpMethod.get))
-          .thenAnswer((_) => new Future.value(mockResponse));
-      when(mockResponse.statusCode).thenReturn(200);
-      when(mockResponse.body).thenReturn(data.issue);
+      final call = mockHttpClient.configureCall(
+        path: '/projects/$projectId/issues/$issueId',
+        responseBody: data.issue,
+      );
+
       final issue = await project.issues.get(issueId);
-      verify(mockHttpClient.request(uri, headers, HttpMethod.get)).called(1);
+
+      call.verifyCalled(1);
       expect(issue.id, issueId);
     });
     test('.list()', () async {
-      final uri =
-          Uri.parse('https://gitlab.com/api/v4/projects/$projectId/issues?');
-      when(mockHttpClient.request(uri, headers, HttpMethod.get))
-          .thenAnswer((_) => new Future.value(mockResponse));
-      when(mockResponse.statusCode).thenReturn(200);
-      when(mockResponse.body).thenReturn(data.issues);
+      final call = mockHttpClient.configureCall(
+        path: '/projects/$projectId/issues?',
+        responseBody: data.issues,
+      );
+
       final issues = await project.issues.list();
-      verify(mockHttpClient.request(uri, headers, HttpMethod.get)).called(1);
+
+      call.verifyCalled(1);
       expect(issues, hasLength(1));
       expect(issues.first.id, 76);
     });
     test('.closedByMergeRequest()', () async {
       final mergeRequestIid = 123;
-      final uri = Uri.parse('https://gitlab.com/api/v4/projects/$projectId/'
-          'merge_requests/$mergeRequestIid/closes_issues');
-      when(mockHttpClient.request(uri, headers, HttpMethod.get))
-          .thenAnswer((_) => new Future.value(mockResponse));
-      when(mockResponse.statusCode).thenReturn(200);
-      when(mockResponse.body).thenReturn(data.issuesClosedByMR);
+
+      final call = mockHttpClient.configureCall(
+        path:
+            '/projects/$projectId/merge_requests/$mergeRequestIid/closes_issues',
+        responseBody: data.issuesClosedByMR,
+      );
 
       final issues = await project.issues.closedByMergeRequest(mergeRequestIid);
-      verify(mockHttpClient.request(uri, headers, HttpMethod.get)).called(1);
+
+      call.verifyCalled(1);
       expect(issues, hasLength(1));
       expect(issues.first.id, 1);
     });

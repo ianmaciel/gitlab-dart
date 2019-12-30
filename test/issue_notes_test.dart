@@ -16,7 +16,7 @@ void main() {
     final notesJson = data.decodeList(data.issueNotes);
 
     setUp(() {
-      mockHttpClient = new MockGitLabHttpClient();
+      mockHttpClient = MockGitLabHttpClient();
       gitLab = getTestable(mockHttpClient);
       project = gitLab.project(projectId);
     });
@@ -51,9 +51,9 @@ void main() {
     });
 
     test('.get()', () async {
-      final call = mockHttpClient.replyWith(
+      final call = mockHttpClient.configureCall(
         path: '/projects/$projectId/issues/${issue.iid}/notes/302',
-        body: data.note302,
+        responseBody: data.note302,
       );
 
       final note = await project.notes.getForIssue(issue, 302);
@@ -62,9 +62,9 @@ void main() {
       expect(note.id, 302);
     });
     test('.list()', () async {
-      final call = mockHttpClient.replyWith(
+      final call = mockHttpClient.configureCall(
         path: '/projects/$projectId/issues/${issue.iid}/notes?',
-        body: data.issueNotes,
+        responseBody: data.issueNotes,
       );
 
       final notes = await project.notes.listForIssue(issue);
@@ -74,10 +74,10 @@ void main() {
       expect(notes.first.id, 302);
     });
     test('.add()', () async {
-      final call = mockHttpClient.replyWith(
+      final call = mockHttpClient.configureCall(
         path: '/projects/$projectId/issues/${issue.iid}/notes?body=Hello',
         method: HttpMethod.post,
-        body: data.newNote,
+        responseBody: data.newNote,
       );
 
       final note = await project.notes.addForIssue(issue, "Hello");

@@ -17,17 +17,18 @@ class Call {
 }
 
 class MockGitLabHttpClient extends Mock implements GitLabHttpClient {
-  Call replyWith(
+  Call configureCall(
       {String path,
       HttpMethod method = HttpMethod.get,
       int statusCode = 200,
-      String body = ""}) {
+      String responseBody = ""}) {
     final uri = Uri.parse("https://gitlab.com/api/v4$path");
     final headers = {'PRIVATE-TOKEN': 'secret-token'};
     final mockResponse = new MockResponse();
     when(request(uri, headers, method)).thenAnswer((_) async => mockResponse);
     when(mockResponse.statusCode).thenReturn(statusCode);
-    when(mockResponse.body).thenReturn(body);
+    when(mockResponse.body).thenReturn(responseBody);
+    when(mockResponse.headers).thenReturn({});
 
     return Call(this, uri, method, headers);
   }
