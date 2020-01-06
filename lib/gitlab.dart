@@ -26,6 +26,7 @@ import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
 
 part 'src/commits.dart';
+part 'src/discussions.dart';
 part 'src/issues.dart';
 part 'src/jobs.dart';
 part 'src/merge_requests.dart';
