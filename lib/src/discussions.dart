@@ -61,7 +61,7 @@ class IssueDiscussionsApi {
   /// Adds a new note to an existing discussion of an issue.
   ///
   /// See https://docs.gitlab.com/ee/api/discussions.html#add-note-to-existing-issue-thread
-  Future<Discussion> addNote(String discussionId, String body) async {
+  Future<Note> addNote(String discussionId, String body) async {
     final uri = _project.buildUri(
       ['issues', _iid, 'discussions', discussionId, 'notes'],
       queryParameters: {"body": body},
@@ -70,14 +70,13 @@ class IssueDiscussionsApi {
     final json = await _gitLab.request(uri, method: HttpMethod.post)
         as Map<String, dynamic>;
 
-    return Discussion.fromJson(json);
+    return Note.fromJson(json);
   }
 
   /// Updates the body of an existing note of an issue-discussion.
   ///
   /// See https://docs.gitlab.com/ee/api/discussions.html#modify-existing-issue-thread-note
-  Future<Discussion> updateNote(
-      String discussionId, int noteId, String body) async {
+  Future<Note> updateNote(String discussionId, int noteId, String body) async {
     final uri = _project.buildUri(
       ['issues', _iid, 'discussions', discussionId, 'notes', noteId.toString()],
       queryParameters: {"body": body},
@@ -87,7 +86,7 @@ class IssueDiscussionsApi {
     final json = await _gitLab.request(uri, method: HttpMethod.put)
         as Map<String, dynamic>;
 
-    return Discussion.fromJson(json);
+    return Note.fromJson(json);
   }
 
   /// Deletes an existing note pf an issue-discussion.

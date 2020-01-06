@@ -96,31 +96,29 @@ void main() {
     test('.add(discussionId)', () async {
       final call = mockHttpClient.configureCall(
         path:
-            '/projects/$projectId/issues/${issue.iid}/discussions/$discussionId/notes?body=World',
+            '/projects/$projectId/issues/${issue.iid}/discussions/$discussionId/notes?body=Hello',
         method: HttpMethod.post,
-        responseBody: data.appendDiscussion,
+        responseBody: data.newNote,
       );
 
-      final discussion = await issueDiscussions.addNote(discussionId, "World");
+      final note = await issueDiscussions.addNote(discussionId, "Hello");
 
       call.verifyCalled(1);
-      expect(discussion.notes[0].body, "Hello");
-      expect(discussion.notes[1].body, "World");
+      expect(note.body, "Hello");
     });
 
     test('.update(discussionId)', () async {
       final call = mockHttpClient.configureCall(
         path:
-            '/projects/$projectId/issues/${issue.iid}/discussions/$discussionId/notes/42?body=HelloWorld',
+            '/projects/$projectId/issues/${issue.iid}/discussions/$discussionId/notes/42?body=World',
         method: HttpMethod.put,
-        responseBody: data.modifiedDiscussion,
+        responseBody: data.modifiedNote,
       );
 
-      final discussion =
-          await issueDiscussions.updateNote(discussionId, 42, "HelloWorld");
+      final note = await issueDiscussions.updateNote(discussionId, 42, "World");
 
       call.verifyCalled(1);
-      expect(discussion.notes.first.body, "HelloWorld");
+      expect(note.body, "World");
     });
     test('.delete(discussionId)', () async {
       final call = mockHttpClient.configureCall(
