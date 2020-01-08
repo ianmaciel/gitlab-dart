@@ -138,6 +138,7 @@ const issues = '''
 const newIssue = '''
 {
    "project_id" : 4,
+   "milestone": null,
    "author" : {
       "state" : "active",
       "web_url" : "https://gitlab.example.com/root",
@@ -168,6 +169,66 @@ const newIssue = '''
    "labels" : ["Feature", "Bug"],
    "id" : 41,
    "title" : "Hello",
+   "updated_at" : "2016-01-04T15:31:46.176Z",
+   "created_at" : "2016-01-04T15:31:46.176Z",
+   "closed_at" : null,
+   "closed_by" : null,
+   "subscribed": false,
+   "user_notes_count": 1,
+   "due_date": null,
+   "web_url": "http://example.com/example/example/issues/1",
+   "time_stats": {
+      "time_estimate": 0,
+      "total_time_spent": 0,
+      "human_time_estimate": null,
+      "human_total_time_spent": null
+   },
+   "confidential": false,
+   "weight": null,
+   "discussion_locked": false,
+   "_links": {
+      "self": "http://example.com/api/v4/projects/1/issues/2",
+      "notes": "http://example.com/api/v4/projects/1/issues/2/notes",
+      "award_emoji": "http://example.com/api/v4/projects/1/issues/2/award_emoji",
+      "project": "http://example.com/api/v4/projects/1"
+   }
+}
+''';
+
+const modifiedIssue = '''
+{
+   "project_id" : 4,
+   "milestone": null,
+   "author" : {
+      "state" : "active",
+      "web_url" : "https://gitlab.example.com/root",
+      "avatar_url" : null,
+      "username" : "root",
+      "id" : 1,
+      "name" : "Administrator"
+   },
+   "description" : "Omnis vero earum sunt corporis dolor et placeat.",
+   "state" : "open",
+   "iid" : 42,
+   "assignees" : [{
+      "avatar_url" : null,
+      "web_url" : "https://gitlab.example.com/lennie",
+      "state" : "active",
+      "username" : "lennie",
+      "id" : 9,
+      "name" : "Dr. Luella Kovacek"
+   }],
+   "assignee" : {
+      "avatar_url" : null,
+      "web_url" : "https://gitlab.example.com/lennie",
+      "state" : "active",
+      "username" : "lennie",
+      "id" : 9,
+      "name" : "Dr. Luella Kovacek"
+   },
+   "labels" : ["Feature", "Bug"],
+   "id" : 41,
+   "title" : "World",
    "updated_at" : "2016-01-04T15:31:46.176Z",
    "created_at" : "2016-01-04T15:31:46.176Z",
    "closed_at" : null,

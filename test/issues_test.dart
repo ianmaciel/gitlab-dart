@@ -87,6 +87,30 @@ void main() {
       call.verifyCalled(1);
       expect(issue.title, "Hello");
     });
+    test('.update', () async {
+      final call = mockHttpClient.configureCall(
+        path: '/projects/$projectId/issues/42?title=World',
+        method: HttpMethod.put,
+        responseBody: data.modifiedIssue,
+      );
+
+      final issue = await project.issues.update(42, title: "World");
+
+      call.verifyCalled(1);
+      expect(issue.title, "World");
+    });
+
+    test('.delete', () async {
+      final call = mockHttpClient.configureCall(
+        path: '/projects/$projectId/issues/42',
+        method: HttpMethod.delete,
+        responseStatusCode: 204,
+      );
+
+      await project.issues.delete(42);
+
+      call.verifyCalled(1);
+    });
     test('.closedByMergeRequest()', () async {
       final mergeRequestIid = 123;
 
