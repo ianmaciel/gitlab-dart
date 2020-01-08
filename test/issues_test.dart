@@ -75,6 +75,18 @@ void main() {
       expect(issues, hasLength(1));
       expect(issues.first.id, 76);
     });
+    test('.add', () async {
+      final call = mockHttpClient.configureCall(
+        path: '/projects/$projectId/issues?title=Hello',
+        method: HttpMethod.post,
+        responseBody: data.newIssue,
+      );
+
+      final issue = await project.issues.add("Hello");
+
+      call.verifyCalled(1);
+      expect(issue.title, "Hello");
+    });
     test('.closedByMergeRequest()', () async {
       final mergeRequestIid = 123;
 
