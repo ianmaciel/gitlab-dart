@@ -100,6 +100,30 @@ void main() {
       expect(issue.title, "World");
     });
 
+    test('.update -- change assignees', () async {
+      final call = mockHttpClient.configureCall(
+        path:
+            '/projects/$projectId/issues/42?assignee_ids%5B%5D=1&assignee_ids%5B%5D=2&assignee_ids%5B%5D=3',
+        method: HttpMethod.put,
+        responseBody: data.modifiedIssue,
+      );
+
+      await project.issues.update(42, assigneeIds: [1, 2, 3]);
+
+      call.verifyCalled(1);
+    });
+    test('.update -- clear assignees', () async {
+      final call = mockHttpClient.configureCall(
+        path: '/projects/$projectId/issues/42?assignee_ids',
+        method: HttpMethod.put,
+        responseBody: data.modifiedIssue,
+      );
+
+      await project.issues.update(42, assigneeIds: []);
+
+      call.verifyCalled(1);
+    });
+
     test('.delete', () async {
       final call = mockHttpClient.configureCall(
         path: '/projects/$projectId/issues/42',

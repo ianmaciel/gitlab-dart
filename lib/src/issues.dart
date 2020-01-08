@@ -71,7 +71,7 @@ class IssuesApi {
       "title": title,
       if (description != null) "description": description,
       if (confidential != null) "confidential": confidential,
-      if (assigneeIds != null) "assignee_ids": assigneeIds,
+      if (assigneeIds != null) ..._assignee_ids(assigneeIds),
       if (milestoneId != null) "milestone_id": milestoneId,
       if (labels != null) "labels": labels.join(','),
       if (dueDate != null) "due_date": DateFormat.yMd().format(dueDate),
@@ -115,7 +115,7 @@ class IssuesApi {
       if (title != null) "title": title,
       if (description != null) "description": description,
       if (confidential != null) "confidential": confidential,
-      if (assigneeIds != null) "assignee_ids": assigneeIds,
+      if (assigneeIds != null) ..._assignee_ids(assigneeIds),
       if (milestoneId != null) "milestone_id": milestoneId,
       if (labels != null) "labels": labels.join(','),
       if (dueDate != null) "due_date": DateFormat.yMd().format(dueDate),
@@ -150,6 +150,12 @@ class IssuesApi {
     );
 
     await _gitLab.request(uri, method: HttpMethod.delete, asJson: false);
+  }
+
+  Map<String, dynamic> _assignee_ids(List<int> ids) {
+    return ids.isEmpty
+        ? {"assignee_ids": ""}
+        : {"assignee_ids[]": ids.map((id) => id.toString())};
   }
 }
 
