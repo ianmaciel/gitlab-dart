@@ -37,6 +37,104 @@ class MergeRequestsApi {
 
     return jsonList.map((json) => new MergeRequest.fromJson(json)).toList();
   }
+
+  /// Creates a new merge request.
+  ///
+  /// See https://docs.gitlab.com/ee/api/merge_requests.html#create-mr
+  Future<MergeRequest> add(
+    String title,
+    String sourceBranch,
+    String targetBranch, {
+    List<int> assigneeIds,
+    String description,
+    int targetProjectId,
+    List<String> labels,
+    int milestoneId,
+    bool removeSourceBranch,
+    bool allowCollaboration,
+    bool squash,
+  }) async {
+    final queryParameters = <String, dynamic>{
+      "title": title,
+      "source_branch": sourceBranch,
+      "target_branch": targetBranch,
+      if (assigneeIds != null) ..._encode_assignee_ids(assigneeIds),
+      if (description != null) "description": description,
+      if (targetProjectId != null) "target_project_id": targetProjectId,
+      if (labels != null) "labels": labels.join(','),
+      if (milestoneId != null) "milestone_id": milestoneId,
+      if (removeSourceBranch != null)
+        "remove_source_branch": removeSourceBranch,
+      if (allowCollaboration != null) "allow_collaboration": allowCollaboration,
+      if (squash != null) "squash": squash,
+    };
+
+    final uri =
+        _project.buildUri(['merge_requests'], queryParameters: queryParameters);
+
+    final json = await _gitLab.request(
+      uri,
+      method: HttpMethod.post,
+    ) as Map<String, dynamic>;
+
+    return MergeRequest.fromJson(json);
+  }
+
+  /// Updates an existing merge request.
+  ///
+  /// See https://docs.gitlab.com/ee/api/merge_requests.html#update-mr
+  Future<MergeRequest> update(
+    mergeRequestIid, {
+    String title,
+    String sourceBranch,
+    String targetBranch,
+    List<int> assigneeIds,
+    String description,
+    int targetProjectId,
+    List<String> labels,
+    int milestoneId,
+    bool removeSourceBranch,
+    bool allowCollaboration,
+    bool squash,
+  }) async {
+    final queryParameters = <String, dynamic>{
+      if (title != null) "title": title,
+      if (sourceBranch != null) "source_branch": sourceBranch,
+      if (targetBranch != null) "target_branch": targetBranch,
+      if (assigneeIds != null) ..._encode_assignee_ids(assigneeIds),
+      if (description != null) "description": description,
+      if (targetProjectId != null) "target_project_id": targetProjectId,
+      if (labels != null) "labels": labels.join(','),
+      if (milestoneId != null) "milestone_id": milestoneId,
+      if (removeSourceBranch != null)
+        "remove_source_branch": removeSourceBranch,
+      if (allowCollaboration != null) "allow_collaboration": allowCollaboration,
+      if (squash != null) "squash": squash,
+    };
+
+    final uri = _project.buildUri(
+      ['merge_requests', mergeRequestIid.toString()],
+      queryParameters: queryParameters,
+    );
+
+    final json = await _gitLab.request(
+      uri,
+      method: HttpMethod.put,
+    ) as Map<String, dynamic>;
+
+    return MergeRequest.fromJson(json);
+  }
+
+  /// Deletes an existing merge request.
+  ///
+  /// See https://docs.gitlab.com/ee/api/merge_requests.html#delete-a-merge-request
+  Future<void> delete(int mergeRequestIid) async {
+    final uri = _project.buildUri(
+      ['merge_requests', mergeRequestIid.toString()],
+    );
+
+    await _gitLab.request(uri, method: HttpMethod.delete, asJson: false);
+  }
 }
 
 enum MergeRequestState { merged, opened, closed }

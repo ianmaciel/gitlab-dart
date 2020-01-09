@@ -68,5 +68,70 @@ void main() {
       call.verifyCalled(1);
       expect(mergeRequests, hasLength(1));
     });
+    test('.add', () async {
+      final call = mockHttpClient.configureCall(
+        path:
+            '/projects/$projectId/merge_requests?title=Hello&source_branch=feature&target_branch=master',
+        method: HttpMethod.post,
+        responseBody: data.newMergeRequest,
+      );
+
+      final mergeRequest = await project.mergeRequests.add(
+        "Hello",
+        "feature",
+        "master",
+      );
+
+      call.verifyCalled(1);
+      expect(mergeRequest.title, "Hello");
+    });
+    test('.update', () async {
+      final call = mockHttpClient.configureCall(
+        path: '/projects/$projectId/merge_requests/42?title=World',
+        method: HttpMethod.put,
+        responseBody: data.modifiedMergeRequest,
+      );
+
+      final mergeRequest =
+          await project.mergeRequests.update(42, title: "World");
+
+      call.verifyCalled(1);
+      expect(mergeRequest.title, "World");
+    });
+    test('.update -- change assignees', () async {
+      final call = mockHttpClient.configureCall(
+        path:
+            '/projects/$projectId/merge_requests/42?assignee_ids%5B%5D=1&assignee_ids%5B%5D=2&assignee_ids%5B%5D=3',
+        method: HttpMethod.put,
+        responseBody: data.modifiedMergeRequest,
+      );
+
+      await project.mergeRequests.update(42, assigneeIds: [1, 2, 3]);
+
+      call.verifyCalled(1);
+    });
+    test('.update -- clear assignees', () async {
+      final call = mockHttpClient.configureCall(
+        path: '/projects/$projectId/merge_requests/42?assignee_ids',
+        method: HttpMethod.put,
+        responseBody: data.modifiedMergeRequest,
+      );
+
+      await project.mergeRequests.update(42, assigneeIds: []);
+
+      call.verifyCalled(1);
+    });
+
+    test('.delete', () async {
+      final call = mockHttpClient.configureCall(
+        path: '/projects/$projectId/merge_requests/42',
+        method: HttpMethod.delete,
+        responseStatusCode: 204,
+      );
+
+      await project.mergeRequests.delete(42);
+
+      call.verifyCalled(1);
+    });
   });
 }
