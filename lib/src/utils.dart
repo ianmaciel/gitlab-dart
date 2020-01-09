@@ -16,7 +16,7 @@ String _formatDate(DateTime date) => _formatter.format(date);
 
 List<Map> _responseToList(dynamic response) => (response as List).cast<Map>();
 
-Map<String, dynamic> _encode_assignee_ids(List<int> ids) {
+Map<String, dynamic> _encodeAssigneeIds(List<int> ids) {
   return ids.isEmpty
       ? {"assignee_ids": ""}
       : {"assignee_ids[]": ids.map((id) => id.toString())};
