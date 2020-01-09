@@ -64,9 +64,10 @@ class MergeRequestsApi {
       if (labels != null) "labels": labels.join(','),
       if (milestoneId != null) "milestone_id": milestoneId,
       if (removeSourceBranch != null)
-        "remove_source_branch": removeSourceBranch,
-      if (allowCollaboration != null) "allow_collaboration": allowCollaboration,
-      if (squash != null) "squash": squash,
+        "remove_source_branch": removeSourceBranch.toString(),
+      if (allowCollaboration != null)
+        "allow_collaboration": allowCollaboration.toString(),
+      if (squash != null) "squash": squash.toString(),
     };
 
     final uri =
@@ -107,9 +108,10 @@ class MergeRequestsApi {
       if (labels != null) "labels": labels.join(','),
       if (milestoneId != null) "milestone_id": milestoneId,
       if (removeSourceBranch != null)
-        "remove_source_branch": removeSourceBranch,
-      if (allowCollaboration != null) "allow_collaboration": allowCollaboration,
-      if (squash != null) "squash": squash,
+        "remove_source_branch": removeSourceBranch.toString(),
+      if (allowCollaboration != null)
+        "allow_collaboration": allowCollaboration.toString(),
+      if (squash != null) "squash": squash.toString(),
     };
 
     final uri = _project.buildUri(

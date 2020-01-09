@@ -122,6 +122,24 @@ void main() {
       call.verifyCalled(1);
     });
 
+    test('.update -- bools', () async {
+      final call = mockHttpClient.configureCall(
+        path:
+            '/projects/$projectId/merge_requests/42?remove_source_branch=true&allow_collaboration=true&squash=true',
+        method: HttpMethod.put,
+        responseBody: data.modifiedIssue,
+      );
+
+      await project.mergeRequests.update(
+        42,
+        removeSourceBranch: true,
+        allowCollaboration: true,
+        squash: true,
+      );
+
+      call.verifyCalled(1);
+    });
+
     test('.delete', () async {
       final call = mockHttpClient.configureCall(
         path: '/projects/$projectId/merge_requests/42',

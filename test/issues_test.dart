@@ -123,6 +123,17 @@ void main() {
 
       call.verifyCalled(1);
     });
+    test('.update -- bools', () async {
+      final call = mockHttpClient.configureCall(
+        path: '/projects/$projectId/issues/42?confidential=true',
+        method: HttpMethod.put,
+        responseBody: data.modifiedIssue,
+      );
+
+      await project.issues.update(42, confidential: true);
+
+      call.verifyCalled(1);
+    });
 
     test('.delete', () async {
       final call = mockHttpClient.configureCall(

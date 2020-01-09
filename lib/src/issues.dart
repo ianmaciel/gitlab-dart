@@ -70,7 +70,7 @@ class IssuesApi {
     final queryParameters = <String, dynamic>{
       "title": title,
       if (description != null) "description": description,
-      if (confidential != null) "confidential": confidential,
+      if (confidential != null) "confidential": confidential.toString(),
       if (assigneeIds != null) ..._encodeAssigneeIds(assigneeIds),
       if (milestoneId != null) "milestone_id": milestoneId,
       if (labels != null) "labels": labels.join(','),
@@ -114,7 +114,7 @@ class IssuesApi {
     final queryParameters = <String, dynamic>{
       if (title != null) "title": title,
       if (description != null) "description": description,
-      if (confidential != null) "confidential": confidential,
+      if (confidential != null) "confidential": confidential.toString(),
       if (assigneeIds != null) ..._encodeAssigneeIds(assigneeIds),
       if (milestoneId != null) "milestone_id": milestoneId,
       if (labels != null) "labels": labels.join(','),
