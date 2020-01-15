@@ -75,6 +75,77 @@ void main() {
       expect(issues, hasLength(1));
       expect(issues.first.id, 76);
     });
+    test('.add', () async {
+      final call = mockHttpClient.configureCall(
+        path: '/projects/$projectId/issues?title=Hello',
+        method: HttpMethod.post,
+        responseBody: data.newIssue,
+      );
+
+      final issue = await project.issues.add("Hello");
+
+      call.verifyCalled(1);
+      expect(issue.title, "Hello");
+    });
+    test('.update', () async {
+      final call = mockHttpClient.configureCall(
+        path: '/projects/$projectId/issues/42?title=World',
+        method: HttpMethod.put,
+        responseBody: data.modifiedIssue,
+      );
+
+      final issue = await project.issues.update(42, title: "World");
+
+      call.verifyCalled(1);
+      expect(issue.title, "World");
+    });
+
+    test('.update -- change assignees', () async {
+      final call = mockHttpClient.configureCall(
+        path:
+            '/projects/$projectId/issues/42?assignee_ids%5B%5D=1&assignee_ids%5B%5D=2&assignee_ids%5B%5D=3',
+        method: HttpMethod.put,
+        responseBody: data.modifiedIssue,
+      );
+
+      await project.issues.update(42, assigneeIds: [1, 2, 3]);
+
+      call.verifyCalled(1);
+    });
+    test('.update -- clear assignees', () async {
+      final call = mockHttpClient.configureCall(
+        path: '/projects/$projectId/issues/42?assignee_ids',
+        method: HttpMethod.put,
+        responseBody: data.modifiedIssue,
+      );
+
+      await project.issues.update(42, assigneeIds: []);
+
+      call.verifyCalled(1);
+    });
+    test('.update -- bools', () async {
+      final call = mockHttpClient.configureCall(
+        path: '/projects/$projectId/issues/42?confidential=true',
+        method: HttpMethod.put,
+        responseBody: data.modifiedIssue,
+      );
+
+      await project.issues.update(42, confidential: true);
+
+      call.verifyCalled(1);
+    });
+
+    test('.delete', () async {
+      final call = mockHttpClient.configureCall(
+        path: '/projects/$projectId/issues/42',
+        method: HttpMethod.delete,
+        responseStatusCode: 204,
+      );
+
+      await project.issues.delete(42);
+
+      call.verifyCalled(1);
+    });
     test('.closedByMergeRequest()', () async {
       final mergeRequestIid = 123;
 

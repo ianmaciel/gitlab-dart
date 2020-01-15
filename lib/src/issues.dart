@@ -50,6 +50,107 @@ class IssuesApi {
 
     return jsonList.map((json) => new Issue.fromJson(json)).toList();
   }
+
+  /// Creates a new issue.
+  ///
+  /// See https://docs.gitlab.com/ee/api/issues.html#new-issue
+  Future<Issue> add(
+    String title, {
+    String description,
+    bool confidential,
+    List<int> assigneeIds,
+    int milestoneId,
+    List<String> labels,
+    DateTime dueDate,
+    int mergeRequestToResolveDiscussionsOf,
+    String discussionToResolve,
+    int weight,
+    int epicId,
+  }) async {
+    final queryParameters = <String, dynamic>{
+      "title": title,
+      if (description != null) "description": description,
+      if (confidential != null) "confidential": confidential.toString(),
+      if (assigneeIds != null) ..._encodeAssigneeIds(assigneeIds),
+      if (milestoneId != null) "milestone_id": milestoneId,
+      if (labels != null) "labels": labels.join(','),
+      if (dueDate != null) "due_date": DateFormat.yMd().format(dueDate),
+      if (mergeRequestToResolveDiscussionsOf != null)
+        "merge_request_to_resolve_discussions_of":
+            mergeRequestToResolveDiscussionsOf,
+      if (discussionToResolve != null)
+        "discussion_to_resolve": discussionToResolve,
+      if (weight != null) "weight": weight,
+      if (epicId != null) "epic_id": epicId,
+    };
+
+    final uri = _project.buildUri(['issues'], queryParameters: queryParameters);
+
+    final json = await _gitLab.request(
+      uri,
+      method: HttpMethod.post,
+    ) as Map<String, dynamic>;
+
+    return Issue.fromJson(json);
+  }
+
+  /// Updates an existing issue.
+  ///
+  /// See https://docs.gitlab.com/ee/api/issues.html#edit-issue
+  Future<Issue> update(
+    int issueIid, {
+    String title,
+    String description,
+    bool confidential,
+    List<int> assigneeIds,
+    int milestoneId,
+    List<String> labels,
+    DateTime dueDate,
+    int mergeRequestToResolveDiscussionsOf,
+    String discussionToResolve,
+    int weight,
+    int epicId,
+  }) async {
+    final queryParameters = <String, dynamic>{
+      if (title != null) "title": title,
+      if (description != null) "description": description,
+      if (confidential != null) "confidential": confidential.toString(),
+      if (assigneeIds != null) ..._encodeAssigneeIds(assigneeIds),
+      if (milestoneId != null) "milestone_id": milestoneId,
+      if (labels != null) "labels": labels.join(','),
+      if (dueDate != null) "due_date": DateFormat.yMd().format(dueDate),
+      if (mergeRequestToResolveDiscussionsOf != null)
+        "merge_request_to_resolve_discussions_of":
+            mergeRequestToResolveDiscussionsOf,
+      if (discussionToResolve != null)
+        "discussion_to_resolve": discussionToResolve,
+      if (weight != null) "weight": weight,
+      if (epicId != null) "epic_id": epicId,
+    };
+
+    final uri = _project.buildUri(
+      ['issues', issueIid.toString()],
+      queryParameters: queryParameters,
+    );
+
+    final json = await _gitLab.request(
+      uri,
+      method: HttpMethod.put,
+    ) as Map<String, dynamic>;
+
+    return Issue.fromJson(json);
+  }
+
+  /// Deletes an existing issue.
+  ///
+  /// See https://docs.gitlab.com/ee/api/issues.html#delete-an-issue
+  Future<void> delete(int issueIid) async {
+    final uri = _project.buildUri(
+      ['issues', issueIid.toString()],
+    );
+
+    await _gitLab.request(uri, method: HttpMethod.delete, asJson: false);
+  }
 }
 
 enum IssueState { opened, closed }

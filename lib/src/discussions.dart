@@ -81,7 +81,6 @@ class IssueDiscussionsApi {
       ['issues', _iid, 'discussions', discussionId, 'notes', noteId.toString()],
       queryParameters: {"body": body},
     );
-    print(uri);
 
     final json = await _gitLab.request(uri, method: HttpMethod.put)
         as Map<String, dynamic>;

@@ -1,3 +1,8 @@
+## 0.6.0
+
+- Extended API for Issues (Add, Update, Delete).
+- Extended API for Merge Requests (Add, Update, Delete).
+
 ## 0.5.0
 
 - Introduced Notes API for Issues.
