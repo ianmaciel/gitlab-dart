@@ -81,19 +81,19 @@ void main() {
       expect(discussions, hasLength(2));
       expect(discussions.first.id, discussionId);
     });
-    test('.add()', () async {
+    test('.create()', () async {
       final call = mockHttpClient.configureCall(
         path: '/projects/$projectId/issues/${issue.iid}/discussions?body=Hello',
         method: HttpMethod.post,
         responseBody: data.newDiscussion,
       );
 
-      final discussion = await issueDiscussions.add("Hello");
+      final discussion = await issueDiscussions.create("Hello");
 
       call.verifyCalled(1);
       expect(discussion.notes.first.body, "Hello");
     });
-    test('.add(discussionId)', () async {
+    test('.addNote(discussionId)', () async {
       final call = mockHttpClient.configureCall(
         path:
             '/projects/$projectId/issues/${issue.iid}/discussions/$discussionId/notes?body=Hello',

@@ -46,7 +46,7 @@ class IssueDiscussionsApi {
   /// Adds a new discussion to an issue.
   ///
   /// See https://docs.gitlab.com/ee/api/discussions.html#create-new-issue-thread
-  Future<Discussion> add(String body) async {
+  Future<Discussion> create(String body) async {
     final uri = _project.buildUri(
       ['issues', _iid, 'discussions'],
       queryParameters: {"body": body},
@@ -89,7 +89,7 @@ class IssueDiscussionsApi {
     return Note.fromJson(json);
   }
 
-  /// Deletes an existing note pf an issue-discussion.
+  /// Deletes an existing note of an issue-discussion.
   ///
   /// See https://docs.gitlab.com/ee/api/notes.html#delete-an-issue-note
   Future<void> deleteNote(String discussionId, int noteId) async {
