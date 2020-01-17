@@ -1,3 +1,9 @@
+## 0.5.0
+
+- Introduced Notes API for Issues.
+- Introduced Discussion API for Issues.
+- Added assumeUtf8 to GitLab (optional, but activated by default) to parse responses correctly.
+
 ## 0.4.2
 
 - Upgrade dependencies

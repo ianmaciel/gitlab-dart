@@ -1,7 +1,4 @@
-import 'dart:async';
-
 import 'package:gitlab/gitlab.dart';
-import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 
 import 'assets/json_data.dart' as data;
@@ -9,30 +6,20 @@ import 'src/mocks.dart';
 
 void main() {
   group('JobsApi', () {
+    MockGitLabHttpClient mockHttpClient;
+    GitLab gitLab;
+    ProjectsApi project;
+
     // Constants
     final projectId = 1337;
-    final headers = {'PRIVATE-TOKEN': 'secret-token'};
 
     final jobMap = data.decodeMap(data.job);
     final jobId = jobMap['id'] as int;
 
-    // Mocks
-    final mockHttpClient = MockGitLabHttpClient();
-    final mockResponse = MockResponse();
-
-    // The objects being tested
-    final gitLab = getTestable(mockHttpClient);
-    final project = gitLab.project(projectId);
-
     setUp(() {
-      clearInteractions(mockHttpClient);
-      clearInteractions(mockResponse);
-
-      // Always return the response. The test should check whether the
-      // arguments were correct.
-      when(mockHttpClient.request(any, any, any))
-          .thenAnswer((_) => new Future.value(mockResponse));
-      when(mockResponse.statusCode).thenReturn(200);
+      mockHttpClient = MockGitLabHttpClient();
+      gitLab = getTestable(mockHttpClient);
+      project = gitLab.project(projectId);
     });
 
     test('Job class properly maps the JSON', () async {
@@ -44,19 +31,25 @@ void main() {
     });
 
     test('.get()', () async {
-      final uri = Uri.parse(
-          'https://gitlab.com/api/v4/projects/$projectId/jobs/$jobId');
-      when(mockResponse.body).thenReturn(data.job);
+      final call = mockHttpClient.configureCall(
+        path: '/projects/$projectId/jobs/$jobId',
+        responseBody: data.job,
+      );
+
       final job = await project.jobs.get(jobId);
-      verify(mockHttpClient.request(uri, headers, HttpMethod.get)).called(1);
+
+      call.verifyCalled(1);
       expect(job.id, jobId);
     });
     test('.list()', () async {
-      final uri =
-          Uri.parse('https://gitlab.com/api/v4/projects/$projectId/jobs?');
-      when(mockResponse.body).thenReturn(data.jobs);
+      final call = mockHttpClient.configureCall(
+        path: '/projects/$projectId/jobs?',
+        responseBody: data.jobs,
+      );
+
       final jobs = await project.jobs.list();
-      verify(mockHttpClient.request(uri, headers, HttpMethod.get)).called(1);
+
+      call.verifyCalled(1);
       expect(jobs, hasLength(2));
     });
   });

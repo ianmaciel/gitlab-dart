@@ -14,6 +14,44 @@ class ProjectsApi {
   IssuesApi _issuesApi;
   IssuesApi get issues => _issuesApi ??= new IssuesApi(_gitLab, this);
 
+  /// Get the [IssueNotesApi] for an [issue].
+  ///
+  /// This call doesn't do anything by itself, other than return the
+  /// configured object.
+  /// You can safely store the returned object and reuse it.
+  IssueNotesApi issueNotes(Issue issue) => issueNotesByIid(issue.iid);
+
+  /// Get the [IssueNotesApi] for an [issueIid].
+  ///
+  /// This call doesn't do anything by itself, other than return the
+  /// configured object.
+  /// You can safely store the returned object and reuse it.
+  IssueNotesApi issueNotesByIid(int issueIid) => IssueNotesApi(
+        _gitLab,
+        this,
+        issueIid,
+      );
+
+  /// Get the [IssueDiscussionsApi] for an [issue].
+  ///
+  /// This call doesn't do anything by itself, other than return the
+  /// configured object.
+  /// You can safely store the returned object and reuse it.
+  IssueDiscussionsApi issueDiscussions(Issue issue) =>
+      issueDiscussionsByIid(issue.iid);
+
+  /// Get the [IssueDiscussionsApi] for an [issueIid].
+  ///
+  /// This call doesn't do anything by itself, other than return the
+  /// configured object.
+  /// You can safely store the returned object and reuse it.
+  IssueDiscussionsApi issueDiscussionsByIid(int issueIid) =>
+      IssueDiscussionsApi(
+        _gitLab,
+        this,
+        issueIid,
+      );
+
   SnippetsApi _snippetsApi;
   SnippetsApi get snippets => _snippetsApi ??= new SnippetsApi(_gitLab, this);
 

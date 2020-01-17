@@ -1,7 +1,4 @@
-import 'dart:async';
-
 import 'package:gitlab/gitlab.dart';
-import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 
 import 'assets/json_data.dart' as data;
@@ -10,23 +7,17 @@ import 'src/mocks.dart';
 void main() {
   group('MergeRequestsApi', () {
     MockGitLabHttpClient mockHttpClient;
-    MockResponse mockResponse;
     GitLab gitLab;
     ProjectsApi project;
 
     final projectId = 1337;
-    final headers = {'PRIVATE-TOKEN': 'secret-token'};
 
     final mergeRequestsMap = data.decodeMap(data.mergeRequest);
     final mergeRequestId = mergeRequestsMap['id'] as int;
     final mergeRequestIid = mergeRequestsMap['iid'] as int;
 
     setUp(() {
-      mockResponse = new MockResponse();
       mockHttpClient = new MockGitLabHttpClient();
-
-      when(mockHttpClient.request(any, any, any))
-          .thenAnswer((_) => new Future.value(mockResponse));
 
       gitLab = getTestable(mockHttpClient);
       project = gitLab.project(projectId);
@@ -56,21 +47,25 @@ void main() {
     });
 
     test('.get()', () async {
-      final uri = Uri.parse('https://gitlab.com/api/v4'
-          '/projects/$projectId/merge_requests/$mergeRequestIid');
-      when(mockResponse.statusCode).thenReturn(200);
-      when(mockResponse.body).thenReturn(data.mergeRequest);
+      final call = mockHttpClient.configureCall(
+        path: '/projects/$projectId/merge_requests/$mergeRequestIid',
+        responseBody: data.mergeRequest,
+      );
+
       final mergeRequest = await project.mergeRequests.get(mergeRequestId);
-      verify(mockHttpClient.request(uri, headers, HttpMethod.get)).called(1);
+
+      call.verifyCalled(1);
       expect(mergeRequest.id, mergeRequestId);
     });
     test('.list()', () async {
-      final uri = Uri.parse('https://gitlab.com/api/v4'
-          '/projects/$projectId/merge_requests?');
-      when(mockResponse.statusCode).thenReturn(200);
-      when(mockResponse.body).thenReturn(data.mergeRequests);
+      final call = mockHttpClient.configureCall(
+        path: '/projects/$projectId/merge_requests?',
+        responseBody: data.mergeRequests,
+      );
+
       final mergeRequests = await project.mergeRequests.list();
-      verify(mockHttpClient.request(uri, headers, HttpMethod.get)).called(1);
+
+      call.verifyCalled(1);
       expect(mergeRequests, hasLength(1));
     });
   });
