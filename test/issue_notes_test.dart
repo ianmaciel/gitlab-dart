@@ -27,7 +27,7 @@ void main() {
         final authorJson = noteJson["author"] as Map<String, dynamic>;
 
         final Note note = Note.fromJson(noteJson);
-        final Author author = note.author;
+        final User author = note.author;
 
         expect(note.id, noteJson['id']);
         expect(note.type, noteJson['type']);

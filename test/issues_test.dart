@@ -35,6 +35,8 @@ void main() {
       expect(issue.labels, issueMap['labels']);
 
       expect(issue.webUrl, issueMap['web_url']);
+      expect(issue.author.id, issueMap['author']['id']);
+      expect(issue.assignees[0].id, issueMap['assignees'][0]['id']);
 
       expect(issue.createdAt, DateTime.parse(issueMap['created_at'] as String));
       expect(issue.updatedAt, DateTime.parse(issueMap['updated_at'] as String));

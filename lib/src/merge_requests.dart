@@ -161,6 +161,17 @@ class MergeRequest {
   String get description => originalJson['description'] as String;
   String get webUrl => originalJson['web_url'] as String;
 
+
+  User get author => originalJson['author'] == null
+      ? null
+      : User.fromJson(originalJson['author'] as Map<String, dynamic>);
+
+  List<User> get assignees => originalJson['assignees'] == null
+      ? []
+      : (originalJson['assignees'] as List)
+      .map((json) => User.fromJson(json as Map<String, dynamic>))
+      .toList(growable: false);
+
   @override
   String toString() => 'MergeRequest id#$id iid#$iid ($title)';
 }

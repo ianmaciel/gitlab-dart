@@ -97,7 +97,7 @@ class Note {
       : id = note.getIntOrNull("id"),
         type = note.getStringOrNull("type"),
         body = note.getStringOrNull("body"),
-        author = Author.fromJson(note.getJsonMap("author")),
+        author = User.fromJson(note.getJsonMap("author")),
         createdAt = note.getISODateTimeOrNull("created_at"),
         updatedAt = note.getISODateTimeOrNull("updated_at"),
         isSystemNote = note.getBoolOrNull("system"),
@@ -114,7 +114,7 @@ class Note {
   String type;
   String body;
 
-  Author author;
+  User author;
 
   DateTime createdAt;
   DateTime updatedAt;
@@ -126,14 +126,14 @@ class Note {
   int noteableIid;
 }
 
-class Author {
-  Author.fromJson(Map<String, dynamic> author)
-      : id = author.getIntOrNull("id"),
-        name = author.getStringOrNull("name"),
-        username = author.getStringOrNull("username"),
-        state = author.getStringOrNull("state"),
-        avatarUrl = author.getStringOrNull("avatar_url"),
-        webUrl = author.getStringOrNull("web_url");
+class User {
+  User.fromJson(Map<String, dynamic> user)
+      : id = user.getIntOrNull("id"),
+        name = user.getStringOrNull("name"),
+        username = user.getStringOrNull("username"),
+        state = user.getStringOrNull("state"),
+        avatarUrl = user.getStringOrNull("avatar_url"),
+        webUrl = user.getStringOrNull("web_url");
 
   final int id;
   String name;

@@ -36,6 +36,9 @@ void main() {
       expect(mergeRequest.title, mergeRequestsMap['title']);
       expect(mergeRequest.state, mergeRequestsMap['state']);
 
+      expect(mergeRequest.author.id, mergeRequestsMap['author']['id']);
+      expect(mergeRequest.assignees[0].id, mergeRequestsMap['assignees'][0]['id']);
+
       expect(mergeRequest.labels, mergeRequestsMap['labels']);
       expect(mergeRequest.labels, ["No Promotion"]);
 

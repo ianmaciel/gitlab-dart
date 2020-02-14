@@ -173,6 +173,16 @@ class Issue {
   List<String> get labels => (originalJson['labels'] as List).cast<String>();
   String get webUrl => originalJson['web_url'] as String;
 
+  User get author => originalJson['author'] == null
+      ? null
+      : User.fromJson(originalJson['author'] as Map<String, dynamic>);
+
+  List<User> get assignees => originalJson['assignees'] == null
+      ? []
+      : (originalJson['assignees'] as List)
+        .map((json) => User.fromJson(json as Map<String, dynamic>))
+      .toList(growable: false);
+
   DateTime get createdAt =>
       DateTime.parse(originalJson['created_at'] as String);
   DateTime get updatedAt =>
