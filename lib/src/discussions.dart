@@ -107,9 +107,9 @@ class Discussion {
         notes = Note.fromJsonList(discussion["notes"] as List);
 
   static List<Discussion> fromJsonList(List discussions) => discussions
-      .map((n) => n is Map<String, dynamic> ? Discussion.fromJson(n) : null)
-      .where((discussion) => discussion != null)
-      .toList();
+      ?.map((n) => n is Map<String, dynamic> ? Discussion.fromJson(n) : null)
+      ?.where((discussion) => discussion != null)
+      ?.toList();
 
   final String id;
   bool isIndividualNote;

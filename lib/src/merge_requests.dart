@@ -23,9 +23,9 @@ class MergeRequestsApi {
       List<int> iids}) async {
     final queryParameters = <String, dynamic>{};
 
-    if (state != null) queryParameters['state'] = _enumToString(state);
-    if (orderBy != null) queryParameters['order_by'] = _enumToString(orderBy);
-    if (sort != null) queryParameters['sort'] = _enumToString(sort);
+    if (state != null) queryParameters['state'] = enumToString(state);
+    if (orderBy != null) queryParameters['order_by'] = enumToString(orderBy);
+    if (sort != null) queryParameters['sort'] = enumToString(sort);
     if (iids != null && iids.isNotEmpty) {
       queryParameters['iids[]'] = iids.map((iid) => iid.toString());
     }

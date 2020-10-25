@@ -29,10 +29,10 @@ class JobsApi {
 
     if (scopes != null && scopes.isNotEmpty) {
       if (scopes.length == 1) {
-        queryParameters['scope'] = _enumToString(scopes.first);
+        queryParameters['scope'] = enumToString(scopes.first);
       } else {
         for (var i = 0; i < scopes.length; i++) {
-          queryParameters['scope[$i]'] = _enumToString(scopes[i]);
+          queryParameters['scope[$i]'] = enumToString(scopes[i]);
         }
       }
     }

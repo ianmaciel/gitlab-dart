@@ -81,7 +81,7 @@ void main() {
       expect(discussions, hasLength(2));
       expect(discussions.first.id, discussionId);
     });
-    test('.add()', () async {
+    test('.create()', () async {
       final call = mockHttpClient.configureCall(
         path: '/projects/$projectId/issues/${issue.iid}/discussions?body=Hello',
         method: HttpMethod.post,
@@ -93,7 +93,7 @@ void main() {
       call.verifyCalled(1);
       expect(discussion.notes.first.body, "Hello");
     });
-    test('.add(discussionId)', () async {
+    test('.create(discussionId)', () async {
       final call = mockHttpClient.configureCall(
         path:
             '/projects/$projectId/issues/${issue.iid}/discussions/$discussionId/notes?body=Hello',
