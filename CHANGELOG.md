@@ -2,6 +2,7 @@
 
 - Extended API for Issues (Add, Update, Delete).
 - Extended API for Merge Requests (Add, Update, Delete).
+- Introduced Releases API for Releases.
 
 ## 0.5.0
 
