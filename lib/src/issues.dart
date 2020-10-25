@@ -163,14 +163,19 @@ class Issue {
   Issue.fromJson(this.originalJson);
 
   int get projectId => originalJson['project_id'] as int;
+
   int get id => originalJson['id'] as int;
+
   int get iid => originalJson['iid'] as int;
 
   String get title => originalJson['title'] as String;
+
   String get description => originalJson['description'] as String;
 
   String get state => originalJson['state'] as String;
+
   List<String> get labels => (originalJson['labels'] as List).cast<String>();
+
   String get webUrl => originalJson['web_url'] as String;
 
   User get author => originalJson['author'] == null
@@ -180,21 +185,25 @@ class Issue {
   List<User> get assignees => originalJson['assignees'] == null
       ? []
       : (originalJson['assignees'] as List)
-        .map((json) => User.fromJson(json as Map<String, dynamic>))
-      .toList(growable: false);
+          .map((json) => User.fromJson(json as Map<String, dynamic>))
+          .toList(growable: false);
 
   DateTime get createdAt =>
       DateTime.parse(originalJson['created_at'] as String);
+
   DateTime get updatedAt =>
       DateTime.parse(originalJson['updated_at'] as String);
 
   bool get subscribed => originalJson['subscribed'] as bool;
+
   int get userNotesCount => originalJson['user_notes_count'] as int;
+
   DateTime get dueDate => originalJson['due_date'] == null
       ? null
       : DateTime.parse(originalJson['due_date'] as String);
 
   bool get confidential => originalJson['confidential'] as bool;
+
   int get weight => originalJson['weight'] as int;
 
   @override

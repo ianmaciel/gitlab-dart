@@ -149,18 +149,28 @@ class MergeRequest {
   MergeRequest.fromJson(this.originalJson);
 
   int get id => originalJson['id'] as int;
-  int get iid => originalJson['iid'] as int;
-  String get targetBranch => originalJson['target_branch'] as String;
-  String get sourceBranch => originalJson['source_branch'] as String;
-  int get projectId => originalJson['project_id'] as int;
-  String get title => originalJson['title'] as String;
-  String get state => originalJson['state'] as String;
-  List<String> get labels => (originalJson['labels'] as List).cast<String>();
-  int get upvotes => originalJson['upvotes'] as int;
-  int get downvotes => originalJson['downvotes'] as int;
-  String get description => originalJson['description'] as String;
-  String get webUrl => originalJson['web_url'] as String;
 
+  int get iid => originalJson['iid'] as int;
+
+  String get targetBranch => originalJson['target_branch'] as String;
+
+  String get sourceBranch => originalJson['source_branch'] as String;
+
+  int get projectId => originalJson['project_id'] as int;
+
+  String get title => originalJson['title'] as String;
+
+  String get state => originalJson['state'] as String;
+
+  List<String> get labels => (originalJson['labels'] as List).cast<String>();
+
+  int get upvotes => originalJson['upvotes'] as int;
+
+  int get downvotes => originalJson['downvotes'] as int;
+
+  String get description => originalJson['description'] as String;
+
+  String get webUrl => originalJson['web_url'] as String;
 
   User get author => originalJson['author'] == null
       ? null
@@ -169,8 +179,8 @@ class MergeRequest {
   List<User> get assignees => originalJson['assignees'] == null
       ? []
       : (originalJson['assignees'] as List)
-      .map((json) => User.fromJson(json as Map<String, dynamic>))
-      .toList(growable: false);
+          .map((json) => User.fromJson(json as Map<String, dynamic>))
+          .toList(growable: false);
 
   @override
   String toString() => 'MergeRequest id#$id iid#$iid ($title)';

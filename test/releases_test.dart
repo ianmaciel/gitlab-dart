@@ -42,7 +42,7 @@ void main() {
         expect(release.descriptionHtml, releaseJson['description_html']);
         expect(release.name, releaseJson['name']);
 
-        final Author author = release.author;
+        final User author = release.author;
         expect(author.id, authorJson['id']);
         expect(author.name, authorJson['name']);
         expect(author.state, authorJson['state']);

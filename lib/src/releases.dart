@@ -132,7 +132,7 @@ class Release {
         name = release.getStringOrNull("name"),
         createdAt = release.getISODateTimeOrNull("created_at"),
         releasedAt = release.getISODateTimeOrNull("released_at"),
-        author = Author.fromJson(release.getJsonMap("author")),
+        author = User.fromJson(release.getJsonMap("author")),
         commit = Commit.fromJson(release.getJsonMap("commit")),
         milestones = Milestone.fromJsonList(release["milestones"] as List),
         assets = Asset.fromJson(release.getJsonMap("assets")),
@@ -149,7 +149,7 @@ class Release {
   String description;
   String descriptionHtml;
   String name;
-  Author author;
+  User author;
   DateTime createdAt;
   DateTime releasedAt;
   String commitPath;
