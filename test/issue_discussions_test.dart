@@ -88,12 +88,12 @@ void main() {
         responseBody: data.newDiscussion,
       );
 
-      final discussion = await issueDiscussions.add("Hello");
+      final discussion = await issueDiscussions.create("Hello");
 
       call.verifyCalled(1);
       expect(discussion.notes.first.body, "Hello");
     });
-    test('.create(discussionId)', () async {
+    test('.addNote(discussionId)', () async {
       final call = mockHttpClient.configureCall(
         path:
             '/projects/$projectId/issues/${issue.iid}/discussions/$discussionId/notes?body=Hello',

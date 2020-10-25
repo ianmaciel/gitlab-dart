@@ -50,7 +50,7 @@ class IssueNotesApi {
   /// Adds a note to an issue.
   ///
   /// See https://docs.gitlab.com/ee/api/notes.html#create-new-issue-note
-  Future<Note> add(String body) async {
+  Future<Note> create(String body) async {
     final uri = _project.buildUri(
       ['issues', _iid, 'notes'],
       queryParameters: {"body": body},

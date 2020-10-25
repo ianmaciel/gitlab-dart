@@ -73,14 +73,14 @@ void main() {
       expect(notes, hasLength(2));
       expect(notes.first.id, 302);
     });
-    test('.add()', () async {
+    test('.create()', () async {
       final call = mockHttpClient.configureCall(
         path: '/projects/$projectId/issues/${issue.iid}/notes?body=Hello',
         method: HttpMethod.post,
         responseBody: data.newNote,
       );
 
-      final note = await issueNotes.add("Hello");
+      final note = await issueNotes.create("Hello");
 
       call.verifyCalled(1);
       expect(note.body, "Hello");
