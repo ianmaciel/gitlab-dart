@@ -33,6 +33,9 @@ part 'src/merge_requests.dart';
 part 'src/notes.dart';
 part 'src/pipelines.dart';
 part 'src/projects.dart';
+part 'src/releases.dart';
+part 'src/milestones.dart';
+part 'src/assets.dart';
 part 'src/snippets.dart';
 part 'src/utils.dart';
 

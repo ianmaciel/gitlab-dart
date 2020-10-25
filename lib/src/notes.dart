@@ -21,8 +21,8 @@ class IssueNotesApi {
   }) async {
     final queryParameters = <String, dynamic>{};
 
-    if (orderBy != null) queryParameters['order_by'] = _enumToString(orderBy);
-    if (sort != null) queryParameters['sort'] = _enumToString(sort);
+    if (orderBy != null) queryParameters['order_by'] = enumToString(orderBy);
+    if (sort != null) queryParameters['sort'] = enumToString(sort);
 
     final uri = _project.buildUri(
       ['issues', _iid, 'notes'],
@@ -106,9 +106,9 @@ class Note {
         noteableIid = note.getIntOrNull("noteable_iid");
 
   static List<Note> fromJsonList(List notes) => notes
-      .map((n) => n is Map<String, dynamic> ? Note.fromJson(n) : null)
-      .where((note) => note != null)
-      .toList();
+      ?.map((n) => n is Map<String, dynamic> ? Note.fromJson(n) : null)
+      ?.where((note) => note != null)
+      ?.toList();
 
   final int id;
   String type;
