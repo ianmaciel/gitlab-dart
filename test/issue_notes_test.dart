@@ -6,9 +6,9 @@ import 'src/mocks.dart';
 
 void main() {
   group('NotesApi for Issues', () {
-    MockGitLabHttpClient mockHttpClient;
+    late MockGitLabHttpClient mockHttpClient;
     GitLab gitLab;
-    IssueNotesApi issueNotes;
+    late IssueNotesApi issueNotes;
 
     final projectId = 1337;
     final issue = Issue.fromJson(data.decodeMap(data.issue));
@@ -22,7 +22,7 @@ void main() {
     });
 
     test('Note class properly maps the JSON', () async {
-      for (var item in notesJson) {
+      for (var item in notesJson!) {
         final noteJson = item as Map<String, dynamic>;
         final authorJson = noteJson["author"] as Map<String, dynamic>;
 
@@ -71,7 +71,7 @@ void main() {
 
       call.verifyCalled(1);
       expect(notes, hasLength(2));
-      expect(notes.first.id, 302);
+      expect(notes.first!.id, 302);
     });
     test('.create()', () async {
       final call = mockHttpClient.configureCall(

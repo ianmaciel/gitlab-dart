@@ -1,9 +1,9 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:grinder/grinder.dart';
 import 'package:logging/logging.dart';
-import 'package:grind_publish/grind_publish.dart' as grind_publish;
+// TODO: grind_publish does not support nul safety
+// import 'package:grind_publish/grind_publish.dart' as grind_publish;
 
 const _lineLength = 80;
 
@@ -21,19 +21,42 @@ Future unitTest() => new TestRunner().testAsync(concurrency: 4);
 
 @Task('Runs dartanalyzer and makes sure there are no warnings or lint proplems')
 Future<Null> analyze() async {
-  await runAsync('dartanalyzer',
-      arguments: ['.', '--fatal-hints', '--fatal-warnings', '--fatal-lints']);
+  await runAsync(
+    'dart',
+    arguments: [
+      'analyze',
+      '.',
+      '--fatal-warnings',
+      '--fatal-infos',
+    ],
+  );
 }
 
 @Task()
 void checkFormat() {
-  if (DartFmt.dryRun(new Directory('.'), lineLength: _lineLength))
+  try {
+    Dart.run('format', arguments: <String>[
+      '--line-length',
+      _lineLength.toString(),
+      '--output=none',
+      '--set-exit-if-changed',
+      '.',
+    ]);
+  } on ProcessException {
     fail('Code is not properly formatted. Run `grind format`');
+  }
 }
 
 @Task()
-void format() => DartFmt.format(new Directory('.'), lineLength: _lineLength);
+void format() => Dart.run('format', arguments: <String>[
+      '--line-length',
+      _lineLength.toString(),
+      '.',
+    ]);
 
 @Task()
-Future autoPublish() => grind_publish.autoPublish(
-    'gitlab', grind_publish.Credentials.fromEnvironment());
+Future autoPublish() =>
+    // TODO: grind_publish does not support nul safety
+    // grind_publish.autoPublish(
+    //     'gitlab', grind_publish.Credentials.fromEnvironment());
+    Future<bool>.value(true);

@@ -3,8 +3,8 @@ import 'dart:convert';
 export 'json_issue_discussion_data.dart';
 export 'json_issue_notes_data.dart';
 
-Map decodeMap(String json) => jsonDecode(json) as Map;
-List decodeList(String json) => jsonDecode(json) as List;
+Map? decodeMap(String json) => jsonDecode(json) as Map?;
+List? decodeList(String json) => jsonDecode(json) as List?;
 
 const job = '''
 {

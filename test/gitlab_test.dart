@@ -4,8 +4,8 @@ import 'src/mocks.dart';
 
 void main() {
   group('GitLab', () {
-    MockGitLabHttpClient mockHttpClient;
-    GitLab gitLab;
+    MockGitLabHttpClient? mockHttpClient;
+    late GitLab gitLab;
 
     setUp(() {
       gitLab = getTestable(mockHttpClient);

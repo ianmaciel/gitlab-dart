@@ -6,15 +6,15 @@ import 'src/mocks.dart';
 
 void main() {
   group('MergeRequestsApi', () {
-    MockGitLabHttpClient mockHttpClient;
+    late MockGitLabHttpClient mockHttpClient;
     GitLab gitLab;
-    ProjectsApi project;
+    late ProjectsApi project;
 
     final projectId = 1337;
 
-    final mergeRequestsMap = data.decodeMap(data.mergeRequest);
+    final mergeRequestsMap = data.decodeMap(data.mergeRequest)!;
     final mergeRequestId = mergeRequestsMap['id'] as int;
-    final mergeRequestIid = mergeRequestsMap['iid'] as int;
+    final mergeRequestIid = mergeRequestsMap['iid'] as int?;
 
     setUp(() {
       mockHttpClient = new MockGitLabHttpClient();

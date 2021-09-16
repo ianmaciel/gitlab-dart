@@ -18,7 +18,7 @@ class Call {
 
 class MockGitLabHttpClient extends Mock implements GitLabHttpClient {
   Call configureCall(
-      {String path,
+      {String? path,
       HttpMethod method = HttpMethod.get,
       int responseStatusCode = 200,
       String responseBody = ""}) {

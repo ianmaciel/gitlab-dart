@@ -1,20 +1,22 @@
 name: gitlab
 # Increasing this version number *automatically* publishes this package
 # when merged into master.
-version: 0.5.0
+version: 0.6.0
 description: A library to communicate with the GitLab API
 homepage: https://gitlab.com/exitlive/gitlab-dart
-author: Matias Meno <m@tias.me>
+# warning - pubspec.yaml:7:1 - The 'author' field is no longer used and can be removed. Try removing the field. - deprecated_field
+#author: Matias Meno <m@tias.me>
 environment:
-  sdk: ">=2.6.0 <3.0.0"
+  sdk: '>=2.12.0 <3.0.0'
 dependencies:
-  http: ^0.12.0
-  logging: ^0.11.0
-  intl: ^0.15.6
-  meta: ^1.1.6
+  http: ^0.13.3
+  logging: ^1.0.2
+  intl: ^0.17.0
+  meta: ^1.7.0
 dev_dependencies:
-  test: ^1.5.0
-  path: ^1.6.0
-  mockito: ^3.0.0
-  grinder: ^0.8.1
-  grind_publish: ^0.0.5
+  test: ^1.17.12
+  path: ^1.8.0
+  mockito: ^5.0.16
+  grinder: ^0.9.0
+  # TODO: grind_publish does not support null safety
+  #grind_publish: ^0.0.5

@@ -7,7 +7,7 @@ part of exitlive.gitlab;
 String _enumToString(dynamic enumValue) {
   final value = enumValue.toString().split('.').last;
   value.replaceAllMapped(
-      new RegExp(r'([A-Z])'), (match) => '_${match.group(1).toLowerCase()}');
+      new RegExp(r'([A-Z])'), (match) => '_${match.group(1)!.toLowerCase()}');
   return value;
 }
 

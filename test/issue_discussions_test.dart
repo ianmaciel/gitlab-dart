@@ -6,14 +6,14 @@ import 'src/mocks.dart';
 
 void main() {
   group('DiscussionsApi for Issues', () {
-    MockGitLabHttpClient mockHttpClient;
+    late MockGitLabHttpClient mockHttpClient;
     GitLab gitLab;
-    IssueDiscussionsApi issueDiscussions;
+    late IssueDiscussionsApi issueDiscussions;
 
     final projectId = 1337;
     final issue = Issue.fromJson(data.decodeMap(data.issue));
 
-    final discussionJson = data.decodeList(data.issueDiscussions);
+    final discussionJson = data.decodeList(data.issueDiscussions)!;
     final discussionId = discussionJson.first["id"] as String;
 
     setUp(() {
@@ -32,7 +32,7 @@ void main() {
           final noteJson = noteItem as Map<String, dynamic>;
           final authorJson = noteJson["author"] as Map<String, dynamic>;
 
-          final Note note = discussion.notes[i++];
+          final Note note = discussion.notes[i++]!;
           final Author author = note.author;
 
           expect(note.id, noteJson['id']);
@@ -79,7 +79,7 @@ void main() {
 
       call.verifyCalled(1);
       expect(discussions, hasLength(2));
-      expect(discussions.first.id, discussionId);
+      expect(discussions.first!.id, discussionId);
     });
     test('.create()', () async {
       final call = mockHttpClient.configureCall(
@@ -91,7 +91,7 @@ void main() {
       final discussion = await issueDiscussions.create("Hello");
 
       call.verifyCalled(1);
-      expect(discussion.notes.first.body, "Hello");
+      expect(discussion.notes.first!.body, "Hello");
     });
     test('.addNote(discussionId)', () async {
       final call = mockHttpClient.configureCall(
