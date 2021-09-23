@@ -14,6 +14,20 @@ class IssuesApi {
     return new Issue.fromJson(json);
   }
 
+  Future<Issue> create(Issue issue) async {
+    // TODO fix me, conplete with issues properties
+    final Uri uri = _project.buildUri([
+      'issues'
+    ], queryParameters: {
+      "title": issue.title,
+      "description": issue.description,
+    });
+
+    final json = await _gitLab.request(uri, method: HttpMethod.post) as Map?;
+
+    return new Issue.fromJson(json);
+  }
+
   Future<List<Issue>> closedByMergeRequest(int mergeRequestIid,
       {int? page, int? perPage}) async {
     final uri = _project.buildUri(
@@ -57,8 +71,10 @@ enum IssueOrderBy { createdAt, updatedAt }
 enum IssueSort { asc, desc }
 
 class Issue {
-  final Map? originalJson;
-
+  Map? originalJson;
+  Issue() {
+    originalJson = <String, dynamic>{};
+  }
   Issue.fromJson(this.originalJson);
 
   int? get projectId => originalJson!['project_id'] as int?;
@@ -66,7 +82,9 @@ class Issue {
   int? get iid => originalJson!['iid'] as int?;
 
   String? get title => originalJson!['title'] as String?;
+  set title(String? value) => originalJson!['title'] = value;
   String? get description => originalJson!['description'] as String?;
+  set description(String? value) => originalJson!['description'] = value;
 
   String? get state => originalJson!['state'] as String?;
   List<String> get labels => (originalJson!['labels'] as List).cast<String>();
