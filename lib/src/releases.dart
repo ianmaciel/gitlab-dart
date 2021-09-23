@@ -18,7 +18,7 @@ class ReleasesApi {
   /// Paginated list of Releases, sorted by released_at.
   ///
   /// See https://docs.gitlab.com/ee/api/releases/index.html#list-releases
-  Future<List<Release>> list() async {
+  Future<List<Release?>> list() async {
     final queryParameters = <String, dynamic>{};
     final uri =
         _project.buildUri(['releases'], queryParameters: queryParameters);
@@ -34,9 +34,9 @@ class ReleasesApi {
   Future<Release> createFromTag(
     String tagName,
     String description, {
-    String ref,
-    String name,
-    String milestone,
+    String? ref,
+    String? name,
+    String? milestone,
   }) {
     return _create(description,
         ref: ref, tagName: tagName, name: name, milestone: milestone);
@@ -48,9 +48,9 @@ class ReleasesApi {
   Future<Release> createFromRef(
     String ref,
     String description, {
-    String tagName,
-    String name,
-    String milestone,
+    String? tagName,
+    String? name,
+    String? milestone,
   }) {
     return _create(description,
         ref: ref, tagName: tagName, name: name, milestone: milestone);
@@ -61,10 +61,10 @@ class ReleasesApi {
   /// See https://docs.gitlab.com/ee/api/releases/index.html#create-a-release
   Future<Release> _create(
     String description, {
-    String ref,
-    String tagName,
-    String name,
-    String milestone,
+    String? ref,
+    String? tagName,
+    String? name,
+    String? milestone,
   }) async {
     final queryParameters = <String, dynamic>{
       'description': description,
@@ -90,9 +90,9 @@ class ReleasesApi {
   /// See https://docs.gitlab.com/ee/api/releases/index.html#update-a-release
   Future<Release> update(
     String tagName, {
-    String name,
-    String description,
-    String milestone,
+    String? name,
+    String? description,
+    String? milestone,
   }) async {
     final queryParameters = <String, dynamic>{
       'tag_name': tagName,
@@ -132,30 +132,30 @@ class Release {
         name = release.getStringOrNull("name"),
         createdAt = release.getISODateTimeOrNull("created_at"),
         releasedAt = release.getISODateTimeOrNull("released_at"),
-        author = User.fromJson(release.getJsonMap("author")),
+        author = User.fromJson(release.getJsonMap("author")!),
         commit = Commit.fromJson(release.getJsonMap("commit")),
-        milestones = Milestone.fromJsonList(release["milestones"] as List),
-        assets = Asset.fromJson(release.getJsonMap("assets")),
+        milestones = Milestone.fromJsonList(release["milestones"] as List?),
+        assets = Asset.fromJson(release.getJsonMap("assets")!),
         commitPath = release.getStringOrNull("commit_path"),
         tagPath = release.getStringOrNull("tag_path"),
         evidenceSha = release.getStringOrNull("evidence_sha");
 
-  static List<Release> fromJsonList(List releases) => releases
-      ?.map((r) => r is Map<String, dynamic> ? Release.fromJson(r) : null)
-      ?.where((release) => release != null)
-      ?.toList();
+  static List<Release?> fromJsonList(List releases) => releases
+      .map((r) => r is Map<String, dynamic> ? Release.fromJson(r) : null)
+      .where((release) => release != null)
+      .toList();
 
-  String tagName;
-  String description;
-  String descriptionHtml;
-  String name;
+  String? tagName;
+  String? description;
+  String? descriptionHtml;
+  String? name;
   User author;
-  DateTime createdAt;
-  DateTime releasedAt;
-  String commitPath;
-  String tagPath;
-  String evidenceSha;
+  DateTime? createdAt;
+  DateTime? releasedAt;
+  String? commitPath;
+  String? tagPath;
+  String? evidenceSha;
   Commit commit;
-  List<Milestone> milestones;
+  List<Milestone?>? milestones;
   Asset assets;
 }

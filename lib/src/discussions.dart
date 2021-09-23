@@ -7,15 +7,15 @@ class IssueDiscussionsApi {
   final ProjectsApi _project;
   final String _iid;
 
-  IssueDiscussionsApi(this._gitLab, this._project, int issueIid)
+  IssueDiscussionsApi(this._gitLab, this._project, int? issueIid)
       : _iid = issueIid.toString();
 
   /// Retrieves the list of discussions of an issue.
   ///
   /// See https://docs.gitlab.com/ee/api/discussions.html#list-project-issue-discussion-items
-  Future<List<Discussion>> list({
-    int page,
-    int perPage,
+  Future<List<Discussion?>> list({
+    int? page,
+    int? perPage,
   }) async {
     final queryParameters = <String, dynamic>{};
 
@@ -104,14 +104,14 @@ class Discussion {
   Discussion.fromJson(Map<String, dynamic> discussion)
       : id = discussion.getStringOrNull("id"),
         isIndividualNote = discussion.getBoolOrNull("individual_note"),
-        notes = Note.fromJsonList(discussion["notes"] as List);
+        notes = Note.fromJsonList(discussion["notes"] as List?);
 
-  static List<Discussion> fromJsonList(List discussions) => discussions
-      ?.map((n) => n is Map<String, dynamic> ? Discussion.fromJson(n) : null)
-      ?.where((discussion) => discussion != null)
-      ?.toList();
+  static List<Discussion?> fromJsonList(List discussions) => discussions
+      .map((n) => n is Map<String, dynamic> ? Discussion.fromJson(n) : null)
+      .where((discussion) => discussion != null)
+      .toList();
 
-  final String id;
-  bool isIndividualNote;
-  List<Note> notes;
+  final String? id;
+  bool? isIndividualNote;
+  List<Note?>? notes;
 }

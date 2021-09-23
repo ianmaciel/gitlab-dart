@@ -7,17 +7,17 @@ class IssueNotesApi {
   final ProjectsApi _project;
   final String _iid;
 
-  IssueNotesApi(this._gitLab, this._project, int issueIid)
+  IssueNotesApi(this._gitLab, this._project, int? issueIid)
       : _iid = issueIid.toString();
 
   /// Retrieves the list of notes of an issue.
   ///
   /// See https://docs.gitlab.com/ee/api/notes.html#list-project-issue-notes
-  Future<List<Note>> list({
-    NoteOrderBy orderBy,
-    NoteSort sort,
-    int page,
-    int perPage,
+  Future<List<Note?>?> list({
+    NoteOrderBy? orderBy,
+    NoteSort? sort,
+    int? page,
+    int? perPage,
   }) async {
     final queryParameters = <String, dynamic>{};
 
@@ -97,7 +97,7 @@ class Note {
       : id = note.getIntOrNull("id"),
         type = note.getStringOrNull("type"),
         body = note.getStringOrNull("body"),
-        author = User.fromJson(note.getJsonMap("author")),
+        author = User.fromJson(note.getJsonMap("author")!),
         createdAt = note.getISODateTimeOrNull("created_at"),
         updatedAt = note.getISODateTimeOrNull("updated_at"),
         isSystemNote = note.getBoolOrNull("system"),
@@ -105,25 +105,25 @@ class Note {
         noteableType = note.getStringOrNull("noteable_type"),
         noteableIid = note.getIntOrNull("noteable_iid");
 
-  static List<Note> fromJsonList(List notes) => notes
+  static List<Note?>? fromJsonList(List? notes) => notes
       ?.map((n) => n is Map<String, dynamic> ? Note.fromJson(n) : null)
-      ?.where((note) => note != null)
-      ?.toList();
+      .where((note) => note != null)
+      .toList();
 
-  final int id;
-  String type;
-  String body;
+  final int? id;
+  String? type;
+  String? body;
 
   User author;
 
-  DateTime createdAt;
-  DateTime updatedAt;
+  DateTime? createdAt;
+  DateTime? updatedAt;
 
-  bool isSystemNote;
+  bool? isSystemNote;
 
-  int noteableId;
-  String noteableType;
-  int noteableIid;
+  int? noteableId;
+  String? noteableType;
+  int? noteableIid;
 }
 
 class User {
@@ -135,10 +135,10 @@ class User {
         avatarUrl = user.getStringOrNull("avatar_url"),
         webUrl = user.getStringOrNull("web_url");
 
-  final int id;
-  String name;
-  String username;
-  String state;
-  String avatarUrl;
-  String webUrl;
+  final int? id;
+  String? name;
+  String? username;
+  String? state;
+  String? avatarUrl;
+  String? webUrl;
 }

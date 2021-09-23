@@ -17,20 +17,20 @@ class Milestone {
         startDate = milestone.getISODateTimeOrNull("start_date"),
         webUrl = milestone.getStringOrNull("web_url");
 
-  static List<Milestone> fromJsonList(List milestones) => milestones
+  static List<Milestone?>? fromJsonList(List? milestones) => milestones
       ?.map((m) => m is Map<String, dynamic> ? Milestone.fromJson(m) : null)
-      ?.where((milestone) => milestone != null)
-      ?.toList();
+      .where((milestone) => milestone != null)
+      .toList();
 
-  int id;
-  int iid;
-  int projectId;
-  String title;
-  String description;
-  MilestoneState state;
-  DateTime createdAt;
-  DateTime updatedAt;
-  DateTime dueDate;
-  DateTime startDate;
-  String webUrl;
+  int? id;
+  int? iid;
+  int? projectId;
+  String? title;
+  String? description;
+  MilestoneState? state;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  DateTime? dueDate;
+  DateTime? startDate;
+  String? webUrl;
 }

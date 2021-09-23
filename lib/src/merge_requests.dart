@@ -9,18 +9,18 @@ class MergeRequestsApi {
   Future<MergeRequest> get(int iid) async {
     final uri = _project.buildUri(['merge_requests', '$iid']);
 
-    final json = await _gitLab.request(uri) as Map;
+    final json = await _gitLab.request(uri) as Map?;
 
     return new MergeRequest.fromJson(json);
   }
 
   Future<List<MergeRequest>> list(
-      {MergeRequestState state,
-      MergeRequestOrderBy orderBy,
-      MergeRequestSort sort,
-      int page,
-      int perPage,
-      List<int> iids}) async {
+      {MergeRequestState? state,
+      MergeRequestOrderBy? orderBy,
+      MergeRequestSort? sort,
+      int? page,
+      int? perPage,
+      List<int>? iids}) async {
     final queryParameters = <String, dynamic>{};
 
     if (state != null) queryParameters['state'] = enumToString(state);
@@ -45,14 +45,14 @@ class MergeRequestsApi {
     String title,
     String sourceBranch,
     String targetBranch, {
-    List<int> assigneeIds,
-    String description,
-    int targetProjectId,
-    List<String> labels,
-    int milestoneId,
-    bool removeSourceBranch,
-    bool allowCollaboration,
-    bool squash,
+    List<int>? assigneeIds,
+    String? description,
+    int? targetProjectId,
+    List<String>? labels,
+    int? milestoneId,
+    bool? removeSourceBranch,
+    bool? allowCollaboration,
+    bool? squash,
   }) async {
     final queryParameters = <String, dynamic>{
       "title": title,
@@ -76,7 +76,7 @@ class MergeRequestsApi {
     final json = await _gitLab.request(
       uri,
       method: HttpMethod.post,
-    ) as Map<String, dynamic>;
+    ) as Map<String, dynamic>?;
 
     return MergeRequest.fromJson(json);
   }
@@ -86,17 +86,17 @@ class MergeRequestsApi {
   /// See https://docs.gitlab.com/ee/api/merge_requests.html#update-mr
   Future<MergeRequest> update(
     mergeRequestIid, {
-    String title,
-    String sourceBranch,
-    String targetBranch,
-    List<int> assigneeIds,
-    String description,
-    int targetProjectId,
-    List<String> labels,
-    int milestoneId,
-    bool removeSourceBranch,
-    bool allowCollaboration,
-    bool squash,
+    String? title,
+    String? sourceBranch,
+    String? targetBranch,
+    List<int>? assigneeIds,
+    String? description,
+    int? targetProjectId,
+    List<String>? labels,
+    int? milestoneId,
+    bool? removeSourceBranch,
+    bool? allowCollaboration,
+    bool? squash,
   }) async {
     final queryParameters = <String, dynamic>{
       if (title != null) "title": title,
@@ -122,7 +122,7 @@ class MergeRequestsApi {
     final json = await _gitLab.request(
       uri,
       method: HttpMethod.put,
-    ) as Map<String, dynamic>;
+    ) as Map<String, dynamic>?;
 
     return MergeRequest.fromJson(json);
   }
@@ -144,41 +144,41 @@ enum MergeRequestOrderBy { createdAt, updatedAt }
 enum MergeRequestSort { asc, desc }
 
 class MergeRequest {
-  final Map originalJson;
+  final Map? originalJson;
 
   MergeRequest.fromJson(this.originalJson);
 
-  int get id => originalJson['id'] as int;
+  int? get id => originalJson!['id'] as int?;
 
-  int get iid => originalJson['iid'] as int;
+  int? get iid => originalJson!['iid'] as int?;
 
-  String get targetBranch => originalJson['target_branch'] as String;
+  String? get targetBranch => originalJson!['target_branch'] as String?;
 
-  String get sourceBranch => originalJson['source_branch'] as String;
+  String? get sourceBranch => originalJson!['source_branch'] as String?;
 
-  int get projectId => originalJson['project_id'] as int;
+  int? get projectId => originalJson!['project_id'] as int?;
 
-  String get title => originalJson['title'] as String;
+  String? get title => originalJson!['title'] as String?;
 
-  String get state => originalJson['state'] as String;
+  String? get state => originalJson!['state'] as String?;
 
-  List<String> get labels => (originalJson['labels'] as List).cast<String>();
+  List<String> get labels => (originalJson!['labels'] as List).cast<String>();
 
-  int get upvotes => originalJson['upvotes'] as int;
+  int? get upvotes => originalJson!['upvotes'] as int?;
 
-  int get downvotes => originalJson['downvotes'] as int;
+  int? get downvotes => originalJson!['downvotes'] as int?;
 
-  String get description => originalJson['description'] as String;
+  String? get description => originalJson!['description'] as String?;
 
-  String get webUrl => originalJson['web_url'] as String;
+  String? get webUrl => originalJson!['web_url'] as String?;
 
-  User get author => originalJson['author'] == null
+  User? get author => originalJson!['author'] == null
       ? null
-      : User.fromJson(originalJson['author'] as Map<String, dynamic>);
+      : User.fromJson(originalJson!['author'] as Map<String, dynamic>);
 
-  List<User> get assignees => originalJson['assignees'] == null
+  List<User> get assignees => originalJson!['assignees'] == null
       ? []
-      : (originalJson['assignees'] as List)
+      : (originalJson!['assignees'] as List)
           .map((json) => User.fromJson(json as Map<String, dynamic>))
           .toList(growable: false);
 

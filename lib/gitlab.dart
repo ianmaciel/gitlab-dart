@@ -24,6 +24,7 @@ import 'package:gitlab/src/json_map.ext.dart';
 import 'package:intl/intl.dart';
 import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
+import 'package:collection/collection.dart' show IterableExtension;
 
 part 'src/commits.dart';
 part 'src/discussions.dart';
@@ -72,7 +73,7 @@ class GitLab {
   ///
   final bool assumeUtf8;
 
-  final GitLabHttpClient _httpClient;
+  final GitLabHttpClient? _httpClient;
 
   static const String apiVersion = 'v4';
 
@@ -80,7 +81,7 @@ class GitLab {
       {this.host = 'gitlab.com', this.scheme = 'https', this.assumeUtf8 = true})
       : _httpClient = new GitLabHttpClient();
 
-  GitLab._test(GitLabHttpClient httpClient, this.token,
+  GitLab._test(GitLabHttpClient? httpClient, this.token,
       {this.host: 'gitlab.com', this.scheme: 'https', this.assumeUtf8 = true})
       : _httpClient = httpClient;
 
@@ -94,13 +95,13 @@ class GitLab {
   @visibleForTesting
   Future<dynamic> request(Uri uri,
       {HttpMethod method: HttpMethod.get,
-      String body,
+      String? body,
       bool asJson: true}) async {
     final headers = <String, String>{'PRIVATE-TOKEN': token};
 
     _log.fine('Making GitLab $method request to $uri.');
 
-    final response = await _httpClient.request(uri, headers, method);
+    final response = await _httpClient!.request(uri, headers, method);
 
     if (!(response.statusCode >= 200 && response.statusCode < 300)) {
       throw new GitLabException(response.statusCode, response.body);
@@ -119,7 +120,7 @@ class GitLab {
   /// This function is used internally to build the URIs for API calls.
   @visibleForTesting
   Uri buildUri(Iterable<String> pathSegments,
-      {Map<String, dynamic> queryParameters, int page, int perPage}) {
+      {Map<String, dynamic>? queryParameters, int? page, int? perPage}) {
     dynamic _addQueryParameter(String key, dynamic value) =>
         (queryParameters ??= new Map<String, dynamic>())[key] = '$value';
 
@@ -128,7 +129,7 @@ class GitLab {
     return new Uri(
         scheme: scheme,
         host: host,
-        pathSegments: ['api', apiVersion]..addAll(pathSegments),
+        pathSegments: <String>['api', apiVersion]..addAll(pathSegments),
         queryParameters: queryParameters);
   }
 }
@@ -146,6 +147,6 @@ class GitLabException implements Exception {
 /// A helper function to get a [GitLab] instance with a [GitLabHttpClient] that
 /// can be mocked.
 @visibleForTesting
-GitLab getTestable(GitLabHttpClient httpClient,
+GitLab getTestable(GitLabHttpClient? httpClient,
         [String token = 'secret-token']) =>
     new GitLab._test(httpClient, token);

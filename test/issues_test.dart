@@ -6,13 +6,13 @@ import 'src/mocks.dart';
 
 void main() {
   group('IssuesApi', () {
-    MockGitLabHttpClient mockHttpClient;
+    late MockGitLabHttpClient mockHttpClient;
     GitLab gitLab;
-    ProjectsApi project;
+    late ProjectsApi project;
 
     final projectId = 1337;
 
-    final Map issueMap = data.decodeMap(data.issue);
+    final Map issueMap = data.decodeMap(data.issue)!;
     final issueId = issueMap['id'] as int;
 
     setUp(() {
@@ -35,7 +35,7 @@ void main() {
       expect(issue.labels, issueMap['labels']);
 
       expect(issue.webUrl, issueMap['web_url']);
-      expect(issue.author.id, issueMap['author']['id']);
+      expect(issue.author!.id, issueMap['author']['id']);
       expect(issue.assignees[0].id, issueMap['assignees'][0]['id']);
 
       expect(issue.createdAt, DateTime.parse(issueMap['created_at'] as String));
@@ -46,9 +46,9 @@ void main() {
       expect(issue.userNotesCount, issueMap['user_notes_count']);
 
       expect(issue.dueDate, isNull);
-      issue.originalJson['due_date'] = '2016-01-04T15:31:46.176Z';
+      issue.originalJson!['due_date'] = '2016-01-04T15:31:46.176Z';
       expect(issue.dueDate,
-          DateTime.parse(issue.originalJson['due_date'] as String));
+          DateTime.parse(issue.originalJson!['due_date'] as String));
 
       expect(issue.confidential, issueMap['confidential']);
       expect(issue.weight, issueMap['weight']);

@@ -7,12 +7,12 @@ class ProjectsApi {
 
   ProjectsApi(this._gitLab, this.id);
 
-  MergeRequestsApi _mergeRequestsApi;
+  MergeRequestsApi? _mergeRequestsApi;
 
   MergeRequestsApi get mergeRequests =>
       _mergeRequestsApi ??= new MergeRequestsApi(_gitLab, this);
 
-  IssuesApi _issuesApi;
+  IssuesApi? _issuesApi;
 
   IssuesApi get issues => _issuesApi ??= new IssuesApi(_gitLab, this);
 
@@ -28,7 +28,7 @@ class ProjectsApi {
   /// This call doesn't do anything by itself, other than return the
   /// configured object.
   /// You can safely store the returned object and reuse it.
-  IssueNotesApi issueNotesByIid(int issueIid) => IssueNotesApi(
+  IssueNotesApi issueNotesByIid(int? issueIid) => IssueNotesApi(
         _gitLab,
         this,
         issueIid,
@@ -47,37 +47,37 @@ class ProjectsApi {
   /// This call doesn't do anything by itself, other than return the
   /// configured object.
   /// You can safely store the returned object and reuse it.
-  IssueDiscussionsApi issueDiscussionsByIid(int issueIid) =>
+  IssueDiscussionsApi issueDiscussionsByIid(int? issueIid) =>
       IssueDiscussionsApi(
         _gitLab,
         this,
         issueIid,
       );
 
-  SnippetsApi _snippetsApi;
+  SnippetsApi? _snippetsApi;
 
   SnippetsApi get snippets => _snippetsApi ??= new SnippetsApi(_gitLab, this);
 
-  CommitsApi _commitsApi;
+  CommitsApi? _commitsApi;
 
   CommitsApi get commits => _commitsApi ??= new CommitsApi(_gitLab, this);
 
-  JobsApi _jobsApi;
+  JobsApi? _jobsApi;
 
   JobsApi get jobs => _jobsApi ??= new JobsApi(_gitLab, this);
 
-  PipelinesApi _pipelinesApi;
+  PipelinesApi? _pipelinesApi;
 
   PipelinesApi get pipelines =>
       _pipelinesApi ??= new PipelinesApi(_gitLab, this);
 
-  ReleasesApi _releasesApi;
+  ReleasesApi? _releasesApi;
 
   ReleasesApi get releases => _releasesApi ??= new ReleasesApi(_gitLab, this);
 
   @visibleForTesting
   Uri buildUri(Iterable<String> pathSegments,
-          {Map<String, dynamic> queryParameters, int page, int perPage}) =>
+          {Map<String, dynamic>? queryParameters, int? page, int? perPage}) =>
       _gitLab.buildUri(['projects', '$id']..addAll(pathSegments),
           queryParameters: queryParameters, page: page, perPage: perPage);
 }

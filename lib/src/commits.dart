@@ -9,17 +9,17 @@ class CommitsApi {
   Future<Commit> get(String sha) async {
     final uri = _project.buildUri(['repository', 'commits', '$sha']);
 
-    final json = await _gitLab.request(uri) as Map;
+    final json = await _gitLab.request(uri) as Map?;
 
     return new Commit.fromJson(json);
   }
 
   Future<List<Commit>> list(
-      {String refName,
-      DateTime since,
-      DateTime until,
-      int page,
-      int perPage}) async {
+      {String? refName,
+      DateTime? since,
+      DateTime? until,
+      int? page,
+      int? perPage}) async {
     final queryParameters = <String, dynamic>{};
 
     if (refName != null) queryParameters['ref_name'] = refName;
@@ -36,19 +36,19 @@ class CommitsApi {
 }
 
 class Commit {
-  final Map originalJson;
+  final Map? originalJson;
 
   Commit.fromJson(this.originalJson);
 
-  String get id => originalJson['id'] as String;
-  String get shortId => originalJson['short_id'] as String;
-  String get title => originalJson['title'] as String;
-  String get message => originalJson['message'] as String;
-  String get status => originalJson['status'] as String;
+  String? get id => originalJson!['id'] as String?;
+  String? get shortId => originalJson!['short_id'] as String?;
+  String? get title => originalJson!['title'] as String?;
+  String? get message => originalJson!['message'] as String?;
+  String? get status => originalJson!['status'] as String?;
   DateTime get createdAt =>
-      DateTime.parse(originalJson['created_at'] as String);
+      DateTime.parse(originalJson!['created_at'] as String);
   DateTime get committedDate =>
-      DateTime.parse(originalJson['committed_date'] as String);
+      DateTime.parse(originalJson!['committed_date'] as String);
 
   @override
   String toString() => 'Commit id#$id ($title)';
