@@ -90,7 +90,7 @@ class GitLab {
   ///
   /// This call doesn't do anything by itself, other than return the configured object.
   /// You can safely store the returned object and reuse it.
-  ProjectsApi project(int id) => new ProjectsApi(this, id);
+  ProjectsApi project(int? id) => new ProjectsApi(this, id);
 
   /// Returns the decoded JSON.
   @visibleForTesting
