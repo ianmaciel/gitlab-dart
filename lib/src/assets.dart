@@ -9,12 +9,12 @@ class Asset {
 
   static List<Asset?> fromJsonList(List assets) => assets
       .map((a) => a is Map<String, dynamic> ? Asset.fromJson(a) : null)
-      .where((asset) => asset != null)
+      .whereNotNull()
       .toList();
 
   int? count;
-  List<Source?>? sources;
-  List<Link?>? links;
+  List<Source>? sources;
+  List<Link>? links;
   String? evidenceFilePath;
 }
 
@@ -23,9 +23,9 @@ class Source {
       : format = source.getStringOrNull("format"),
         url = source.getStringOrNull("url");
 
-  static List<Source?>? fromJsonList(List? sources) => sources
+  static List<Source>? fromJsonList(List? sources) => sources
       ?.map((s) => s is Map<String, dynamic> ? Source.fromJson(s) : null)
-      .where((source) => source != null)
+      .whereNotNull()
       .toList();
 
   String? format;
@@ -34,17 +34,17 @@ class Source {
 
 class Link {
   Link.fromJson(Map<String, dynamic> link)
-      : id = link.getIntOrNull("id"),
+      : id = link["id"] as int,
         name = link.getStringOrNull("name"),
         url = link.getStringOrNull("url"),
         external = link.getBoolOrNull("external");
 
-  static List<Link?>? fromJsonList(List? links) => links
+  static List<Link>? fromJsonList(List? links) => links
       ?.map((l) => l is Map<String, dynamic> ? Link.fromJson(l) : null)
-      .where((link) => link != null)
+      .whereNotNull()
       .toList();
 
-  int? id;
+  int id;
   String? name;
   String? url;
   bool? external;

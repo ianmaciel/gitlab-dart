@@ -11,7 +11,7 @@ void main() {
     late IssueNotesApi issueNotes;
 
     final projectId = 1337;
-    final issue = Issue.fromJson(data.decodeMap(data.issue));
+    final issue = Issue.fromJson(data.decodeMap(data.issue)!);
 
     final notesJson = data.decodeList(data.issueNotes);
 
@@ -59,7 +59,7 @@ void main() {
       final note = await issueNotes.get(302);
 
       call.verifyCalled(1);
-      expect(note.id, 302);
+      expect(note!.id, 302);
     });
     test('.list()', () async {
       final call = mockHttpClient.configureCall(
@@ -83,7 +83,7 @@ void main() {
       final note = await issueNotes.create("Hello");
 
       call.verifyCalled(1);
-      expect(note.body, "Hello");
+      expect(note!.body, "Hello");
     });
     test('.update()', () async {
       final call = mockHttpClient.configureCall(
@@ -95,7 +95,7 @@ void main() {
       final note = await issueNotes.update(42, "World");
 
       call.verifyCalled(1);
-      expect(note.body, "World");
+      expect(note!.body, "World");
     });
     test('.delete()', () async {
       final call = mockHttpClient.configureCall(

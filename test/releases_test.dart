@@ -103,7 +103,7 @@ void main() {
 
         expect(asset.sources!.length, sourcesJson.length);
         for (var i = 0; i < asset.sources!.length; i++) {
-          final Source source = asset.sources![i]!;
+          final Source source = asset.sources![i];
           final sourceJson = sourcesJson[i]!;
 
           expect(source.format, sourceJson['format']);
@@ -112,7 +112,7 @@ void main() {
 
         expect(asset.links!.length, linksJson.length);
         for (var i = 0; i < asset.links!.length; i++) {
-          final Link link = asset.links![i]!;
+          final Link link = asset.links![i];
           final linkJson = linksJson[i]!;
 
           expect(link.id, linkJson['id']);
@@ -134,7 +134,7 @@ void main() {
       final release = await project.releases.get(releaseTag);
 
       call.verifyCalled(1);
-      expect(release.tagName, releaseTag);
+      expect(release!.tagName, releaseTag);
     });
 
     test('.list()', () async {
@@ -147,8 +147,8 @@ void main() {
 
       call.verifyCalled(1);
       expect(releases, hasLength(2));
-      expect(releases[0]!.tagName, "v0.2");
-      expect(releases[1]!.tagName, "v0.1");
+      expect(releases[0].tagName, "v0.2");
+      expect(releases[1].tagName, "v0.1");
     });
 
     test('.createFromTag(v0.3)', () async {
@@ -161,7 +161,7 @@ void main() {
       final release = await project.releases.createFromTag("v0.3", "Foo");
 
       call.verifyCalled(1);
-      expect(release.tagName, "v0.3");
+      expect(release!.tagName, "v0.3");
       expect(release.description, "Foo");
     });
 
@@ -176,7 +176,7 @@ void main() {
           await project.releases.createFromRef("9beb86fd4bd", "Foo");
 
       call.verifyCalled(1);
-      expect(release.tagName, "v0.3");
+      expect(release!.tagName, "v0.3");
       expect(release.description, "Foo");
     });
 
@@ -191,7 +191,7 @@ void main() {
           await project.releases.update("v0.3", description: "Foobar");
 
       call.verifyCalled(1);
-      expect(release.tagName, "v0.3");
+      expect(release!.tagName, "v0.3");
       expect(release.description, "Foobar");
     });
 

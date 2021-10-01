@@ -59,7 +59,7 @@ void main() {
       final mergeRequest = await project.mergeRequests.get(mergeRequestId);
 
       call.verifyCalled(1);
-      expect(mergeRequest.id, mergeRequestId);
+      expect(mergeRequest!.id, mergeRequestId);
     });
     test('.list()', () async {
       final call = mockHttpClient.configureCall(
@@ -87,7 +87,7 @@ void main() {
       );
 
       call.verifyCalled(1);
-      expect(mergeRequest.title, "Hello");
+      expect(mergeRequest!.title, "Hello");
     });
     test('.update', () async {
       final call = mockHttpClient.configureCall(
@@ -100,7 +100,7 @@ void main() {
           await project.mergeRequests.update(42, title: "World");
 
       call.verifyCalled(1);
-      expect(mergeRequest.title, "World");
+      expect(mergeRequest!.title, "World");
     });
     test('.update -- change assignees', () async {
       final call = mockHttpClient.configureCall(

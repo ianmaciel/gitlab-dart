@@ -28,7 +28,7 @@ class ProjectsApi {
   /// This call doesn't do anything by itself, other than return the
   /// configured object.
   /// You can safely store the returned object and reuse it.
-  IssueNotesApi issueNotesByIid(int? issueIid) => IssueNotesApi(
+  IssueNotesApi issueNotesByIid(int issueIid) => IssueNotesApi(
         _gitLab,
         this,
         issueIid,
@@ -47,7 +47,7 @@ class ProjectsApi {
   /// This call doesn't do anything by itself, other than return the
   /// configured object.
   /// You can safely store the returned object and reuse it.
-  IssueDiscussionsApi issueDiscussionsByIid(int? issueIid) =>
+  IssueDiscussionsApi issueDiscussionsByIid(int issueIid) =>
       IssueDiscussionsApi(
         _gitLab,
         this,

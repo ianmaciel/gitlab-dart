@@ -4,21 +4,23 @@ extension JsonMap on Map<String, dynamic> {
           ? this[key] as Map<String, dynamic>?
           : <String, dynamic>{};
 
-  int? getIntOrNull(String key) => getIntOr(key, null);
-  int? getIntOr(String key, int? defaultValue) =>
-      this[key] is int ? this[key] as int? : defaultValue;
+  int? getIntOrNull(String key) => this[key] is int ? this[key] as int : null;
+  int getIntOr(String key, int defaultValue) =>
+      getIntOrNull(key) ?? defaultValue;
 
-  String? getStringOrNull(String key) => getStringOr(key, null);
-  String? getStringOr(String key, String? defaultValue) =>
-      this[key] is String ? this[key] as String? : defaultValue;
+  String? getStringOrNull(String key) =>
+      this[key] is String ? this[key] as String : null;
+  String getStringOr(String key, String defaultValue) =>
+      getStringOrNull(key) ?? defaultValue;
 
-  bool? getBoolOrNull(String key) => getBoolOr(key, null);
-  bool? getBoolOr(String key, bool? defaultValue) =>
-      this[key] is bool ? this[key] as bool? : defaultValue;
+  bool? getBoolOrNull(String key) =>
+      this[key] is bool ? this[key] as bool? : null;
+  bool getBoolOr(String key, bool defaultValue) =>
+      getBoolOrNull(key) ?? defaultValue;
 
-  DateTime? getISODateTimeOrNull(String key) => getISODateTimeOr(key, null);
-  DateTime? getISODateTimeOr(String key, DateTime? defaultValue) =>
-      this[key] is String
-          ? DateTime.tryParse(this[key] as String) ?? defaultValue
-          : defaultValue;
+  DateTime? getISODateTimeOrNull(String key) => this[key] is String
+      ? DateTime.tryParse(this[key] as String) ?? null
+      : null;
+  DateTime getISODateTimeOr(String key, DateTime defaultValue) =>
+      getISODateTimeOrNull(key) ?? defaultValue;
 }

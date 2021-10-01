@@ -11,7 +11,7 @@ void main() {
     late IssueDiscussionsApi issueDiscussions;
 
     final projectId = 1337;
-    final issue = Issue.fromJson(data.decodeMap(data.issue));
+    final issue = Issue.fromJson(data.decodeMap(data.issue)!);
 
     final discussionJson = data.decodeList(data.issueDiscussions)!;
     final discussionId = discussionJson.first["id"] as String;
@@ -32,7 +32,7 @@ void main() {
           final noteJson = noteItem as Map<String, dynamic>;
           final authorJson = noteJson["author"] as Map<String, dynamic>;
 
-          final Note note = discussion.notes![i++]!;
+          final Note note = discussion.notes![i++];
           final User author = note.author;
 
           expect(note.id, noteJson['id']);
@@ -67,7 +67,7 @@ void main() {
       final discussion = await issueDiscussions.get(discussionId);
 
       call.verifyCalled(1);
-      expect(discussion.id, discussionId);
+      expect(discussion!.id, discussionId);
     });
     test('.list()', () async {
       final call = mockHttpClient.configureCall(
@@ -91,7 +91,7 @@ void main() {
       final discussion = await issueDiscussions.create("Hello");
 
       call.verifyCalled(1);
-      expect(discussion.notes!.first!.body, "Hello");
+      expect(discussion!.notes!.first.body, "Hello");
     });
     test('.addNote(discussionId)', () async {
       final call = mockHttpClient.configureCall(
@@ -104,7 +104,7 @@ void main() {
       final note = await issueDiscussions.addNote(discussionId, "Hello");
 
       call.verifyCalled(1);
-      expect(note.body, "Hello");
+      expect(note!.body, "Hello");
     });
 
     test('.update(discussionId)', () async {
@@ -118,7 +118,7 @@ void main() {
       final note = await issueDiscussions.updateNote(discussionId, 42, "World");
 
       call.verifyCalled(1);
-      expect(note.body, "World");
+      expect(note!.body, "World");
     });
     test('.delete(discussionId)', () async {
       final call = mockHttpClient.configureCall(

@@ -7,12 +7,12 @@ class SnippetsApi {
   SnippetsApi(this._gitLab, this._project);
 
   /// If you want to get the content, use [content]
-  Future<Snippet> get(int id) async {
+  Future<Snippet?> get(int id) async {
     final uri = _project.buildUri(['snippets', '$id']);
 
     final json = await _gitLab.request(uri) as Map?;
 
-    return new Snippet.fromJson(json);
+    return json == null ? null : Snippet.fromJson(json);
   }
 
   Future<String?> content(int id) async {
@@ -28,7 +28,7 @@ class SnippetsApi {
     return jsonList.map((json) => new Snippet.fromJson(json)).toList();
   }
 
-  Future update(int id,
+  Future<Snippet?> update(int id,
       {String? title,
       String? fileName,
       String? code,
@@ -45,19 +45,19 @@ class SnippetsApi {
 
     final json = await _gitLab.request(uri, method: HttpMethod.put) as Map?;
 
-    return new Snippet.fromJson(json);
+    return json == null ? null : Snippet.fromJson(json);
   }
 }
 
 class Snippet {
-  final Map? originalJson;
+  final Map originalJson;
 
   Snippet.fromJson(this.originalJson);
 
-  int? get id => originalJson!['id'] as int?;
-  String? get title => originalJson!['title'] as String?;
-  String? get fileName => originalJson!['file_name'] as String?;
-  String? get webUrl => originalJson!['web_url'] as String?;
+  int get id => originalJson['id'] as int;
+  String get title => originalJson['title'] as String? ?? '';
+  String get fileName => originalJson['file_name'] as String? ?? '';
+  String get webUrl => originalJson['web_url'] as String? ?? '';
 
   @override
   String toString() => 'Snippet id#$id ($title)';

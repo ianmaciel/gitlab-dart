@@ -46,9 +46,9 @@ void main() {
       expect(issue.userNotesCount, issueMap['user_notes_count']);
 
       expect(issue.dueDate, isNull);
-      issue.originalJson!['due_date'] = '2016-01-04T15:31:46.176Z';
+      issue.originalJson['due_date'] = '2016-01-04T15:31:46.176Z';
       expect(issue.dueDate,
-          DateTime.parse(issue.originalJson!['due_date'] as String));
+          DateTime.parse(issue.originalJson['due_date'] as String));
 
       expect(issue.confidential, issueMap['confidential']);
       expect(issue.weight, issueMap['weight']);
@@ -63,7 +63,7 @@ void main() {
       final issue = await project.issues.get(issueId);
 
       call.verifyCalled(1);
-      expect(issue.id, issueId);
+      expect(issue!.id, issueId);
     });
     test('.list()', () async {
       final call = mockHttpClient.configureCall(
@@ -87,7 +87,7 @@ void main() {
       final issue = await project.issues.add("Hello");
 
       call.verifyCalled(1);
-      expect(issue.title, "Hello");
+      expect(issue!.title, "Hello");
     });
     test('.update', () async {
       final call = mockHttpClient.configureCall(
@@ -99,7 +99,7 @@ void main() {
       final issue = await project.issues.update(42, title: "World");
 
       call.verifyCalled(1);
-      expect(issue.title, "World");
+      expect(issue!.title, "World");
     });
 
     test('.update -- change assignees', () async {
