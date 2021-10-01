@@ -50,6 +50,7 @@ enum HttpMethod { get, post, put, delete }
 /// See the library documentation for information on how to use it.
 class GitLab {
   final String token;
+  final AuthorizationTokenType tokenType;
 
   final String host;
   final String scheme;
@@ -78,13 +79,22 @@ class GitLab {
 
   static const String apiVersion = 'v4';
 
-  GitLab(this.token,
-      {this.host = 'gitlab.com', this.scheme = 'https', this.assumeUtf8 = true})
-      : _httpClient = new GitLabHttpClient();
+  GitLab(
+    this.token, {
+    this.host = 'gitlab.com',
+    this.scheme = 'https',
+    this.assumeUtf8 = true,
+    this.tokenType = AuthorizationTokenType.private,
+  }) : _httpClient = new GitLabHttpClient();
 
-  GitLab._test(GitLabHttpClient httpClient, this.token,
-      {this.host: 'gitlab.com', this.scheme: 'https', this.assumeUtf8 = true})
-      : _httpClient = httpClient;
+  GitLab._test(
+    GitLabHttpClient httpClient,
+    this.token, {
+    this.host: 'gitlab.com',
+    this.scheme: 'https',
+    this.assumeUtf8 = true,
+    this.tokenType = AuthorizationTokenType.private,
+  }) : _httpClient = httpClient;
 
   /// Get the [ProjectsApi] for this [id].
   ///
@@ -98,7 +108,7 @@ class GitLab {
       {HttpMethod method: HttpMethod.get,
       String? body,
       bool asJson: true}) async {
-    final headers = <String, String>{'PRIVATE-TOKEN': token};
+    final headers = <String, String>{tokenType.toText(): token};
 
     _log.fine('Making GitLab $method request to $uri.');
 
@@ -145,9 +155,25 @@ class GitLabException implements Exception {
   String toString() => 'GitLabException ($statusCode): $message';
 }
 
+enum AuthorizationTokenType { private, bearer }
+
+extension TokenTypeExtension on AuthorizationTokenType {
+  String toText() {
+    switch (this) {
+      case AuthorizationTokenType.bearer:
+        return 'Authorization';
+      case AuthorizationTokenType.private:
+        return 'PRIVATE-TOKEN';
+    }
+  }
+}
+
 /// A helper function to get a [GitLab] instance with a [GitLabHttpClient] that
 /// can be mocked.
 @visibleForTesting
-GitLab getTestable(GitLabHttpClient httpClient,
-        [String token = 'secret-token']) =>
-    new GitLab._test(httpClient, token);
+GitLab getTestable(
+  GitLabHttpClient httpClient, {
+  String token = 'secret-token',
+  AuthorizationTokenType tokenType = AuthorizationTokenType.private,
+}) =>
+    new GitLab._test(httpClient, token, tokenType: tokenType);

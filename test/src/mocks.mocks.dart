@@ -73,6 +73,11 @@ class MockGitLab extends _i1.Mock implements _i2.GitLab {
       (super.noSuchMethod(Invocation.getter(#token), returnValue: '')
           as String);
   @override
+  _i2.AuthorizationTokenType get tokenType =>
+      (super.noSuchMethod(Invocation.getter(#tokenType),
+              returnValue: _i2.AuthorizationTokenType.private)
+          as _i2.AuthorizationTokenType);
+  @override
   String get host =>
       (super.noSuchMethod(Invocation.getter(#host), returnValue: '') as String);
   @override

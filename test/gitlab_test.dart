@@ -11,6 +11,24 @@ void main() {
       gitLab = getTestable(mockHttpClient);
     });
 
+    test('token is PRIVATE-TOKEN when not specified', () {
+      expect(gitLab.tokenType, AuthorizationTokenType.private);
+    });
+    test('token can be configured', () {
+      final GitLab withBearerToken =
+          getTestable(mockHttpClient, tokenType: AuthorizationTokenType.bearer);
+      final GitLab withPrivateToken = getTestable(mockHttpClient,
+          tokenType: AuthorizationTokenType.private);
+      expect(withBearerToken.tokenType, AuthorizationTokenType.bearer);
+      expect(withPrivateToken.tokenType, AuthorizationTokenType.private);
+    });
+    test('enum AuthorizationTokenType should return the right text conversion',
+        () {
+      AuthorizationTokenType type = AuthorizationTokenType.bearer;
+      expect(type.toText(), 'Authorization');
+      type = AuthorizationTokenType.private;
+      expect(type.toText(), 'PRIVATE-TOKEN');
+    });
     test('.project() returns a new configured project', () {
       final project = gitLab.project(123);
       expect(project, TypeMatcher<ProjectsApi>());
