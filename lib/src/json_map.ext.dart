@@ -1,4 +1,4 @@
-extension JsonMap on Map<String, dynamic> {
+extension JsonMap on Map<dynamic, dynamic> {
   Map<String, dynamic>? getJsonMap(String key) =>
       this[key] is Map<String, dynamic>
           ? this[key] as Map<String, dynamic>?

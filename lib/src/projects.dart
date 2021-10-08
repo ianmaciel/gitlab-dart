@@ -77,6 +77,11 @@ class ProjectsApi {
 
   ReleasesApi get releases => _releasesApi ??= new ReleasesApi(_gitLab, this);
 
+  MilestonesApi? _milestonesApi;
+
+  MilestonesApi get milestones =>
+      _milestonesApi ??= new MilestonesApi(_gitLab, this);
+
   Future<List<Project>> list(
       {bool? archived,
       int? idAfter,

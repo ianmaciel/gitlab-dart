@@ -6,6 +6,7 @@ export 'json_issue_notes_data.dart';
 export 'json_merge_requests_data.dart';
 export 'json_releases_data.dart';
 export 'json_project_data.dart';
+export 'json_milestone_data.dart';
 
 Map? decodeMap(String json) => jsonDecode(json) as Map?;
 List? decodeList(String json) => jsonDecode(json) as List?;
