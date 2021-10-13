@@ -13,9 +13,9 @@ class IssueDiscussionsApi {
   /// Retrieves the list of discussions of an issue.
   ///
   /// See https://docs.gitlab.com/ee/api/discussions.html#list-project-issue-discussion-items
-  Future<List<Discussion>> list({
-    int page,
-    int perPage,
+  Future<List<Discussion?>> list({
+    int? page,
+    int? perPage,
   }) async {
     final queryParameters = <String, dynamic>{};
 
@@ -34,58 +34,58 @@ class IssueDiscussionsApi {
   /// Retrieves a single discussion.
   ///
   /// See https://docs.gitlab.com/ee/api/discussions.html#get-single-issue-discussion-item
-  Future<Discussion> get(String discussionId) async {
+  Future<Discussion?> get(String discussionId) async {
     final uri =
         _project.buildUri(['issues', _iid, 'discussions', discussionId]);
 
-    final json = await _gitLab.request(uri) as Map<String, dynamic>;
+    final json = await _gitLab.request(uri) as Map<String, dynamic>?;
 
-    return Discussion.fromJson(json);
+    return json == null ? null : Discussion.fromJson(json);
   }
 
   /// Adds a new discussion to an issue.
   ///
   /// See https://docs.gitlab.com/ee/api/discussions.html#create-new-issue-thread
-  Future<Discussion> create(String body) async {
+  Future<Discussion?> create(String body) async {
     final uri = _project.buildUri(
       ['issues', _iid, 'discussions'],
       queryParameters: {"body": body},
     );
 
     final json = await _gitLab.request(uri, method: HttpMethod.post)
-        as Map<String, dynamic>;
+        as Map<String, dynamic>?;
 
-    return Discussion.fromJson(json);
+    return json == null ? null : Discussion.fromJson(json);
   }
 
   /// Adds a new note to an existing discussion of an issue.
   ///
   /// See https://docs.gitlab.com/ee/api/discussions.html#add-note-to-existing-issue-thread
-  Future<Note> addNote(String discussionId, String body) async {
+  Future<Note?> addNote(String discussionId, String body) async {
     final uri = _project.buildUri(
       ['issues', _iid, 'discussions', discussionId, 'notes'],
       queryParameters: {"body": body},
     );
 
     final json = await _gitLab.request(uri, method: HttpMethod.post)
-        as Map<String, dynamic>;
+        as Map<String, dynamic>?;
 
-    return Note.fromJson(json);
+    return json == null ? null : Note.fromJson(json);
   }
 
   /// Updates the body of an existing note of an issue-discussion.
   ///
   /// See https://docs.gitlab.com/ee/api/discussions.html#modify-existing-issue-thread-note
-  Future<Note> updateNote(String discussionId, int noteId, String body) async {
+  Future<Note?> updateNote(String discussionId, int noteId, String body) async {
     final uri = _project.buildUri(
       ['issues', _iid, 'discussions', discussionId, 'notes', noteId.toString()],
       queryParameters: {"body": body},
     );
 
     final json = await _gitLab.request(uri, method: HttpMethod.put)
-        as Map<String, dynamic>;
+        as Map<String, dynamic>?;
 
-    return Note.fromJson(json);
+    return json == null ? null : Note.fromJson(json);
   }
 
   /// Deletes an existing note of an issue-discussion.
@@ -102,16 +102,16 @@ class IssueDiscussionsApi {
 
 class Discussion {
   Discussion.fromJson(Map<String, dynamic> discussion)
-      : id = discussion.getStringOrNull("id"),
+      : id = discussion["id"] as String,
         isIndividualNote = discussion.getBoolOrNull("individual_note"),
         notes = Note.fromJsonList(discussion["notes"] as List);
 
   static List<Discussion> fromJsonList(List discussions) => discussions
-      ?.map((n) => n is Map<String, dynamic> ? Discussion.fromJson(n) : null)
-      ?.where((discussion) => discussion != null)
-      ?.toList();
+      .map((n) => n is Map<String, dynamic> ? Discussion.fromJson(n) : null)
+      .whereNotNull()
+      .toList();
 
   final String id;
-  bool isIndividualNote;
-  List<Note> notes;
+  bool? isIndividualNote;
+  List<Note>? notes;
 }

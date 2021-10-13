@@ -6,14 +6,14 @@ import 'src/mocks.dart';
 
 void main() {
   group('JobsApi', () {
-    MockGitLabHttpClient mockHttpClient;
+    late MockGitLabHttpClient mockHttpClient;
     GitLab gitLab;
-    ProjectsApi project;
+    late ProjectsApi project;
 
     // Constants
     final projectId = 1337;
 
-    final jobMap = data.decodeMap(data.job);
+    final jobMap = data.decodeMap(data.job)!;
     final jobId = jobMap['id'] as int;
 
     setUp(() {

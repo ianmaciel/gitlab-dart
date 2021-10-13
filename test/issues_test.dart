@@ -6,13 +6,13 @@ import 'src/mocks.dart';
 
 void main() {
   group('IssuesApi', () {
-    MockGitLabHttpClient mockHttpClient;
+    late MockGitLabHttpClient mockHttpClient;
     GitLab gitLab;
-    ProjectsApi project;
+    late ProjectsApi project;
 
     final projectId = 1337;
 
-    final Map issueMap = data.decodeMap(data.issue);
+    final Map issueMap = data.decodeMap(data.issue)!;
     final issueId = issueMap['id'] as int;
 
     setUp(() {
@@ -35,7 +35,7 @@ void main() {
       expect(issue.labels, issueMap['labels']);
 
       expect(issue.webUrl, issueMap['web_url']);
-      expect(issue.author.id, issueMap['author']['id']);
+      expect(issue.author!.id, issueMap['author']['id']);
       expect(issue.assignees[0].id, issueMap['assignees'][0]['id']);
 
       expect(issue.createdAt, DateTime.parse(issueMap['created_at'] as String));
@@ -63,7 +63,7 @@ void main() {
       final issue = await project.issues.get(issueId);
 
       call.verifyCalled(1);
-      expect(issue.id, issueId);
+      expect(issue!.id, issueId);
     });
     test('.list()', () async {
       final call = mockHttpClient.configureCall(
@@ -87,7 +87,7 @@ void main() {
       final issue = await project.issues.add("Hello");
 
       call.verifyCalled(1);
-      expect(issue.title, "Hello");
+      expect(issue!.title, "Hello");
     });
     test('.update', () async {
       final call = mockHttpClient.configureCall(
@@ -99,7 +99,7 @@ void main() {
       final issue = await project.issues.update(42, title: "World");
 
       call.verifyCalled(1);
-      expect(issue.title, "World");
+      expect(issue!.title, "World");
     });
 
     test('.update -- change assignees', () async {

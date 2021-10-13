@@ -11,20 +11,21 @@ class JobsApi {
   Future<Job> get(int id) async {
     final uri = _project.buildUri(['jobs', '$id']);
 
-    final json = await _gitLab.request(uri) as Map;
+    final json = await _gitLab.request(uri) as Map?;
 
-    return new Job.fromJson(json);
+    return new Job.fromJson(json!);
   }
 
-  Future<Job> cancel(int id) async {
+  Future<Job?> cancel(int id) async {
     final uri = _project.buildUri(['jobs', '$id', 'cancel']);
 
-    final json = await _gitLab.request(uri, method: HttpMethod.post) as Map;
+    final json = await _gitLab.request(uri, method: HttpMethod.post) as Map?;
 
-    return new Job.fromJson(json);
+    return json == null ? null : Job.fromJson(json);
   }
 
-  Future<List<Job>> list({List<JobScope> scopes, int page, int perPage}) async {
+  Future<List<Job>> list(
+      {List<JobScope>? scopes, int? page, int? perPage}) async {
     final queryParameters = <String, dynamic>{};
 
     if (scopes != null && scopes.isNotEmpty) {
@@ -53,10 +54,10 @@ class Job {
   Job.fromJson(this.originalJson);
 
   int get id => originalJson['id'] as int;
-  String get name => originalJson['name'] as String;
-  String get ref => originalJson['ref'] as String;
-  String get stage => originalJson['stage'] as String;
-  String get status => originalJson['status'] as String;
+  String get name => originalJson['name'] as String? ?? '';
+  String? get ref => originalJson['ref'] as String?;
+  String? get stage => originalJson['stage'] as String?;
+  String? get status => originalJson['status'] as String?;
   DateTime get startedAt =>
       DateTime.parse(originalJson['started_at'] as String);
   DateTime get createdAt =>

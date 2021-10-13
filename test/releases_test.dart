@@ -6,12 +6,12 @@ import 'src/mocks.dart';
 
 void main() {
   group('ReleasesApi', () {
-    MockGitLabHttpClient mockHttpClient;
+    late MockGitLabHttpClient mockHttpClient;
     GitLab gitLab;
-    ProjectsApi project;
+    late ProjectsApi project;
 
     final projectId = 1337;
-    final releasesJson = data.decodeList(data.releasesList);
+    final releasesJson = data.decodeList(data.releasesList)!;
     final releaseTag = releasesJson[1]["tag_name"] as String;
 
     setUp(() {
@@ -20,7 +20,7 @@ void main() {
       project = gitLab.project(projectId);
     });
 
-    List<Map<String, dynamic>> fromJsonList(jsonList) => jsonList is List
+    List<Map<String, dynamic>?>? fromJsonList(jsonList) => jsonList is List
         ? jsonList
             .map((jl) => jl is Map<String, dynamic> ? jl : null)
             .where((jl) => jl != null)
@@ -70,9 +70,9 @@ void main() {
 
         expect(release.milestones?.length, milestonesJson?.length);
         if (release.milestones != null) {
-          for (var i = 0; i < release.milestones.length; i++) {
-            final Milestone milestone = release.milestones[i];
-            final milestoneJson = milestonesJson[i];
+          for (var i = 0; i < release.milestones!.length; i++) {
+            final Milestone milestone = release.milestones![i]!;
+            final milestoneJson = milestonesJson![i]!;
 
             expect(milestone.id, milestoneJson['id']);
             expect(milestone.iid, milestoneJson['iid']);
@@ -82,7 +82,7 @@ void main() {
             expect(
                 milestone.state,
                 enumFromString(
-                    MilestoneState.values, milestoneJson['state'] as String));
+                    MilestoneState.values, milestoneJson['state'] as String?));
             expect(milestone.createdAt,
                 DateTime.parse(milestoneJson['created_at'].toString()));
             expect(milestone.updatedAt,
@@ -96,24 +96,24 @@ void main() {
         }
 
         final Asset asset = release.assets;
-        final sourcesJson = fromJsonList(assetsJson["sources"]);
-        final linksJson = fromJsonList(assetsJson["links"]);
+        final sourcesJson = fromJsonList(assetsJson["sources"])!;
+        final linksJson = fromJsonList(assetsJson["links"])!;
 
         expect(asset.count, assetsJson['count']);
 
-        expect(asset.sources.length, sourcesJson.length ?? 0);
-        for (var i = 0; i < asset.sources.length; i++) {
-          final Source source = asset.sources[i];
-          final sourceJson = sourcesJson[i];
+        expect(asset.sources!.length, sourcesJson.length);
+        for (var i = 0; i < asset.sources!.length; i++) {
+          final Source source = asset.sources![i];
+          final sourceJson = sourcesJson[i]!;
 
           expect(source.format, sourceJson['format']);
           expect(source.url, sourceJson['url']);
         }
 
-        expect(asset.links.length, linksJson.length);
-        for (var i = 0; i < asset.links.length; i++) {
-          final Link link = asset.links[i];
-          final linkJson = linksJson[i];
+        expect(asset.links!.length, linksJson.length);
+        for (var i = 0; i < asset.links!.length; i++) {
+          final Link link = asset.links![i];
+          final linkJson = linksJson[i]!;
 
           expect(link.id, linkJson['id']);
           expect(link.name, linkJson['name']);
@@ -134,7 +134,7 @@ void main() {
       final release = await project.releases.get(releaseTag);
 
       call.verifyCalled(1);
-      expect(release.tagName, releaseTag);
+      expect(release!.tagName, releaseTag);
     });
 
     test('.list()', () async {
@@ -161,7 +161,7 @@ void main() {
       final release = await project.releases.createFromTag("v0.3", "Foo");
 
       call.verifyCalled(1);
-      expect(release.tagName, "v0.3");
+      expect(release!.tagName, "v0.3");
       expect(release.description, "Foo");
     });
 
@@ -176,7 +176,7 @@ void main() {
           await project.releases.createFromRef("9beb86fd4bd", "Foo");
 
       call.verifyCalled(1);
-      expect(release.tagName, "v0.3");
+      expect(release!.tagName, "v0.3");
       expect(release.description, "Foo");
     });
 
@@ -191,7 +191,7 @@ void main() {
           await project.releases.update("v0.3", description: "Foobar");
 
       call.verifyCalled(1);
-      expect(release.tagName, "v0.3");
+      expect(release!.tagName, "v0.3");
       expect(release.description, "Foobar");
     });
 

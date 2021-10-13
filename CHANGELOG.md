@@ -1,3 +1,9 @@
+## 1.0.0
+
+- Migrate to null safety support.
+- Disable grind_publish (does not support null safety).
+- Upgrade dependencies.
+
 ## 0.6.0
 
 - Extended API for Issues (Add, Update, Delete).

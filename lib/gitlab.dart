@@ -24,6 +24,8 @@ import 'package:gitlab/src/json_map.ext.dart';
 import 'package:intl/intl.dart';
 import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
+import 'package:collection/collection.dart'
+    show IterableExtension, IterableNullableExtension;
 
 part 'src/commits.dart';
 part 'src/discussions.dart';
@@ -72,7 +74,7 @@ class GitLab {
   ///
   final bool assumeUtf8;
 
-  final GitLabHttpClient _httpClient;
+  late final GitLabHttpClient _httpClient;
 
   static const String apiVersion = 'v4';
 
@@ -94,7 +96,7 @@ class GitLab {
   @visibleForTesting
   Future<dynamic> request(Uri uri,
       {HttpMethod method: HttpMethod.get,
-      String body,
+      String? body,
       bool asJson: true}) async {
     final headers = <String, String>{'PRIVATE-TOKEN': token};
 
@@ -119,7 +121,7 @@ class GitLab {
   /// This function is used internally to build the URIs for API calls.
   @visibleForTesting
   Uri buildUri(Iterable<String> pathSegments,
-      {Map<String, dynamic> queryParameters, int page, int perPage}) {
+      {Map<String, dynamic>? queryParameters, int? page, int? perPage}) {
     dynamic _addQueryParameter(String key, dynamic value) =>
         (queryParameters ??= new Map<String, dynamic>())[key] = '$value';
 
@@ -128,7 +130,7 @@ class GitLab {
     return new Uri(
         scheme: scheme,
         host: host,
-        pathSegments: ['api', apiVersion]..addAll(pathSegments),
+        pathSegments: <String>['api', apiVersion]..addAll(pathSegments),
         queryParameters: queryParameters);
   }
 }

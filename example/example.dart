@@ -16,5 +16,5 @@ void main() async {
   final iid = 2;
   final mergeRequest = await project.mergeRequests.get(iid);
 
-  print(mergeRequest.title);
+  print(mergeRequest!.title);
 }
