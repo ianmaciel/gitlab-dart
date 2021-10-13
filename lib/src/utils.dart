@@ -9,7 +9,7 @@ part of exitlive.gitlab;
 String enumToString(dynamic enumValue) {
   final value = enumValue.toString().split('.').last;
   value.replaceAllMapped(
-      new RegExp(r'([A-Z])'), (match) => '_${match.group(1).toLowerCase()}');
+      new RegExp(r'([A-Z])'), (match) => '_${match.group(1)!.toLowerCase()}');
   return value;
 }
 
@@ -22,12 +22,10 @@ String enumToString(dynamic enumValue) {
 ///     _enumFromString(Foo.values, '42'); // => 'null'
 ///     _enumFromString(Foo.values, null); // => 'null'
 @visibleForTesting
-T enumFromString<T>(List<T> enumValues, String value) {
-  if (value == null || enumValues == null) return null;
-  return enumValues.singleWhere(
-      (v) =>
-          v?.toString()?.split('.')[1]?.toLowerCase() == value?.toLowerCase(),
-      orElse: () => null);
+T? enumFromString<T>(List<T> enumValues, String? value) {
+  if (value == null) return null;
+  return enumValues.singleWhereOrNull(
+      (v) => v?.toString().split('.')[1].toLowerCase() == value.toLowerCase());
 }
 
 final _formatter = new DateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");

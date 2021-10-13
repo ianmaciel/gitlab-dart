@@ -13,11 +13,11 @@ class IssueNotesApi {
   /// Retrieves the list of notes of an issue.
   ///
   /// See https://docs.gitlab.com/ee/api/notes.html#list-project-issue-notes
-  Future<List<Note>> list({
-    NoteOrderBy orderBy,
-    NoteSort sort,
-    int page,
-    int perPage,
+  Future<List<Note?>?> list({
+    NoteOrderBy? orderBy,
+    NoteSort? sort,
+    int? page,
+    int? perPage,
   }) async {
     final queryParameters = <String, dynamic>{};
 
@@ -39,42 +39,42 @@ class IssueNotesApi {
   /// Retrieves a single note.
   ///
   /// See https://docs.gitlab.com/ee/api/notes.html#get-single-issue-note
-  Future<Note> get(int noteId) async {
+  Future<Note?> get(int noteId) async {
     final uri = _project.buildUri(['issues', _iid, 'notes', noteId.toString()]);
 
-    final json = await _gitLab.request(uri) as Map<String, dynamic>;
+    final json = await _gitLab.request(uri) as Map<String, dynamic>?;
 
-    return Note.fromJson(json);
+    return json == null ? null : Note.fromJson(json);
   }
 
   /// Adds a note to an issue.
   ///
   /// See https://docs.gitlab.com/ee/api/notes.html#create-new-issue-note
-  Future<Note> create(String body) async {
+  Future<Note?> create(String body) async {
     final uri = _project.buildUri(
       ['issues', _iid, 'notes'],
       queryParameters: {"body": body},
     );
 
     final json = await _gitLab.request(uri, method: HttpMethod.post)
-        as Map<String, dynamic>;
+        as Map<String, dynamic>?;
 
-    return Note.fromJson(json);
+    return json == null ? null : Note.fromJson(json);
   }
 
   /// Updates the body of an existing note.
   ///
   /// See https://docs.gitlab.com/ee/api/notes.html#modify-existing-issue-note
-  Future<Note> update(int noteId, String body) async {
+  Future<Note?> update(int noteId, String body) async {
     final uri = _project.buildUri(
       ['issues', _iid, 'notes', noteId.toString()],
       queryParameters: {"body": body},
     );
 
     final json = await _gitLab.request(uri, method: HttpMethod.put)
-        as Map<String, dynamic>;
+        as Map<String, dynamic>?;
 
-    return Note.fromJson(json);
+    return json == null ? null : Note.fromJson(json);
   }
 
   /// Deletes an existing note.
@@ -94,10 +94,10 @@ enum NoteSort { asc, desc }
 
 class Note {
   Note.fromJson(Map<String, dynamic> note)
-      : id = note.getIntOrNull("id"),
+      : id = note["id"] as int,
         type = note.getStringOrNull("type"),
-        body = note.getStringOrNull("body"),
-        author = User.fromJson(note.getJsonMap("author")),
+        body = note.getStringOr("body", ''),
+        author = User.fromJson(note.getJsonMap("author")!),
         createdAt = note.getISODateTimeOrNull("created_at"),
         updatedAt = note.getISODateTimeOrNull("updated_at"),
         isSystemNote = note.getBoolOrNull("system"),
@@ -105,33 +105,33 @@ class Note {
         noteableType = note.getStringOrNull("noteable_type"),
         noteableIid = note.getIntOrNull("noteable_iid");
 
-  static List<Note> fromJsonList(List notes) => notes
-      ?.map((n) => n is Map<String, dynamic> ? Note.fromJson(n) : null)
-      ?.where((note) => note != null)
-      ?.toList();
+  static List<Note>? fromJsonList(List notes) => notes
+      .map((n) => n is Map<String, dynamic> ? Note.fromJson(n) : null)
+      .whereNotNull()
+      .toList();
 
   final int id;
-  String type;
+  String? type;
   String body;
 
   User author;
 
-  DateTime createdAt;
-  DateTime updatedAt;
+  DateTime? createdAt;
+  DateTime? updatedAt;
 
-  bool isSystemNote;
+  bool? isSystemNote;
 
-  int noteableId;
-  String noteableType;
-  int noteableIid;
+  int? noteableId;
+  String? noteableType;
+  int? noteableIid;
 }
 
 class User {
   User.fromJson(Map<String, dynamic> user)
-      : id = user.getIntOrNull("id"),
-        name = user.getStringOrNull("name"),
-        username = user.getStringOrNull("username"),
-        state = user.getStringOrNull("state"),
+      : id = user["id"] as int,
+        name = user.getStringOr("name", ''),
+        username = user["username"] as String,
+        state = user.getStringOr("state", ''),
         avatarUrl = user.getStringOrNull("avatar_url"),
         webUrl = user.getStringOrNull("web_url");
 
@@ -139,6 +139,6 @@ class User {
   String name;
   String username;
   String state;
-  String avatarUrl;
-  String webUrl;
+  String? avatarUrl;
+  String? webUrl;
 }

@@ -3,19 +3,19 @@ part of exitlive.gitlab;
 class Asset {
   Asset.fromJson(Map<String, dynamic> asset)
       : count = asset.getIntOrNull("count"),
-        sources = Source.fromJsonList(asset["sources"] as List),
-        links = Link.fromJsonList(asset["links"] as List),
+        sources = Source.fromJsonList(asset["sources"] as List?),
+        links = Link.fromJsonList(asset["links"] as List?),
         evidenceFilePath = asset.getStringOrNull("evidence_file_path");
 
-  static List<Asset> fromJsonList(List assets) => assets
-      ?.map((a) => a is Map<String, dynamic> ? Asset.fromJson(a) : null)
-      ?.where((asset) => asset != null)
-      ?.toList();
+  static List<Asset?> fromJsonList(List assets) => assets
+      .map((a) => a is Map<String, dynamic> ? Asset.fromJson(a) : null)
+      .whereNotNull()
+      .toList();
 
-  int count;
-  List<Source> sources;
-  List<Link> links;
-  String evidenceFilePath;
+  int? count;
+  List<Source>? sources;
+  List<Link>? links;
+  String? evidenceFilePath;
 }
 
 class Source {
@@ -23,29 +23,29 @@ class Source {
       : format = source.getStringOrNull("format"),
         url = source.getStringOrNull("url");
 
-  static List<Source> fromJsonList(List sources) => sources
+  static List<Source>? fromJsonList(List? sources) => sources
       ?.map((s) => s is Map<String, dynamic> ? Source.fromJson(s) : null)
-      ?.where((source) => source != null)
-      ?.toList();
+      .whereNotNull()
+      .toList();
 
-  String format;
-  String url;
+  String? format;
+  String? url;
 }
 
 class Link {
   Link.fromJson(Map<String, dynamic> link)
-      : id = link.getIntOrNull("id"),
+      : id = link["id"] as int,
         name = link.getStringOrNull("name"),
         url = link.getStringOrNull("url"),
         external = link.getBoolOrNull("external");
 
-  static List<Link> fromJsonList(List links) => links
+  static List<Link>? fromJsonList(List? links) => links
       ?.map((l) => l is Map<String, dynamic> ? Link.fromJson(l) : null)
-      ?.where((link) => link != null)
-      ?.toList();
+      .whereNotNull()
+      .toList();
 
   int id;
-  String name;
-  String url;
-  bool external;
+  String? name;
+  String? url;
+  bool? external;
 }

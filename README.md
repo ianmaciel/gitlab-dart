@@ -19,6 +19,14 @@ dependencies:
   gitlab: any
 ```
 
+## Run tests
+
+```
+dart run grinder test
+# or
+flutter pub run grinder test
+```
+
 ## Usage
 
 For the full documentation, and usage, please

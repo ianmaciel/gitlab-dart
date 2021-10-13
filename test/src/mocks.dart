@@ -1,8 +1,13 @@
 import 'package:gitlab/gitlab.dart';
 import 'package:gitlab/src/http_client.dart';
 import 'package:http/http.dart' as http;
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'mocks.mocks.dart';
 
+// Annotation which generates the cat.mocks.dart library and the BaseMockGitLabHttpClient class.
+@GenerateMocks([http.Response, GitLab],
+    customMocks: [MockSpec<GitLabHttpClient>(as: #BaseMockGitLabHttpClient)])
 class Call {
   final MockGitLabHttpClient client;
   final Uri uri;
@@ -16,9 +21,9 @@ class Call {
   }
 }
 
-class MockGitLabHttpClient extends Mock implements GitLabHttpClient {
+class MockGitLabHttpClient extends BaseMockGitLabHttpClient {
   Call configureCall(
-      {String path,
+      {String? path,
       HttpMethod method = HttpMethod.get,
       int responseStatusCode = 200,
       String responseBody = ""}) {
@@ -33,7 +38,3 @@ class MockGitLabHttpClient extends Mock implements GitLabHttpClient {
     return Call(this, uri, method, headers);
   }
 }
-
-class MockResponse extends Mock implements http.Response {}
-
-class MockGitLab extends Mock implements GitLab {}
