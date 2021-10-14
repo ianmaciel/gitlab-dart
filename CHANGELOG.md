@@ -1,3 +1,8 @@
+## 1.1.0
+
+- Add method to list projects and milestones.
+- Include possibility to login using Bearer token (to use with oauth)
+
 ## 1.0.0
 
 - Migrate to null safety support.

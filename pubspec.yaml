@@ -1,7 +1,7 @@
 name: gitlab
 # Increasing this version number *automatically* publishes this package
 # when merged into master.
-version: 1.0.0
+version: 1.1.0
 description: A library to communicate with the GitLab API
 homepage: https://gitlab.com/exitlive/gitlab-dart
 # warning - pubspec.yaml:7:1 - The 'author' field is no longer used and can be removed. Try removing the field. - deprecated_field
